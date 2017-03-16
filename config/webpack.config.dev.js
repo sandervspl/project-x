@@ -10,6 +10,7 @@ var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeMod
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+var postStylus = require('poststylus');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -112,6 +113,7 @@ module.exports = {
           // https://github.com/facebookincubator/create-react-app/issues/1713
           /\.(js|jsx)(\?.*)?$/,
           /\.css$/,
+          /\.styl$/,
           /\.json$/,
           /\.svg$/
         ],
@@ -143,6 +145,11 @@ module.exports = {
         test: /\.css$/,
         loader: 'style!css?importLoaders=1!postcss'
       },
+
+      {
+        test: /\.styl$/,
+        loader: 'style!css?importLoaders=1!stylus'
+      },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
@@ -161,7 +168,20 @@ module.exports = {
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
   },
-
+  stylus: {
+    use: [
+      postStylus([
+        autoprefixer({
+          browsers: [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 9', // React doesn't support IE8 anyway
+          ]
+        })
+      ])
+    ]
+  },
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [

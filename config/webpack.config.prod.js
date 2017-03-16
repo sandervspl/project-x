@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 var autoprefixer = require('autoprefixer');
@@ -8,7 +9,7 @@ var ManifestPlugin = require('webpack-manifest-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var paths = require('./paths');
 var getClientEnvironment = require('./env');
-
+var postStylus = require('poststylus');
 
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -85,7 +86,7 @@ module.exports = {
       'react-native': 'react-native-web'
     }
   },
-  
+
   module: {
     // First, run the linter.
     // It's important to do this before Babel processes the JS.
@@ -110,6 +111,7 @@ module.exports = {
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
+          /\.styl$/,
           /\.json$/,
           /\.svg$/
         ],
@@ -124,7 +126,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel',
-        
+
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
@@ -147,6 +149,14 @@ module.exports = {
         )
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
+      {
+        test: /\.styl$/,
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css?importLoaders=1!stylus',
+          extractTextPluginOptions
+        )
+      },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
@@ -165,7 +175,20 @@ module.exports = {
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
   },
-  
+  stylus: {
+    use: [
+      postStylus([
+        autoprefixer({
+          browsers: [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 9', // React doesn't support IE8 anyway
+          ]
+        })
+      ])
+    ]
+  },
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [

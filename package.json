@@ -43,6 +43,7 @@
     "poststylus": "^0.2.3",
     "promise": "7.1.1",
     "react-dev-utils": "^0.5.2",
+    "semantic-ui-react": "^0.67.1",
     "style-loader": "0.13.1",
     "stylus": "^0.54.5",
     "stylus-loader": "webpack1",

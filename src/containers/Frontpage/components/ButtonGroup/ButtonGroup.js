@@ -8,7 +8,7 @@ import './ButtonGroup.styl';
 const ButtonGroup = () => (
   <div className="button-group">
     <h3>Sign in to continue</h3>
-    <Button color="purple">Create account</Button>
+    <Button color="purple" className="create-account">Create account</Button>
     <Button basic inverted>Sign in</Button>
   </div>
 );

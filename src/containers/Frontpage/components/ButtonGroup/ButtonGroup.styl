@@ -1,3 +1,5 @@
+@import "../../../../style/vars.styl"
+
 .button-group
   position fixed
   bottom 20%
@@ -8,17 +10,12 @@
   color #eee
   text-align center
 
+  h3
+    font-weight $regular
+
   button
+    font-weight $demibold !important
     text-transform uppercase !important
 
-  .ui
-    &.button
-      padding 13px 20px
-      font-size 14px
-
-    &.basic.inverted.button
-      border 1px solid #fff
-      box-shadow none !important
-
-    &.purple.button
-      background #7F5F9B
+    &.create-account
+      margin-right 10px

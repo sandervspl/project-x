@@ -5,7 +5,7 @@ import React from 'react';
 import './Title.styl';
 
 const Title = () => (
-  <div className="header-wrapper">
+  <div className="title-container">
     <h1 className="title">Project X</h1>
     <h2 className="subtitle">Everybody is a DJ</h2>
   </div>

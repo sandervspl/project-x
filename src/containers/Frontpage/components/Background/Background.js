@@ -15,6 +15,11 @@ class Background extends Component {
     return `videos/bg_${randVideo}_720p.mp4`;
   }
 
+  /*
+   * Apple handheld devices do not allow videos to autoplay.
+   * Videos can sometimes go full screen as well.
+   * Show still image instead of video if is apple device.
+   */
   static isIOS() {
     const iDevices = [
       'iPad Simulator',

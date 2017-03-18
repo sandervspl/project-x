@@ -1,14 +1,28 @@
+@import "./vars.styl"
+
 .ui
   &.button
-    padding 13px 20px
-    font-size 14px
+    padding .8125em 1.25em
+    font-size .9em
+    border-radius 3px
+    color $off_white
+    font-weight $demibold !important
+    text-transform uppercase !important
 
   &.basic.inverted.button
-    border 1px solid #fff
+    border 1px solid $off_white
     box-shadow none !important
 
-  &.purple.button
-    background $purple_default
+    &:hover
+      box-shadow none !important
+
+  &.purple
+    background $purple_default !important
 
     &:hover
-      background $purple_dark
+      background $purple_dark !important
+
+@media (min-width: 768px)
+  .ui
+    &.button
+      font-size 1.5em

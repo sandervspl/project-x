@@ -2,12 +2,13 @@
 
 .title-container
   position fixed
-  top 30%
+  top 13%
   left 0
   right 0
   z-index 1
   margin 0 auto
   color #eee
+  font-size 1em
   text-align center
 
   .title
@@ -15,8 +16,17 @@
     cursor default
     font-weight $bold
     font-style italic
-    font-size 6.25em
+    font-size 3.75rem
 
   .subtitle
     margin auto
+    font-size 1rem
     font-weight $medium
+
+@media (min-width: 768px)
+  .title-container
+    .title
+      font-size 7.25rem
+
+    .subtitle
+      font-size 1.9rem

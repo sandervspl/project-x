@@ -1,4 +1,4 @@
-@import "../../../../style/vars.styl"
+@import "~style/common.styl";
 
 .button-group
   position fixed
@@ -10,14 +10,11 @@
   color #eee
   font-size 1em
   text-align center
-
   h3
-    font-size 1.25rem
+    font-size 1.75rem
     font-weight $regular
+    +for_breakpoint(mobile)
+      font-size 1.25rem
 
   button.create-account
       margin-right 10px
-
-@media (min-width: 768px)
-  .button-group h3
-      font-size 1.75rem

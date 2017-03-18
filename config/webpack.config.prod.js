@@ -11,6 +11,7 @@ var paths = require('./paths');
 var getClientEnvironment = require('./env');
 var postStylus = require('poststylus');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var path = require('path');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -81,6 +82,9 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     extensions: ['.js', '.json', '.jsx', ''],
     alias: {
+      'style': path.resolve(__dirname, '../src/style'),
+      'containers': path.resolve(__dirname, '../src/containers'),
+      'components': path.resolve(__dirname, '../src/components'),
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web'

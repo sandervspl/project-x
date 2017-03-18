@@ -3,18 +3,17 @@
 .ui
   &.button
     padding .8125em 1.25em
-    font-size .9em
+    font-size 1em
     border-radius 3px
     color $off_white
     font-weight $demibold !important
     text-transform uppercase !important
 
   &.basic.inverted.button
-    border 1px solid $off_white
-    box-shadow none !important
+    box-shadow 0px 0px 0px 2px #ffffff inset !important
 
     &:hover
-      box-shadow none !important
+      background-color rgba(255, 255, 255, 0.15) !important
 
   &.purple
     background $purple_default !important
@@ -25,4 +24,4 @@
 @media (min-width: 768px)
   .ui
     &.button
-      font-size 1.5em
+      font-size 1.15em

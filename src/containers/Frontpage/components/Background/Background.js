@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 // style
 import './Background.styl';
 
-/* eslint global-require: 0 */
+/* eslint-disable */
 const BackgroundVideos = [
   require('../../assets/videos/bg_1_720p.mp4'),
   require('../../assets/videos/bg_2_720p.mp4'),
   require('../../assets/videos/bg_3_720p.mp4'),
 ];
+/* eslint-enable */
 
 class Background extends Component {
   static setVideo() {

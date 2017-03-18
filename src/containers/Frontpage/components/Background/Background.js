@@ -1,18 +1,17 @@
 // dependencies
 import React, { Component } from 'react';
-// import video1 from '../../assets/videos/bg_1_720p.mp4';
-// import video2 from '../../assets/videos/bg_2_720p.mp4';
-// import video3 from '../../assets/videos/bg_3_720p.mp4';
+import video1 from '../../assets/videos/bg_1_720p.mp4';
+import video2 from '../../assets/videos/bg_2_720p.mp4';
+import video3 from '../../assets/videos/bg_3_720p.mp4';
 
 // style
 import './Background.styl';
 
 class Background extends Component {
   static setVideo() {
-    // const videos = [video1, video2, video3];
-    const randVideo = Math.floor(Math.random() * 3) + 1;
-    // return `videos/bg_${videos[randVideo]}_720p.mp4`;
-    return `videos/bg_${randVideo}_720p.mp4`;
+    const videos = [video1, video2, video3];
+    const randVideo = Math.floor(Math.random() * videos.length);
+    return videos[randVideo];
   }
 
   /*

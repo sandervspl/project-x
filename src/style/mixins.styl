@@ -1,0 +1,17 @@
+/*
+ * block mixin to add breakpoints for diffrent screen sizes
+ * example:
+ * .foo
+ *    width 100px
+ *    +for_breakpoint(mobile, tablet)
+ *      width 50px
+ *
+ * a mobile or tablet device will have a width of 50px
+ */
+for_breakpoint(breakpoints)
+  conditions = ()
+  for breakpoint in breakpoints
+    push(conditions, media_queries[breakpoint])
+  conditions = join(", ", conditions)
+  @media conditions
+    {block}

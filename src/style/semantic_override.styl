@@ -18,8 +18,22 @@
   &.purple
     background $purple_default !important
 
+    &:disabled
+      background $purple_light !important
+
     &:hover
       background $purple_dark !important
+
+  &.input
+    border-radius 3px !important
+
+    > input
+      color $black !important
+      border-radius 3px !important
+      border-color $grey_light !important
+
+      &::placeholder
+        color $grey_light
 
 @media (min-width: 768px)
   .ui

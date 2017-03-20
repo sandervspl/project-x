@@ -4,6 +4,7 @@ import React, { PropTypes } from 'react';
 // style
 import './FullscreenLoader.styl';
 
+const spinner = require('./assets/images/spinner.gif');
 
 const Loader = ({ loaded }) => {
   const cls = loaded ? 'page-fill loader loaded' : 'page-fill loader';

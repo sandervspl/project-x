@@ -1,9 +1,10 @@
+@import "~style/common.styl"
+
 .background-video
   position fixed
   top 50%
   left 50%
   z-index 0
-  -webkit-transform translateX(-50%) translateY(-50%)
   transform translateX(-50%) translateY(-50%)
   min-width 100%
   min-height 100%
@@ -12,7 +13,11 @@
   overflow hidden
 
 .background-img
-  width 100%
+  position fixed
+  left -50%
   height 100%
-  background url('/assets/images/video_placeholder.png') center center/cover no-repeat
-  opacity 1
+  min-width 100%
+  width auto
+
+  +for_breakpoint(landscape)
+    left 0

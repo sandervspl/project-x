@@ -10,6 +10,7 @@ const BackgroundVideos = [
   require('../../assets/videos/bg_3_720p.mp4'),
 ];
 /* eslint-enable */
+const backgroundImg = require('../../assets/images/bg_1_ph.png');
 
 class Background extends Component {
   static propTypes = {
@@ -63,18 +64,19 @@ class Background extends Component {
     if (showVideo) {
       return (
         <video
-          preload="yes"
+          preload="auto"
           autoPlay="true"
           loop="true"
           type="video/mp4"
           src={this.videoURI}
-          onLoadStart={hasLoaded}
+          onCanPlayThrough={hasLoaded}
           className="background-video"
         />
       );
     }
+
     return (
-      <div className="background-img" />
+      <img src={backgroundImg} alt="background image" className="background-img" onLoad={hasLoaded} />
     );
   };
 

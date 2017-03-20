@@ -6,12 +6,14 @@ import Background from './components/Background/Background';
 import Title from './components/Title/Title';
 import ButtonGroup from './components/ButtonGroup/ButtonGroup';
 import LoginModal from './components/LoginModal/LoginModal';
+import FullscreenLoader from '../../components/FullscreenLoader/FullscreenLoader';
 
 // style
 import './Frontpage.styl';
 
 class Frontpage extends Component {
   state = {
+    loaded: false,
     loginModalOpen: false,
   }
 
@@ -27,10 +29,17 @@ class Frontpage extends Component {
     });
   }
 
+  hasLoaded = () => {
+    this.setState({
+      loaded: true,
+    });
+  }
+
   render() {
     return (
       <section className="page-fill">
-        <Background />
+        <FullscreenLoader loaded={this.state.loaded} />
+        <Background hasLoaded={this.hasLoaded} />
         <Title />
         <ButtonGroup open={this.showLoginModal} />
         <LoginModal open={this.state.loginModalOpen} close={this.closeLoginModal} />

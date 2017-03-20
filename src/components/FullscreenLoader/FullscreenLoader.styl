@@ -1,0 +1,19 @@
+@import "~style/common.styl";
+
+.loader
+  display flex
+  z-index 300
+  justify-content center
+  align-items center
+  flex-flow column
+  background $off_white
+  opacity 1
+  will-change opacity
+  transition opacity .5s .3s ease-out
+
+  &.loaded
+    opacity 0
+    pointer-events none
+
+  h3
+    font-weight $regular

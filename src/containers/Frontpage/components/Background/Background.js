@@ -1,5 +1,5 @@
 // dependencies
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 // style
 import './Background.styl';
 
@@ -12,6 +12,10 @@ const BackgroundVideos = [
 /* eslint-enable */
 
 class Background extends Component {
+  static propTypes = {
+    hasLoaded: PropTypes.func.isRequired,
+  }
+
   static setVideo() {
     const randVideo = Math.floor(Math.random() * BackgroundVideos.length);
     return BackgroundVideos[randVideo];
@@ -21,6 +25,7 @@ class Background extends Component {
    * Apple handheld devices do not allow videos to autoplay.
    * Videos can sometimes go full screen as well.
    * Show still image instead of video if is apple device.
+   * TODO: Check how android phones handle videos
    */
   static isIOS() {
     const iDevices = [
@@ -43,14 +48,17 @@ class Background extends Component {
     return false;
   }
 
-  constructor(props) {
-    super(props);
-    this.videoURI = Background.setVideo();
+  componentWillMount() {
     this.isIOS = Background.isIOS();
+
+    if (!this.isIOS) {
+      this.videoURI = Background.setVideo();
+    }
   }
 
   renderBackground = () => {
     const showVideo = !this.isIOS;
+    const { hasLoaded } = this.props;
 
     if (showVideo) {
       return (
@@ -60,6 +68,7 @@ class Background extends Component {
           loop="true"
           type="video/mp4"
           src={this.videoURI}
+          onLoadStart={hasLoaded}
           className="background-video"
         />
       );

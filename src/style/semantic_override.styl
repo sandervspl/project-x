@@ -35,6 +35,17 @@
       &::placeholder
         color $grey_light
 
+  &.modal > .content
+    padding 1rem 1rem 0 !important
+
+    > .description
+      padding 1rem 0rem 0rem !important
+
+  // the stroke is an image. Can't just override it with a color.
+  &.divider
+    font-weight $medium
+    font-size .857rem
+
 @media (min-width: 768px)
   .ui
     &.button

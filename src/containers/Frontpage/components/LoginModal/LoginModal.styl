@@ -1,11 +1,4 @@
 .login-modal
-  top 0
-  bottom 0
-  left 0 !important
-  margin 0 !important
-  width 100% !important
-  height 433px
-  border-radius 0 !important
   animation-name modal-appear
   animation-duration .4s
   animation-timing-function cubic-bezier(.825, 0, .5, 1)
@@ -18,15 +11,22 @@
       width 100%
 
     .input
-      margin-bottom 5px
+      margin-bottom .357rem
 
     .signin-btn
-      margin-top 5px
+      margin-top .357rem
+
+    .help-login
+      margin-top .714rem
+
+    h4
+      text-transform uppercase
+      text-align center
+      margin-top 1rem
 
 @keyframes modal-appear
   from
-    margin-top 100%
+    margin-top -50px
     opacity .1
   to
-    margin-top 0
     opacity 1

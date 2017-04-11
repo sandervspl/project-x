@@ -1,0 +1,31 @@
+@import "~style/common.styl"
+
+.login-service-btns
+  display flex
+  flex-direction row
+  flex-wrap nowrap
+  justify-content center
+  align-items center
+
+  a
+    flex-grow 1
+    min-width 33%
+
+  .small-login-btn
+    padding 1rem
+    color $off_white
+    font-weight $regular
+    border-radius 3px
+    text-align center
+    text-transform capitalize
+
+    &.facebook
+      background-color $fb_blue
+    &.twitter
+      margin 0 .357rem
+      background-color $tw_blue
+    &.google
+      background-color $gp_red
+
+    span
+      margin-left .357rem

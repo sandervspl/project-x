@@ -14,7 +14,7 @@ const FooterAuth = ({ type }) => {
     case 'signin':
       content = (
         <div className="inner">
-          <span>{'Already have an account?'}</span>
+          <span className="small-text">{'Already have an account?'}</span>
           <MiniButton text="sign in" href="#" />
         </div>
       );
@@ -23,7 +23,7 @@ const FooterAuth = ({ type }) => {
     case 'signup':
       content = (
         <div className="inner">
-          <span>{'Need an account?'}</span>
+          <span className="small-text">{'Need an account?'}</span>
           <MiniButton text="sign up" href="#" />
         </div>
       );

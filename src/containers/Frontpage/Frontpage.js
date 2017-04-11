@@ -6,6 +6,7 @@ import Background from './components/Background/Background';
 import Title from './components/Title/Title';
 import ButtonGroup from './components/ButtonGroup/ButtonGroup';
 import LoginModal from './components/LoginModal/LoginModal';
+import RegisterModal from './components/RegisterModal/RegisterModal';
 import FullscreenLoader from '../../components/FullscreenLoader/FullscreenLoader';
 
 // style
@@ -15,6 +16,7 @@ class Frontpage extends Component {
   state = {
     loaded: false,
     loginModalOpen: false,
+    registerModalOpen: false,
   }
 
   showLoginModal = () => {
@@ -26,6 +28,18 @@ class Frontpage extends Component {
   closeLoginModal = () => {
     this.setState({
       loginModalOpen: false,
+    });
+  }
+
+  showRegisterModal = () => {
+    this.setState({
+      registerModalOpen: true,
+    });
+  }
+
+  closeRegisterModal = () => {
+    this.setState({
+      registerModalOpen: false,
     });
   }
 
@@ -41,8 +55,9 @@ class Frontpage extends Component {
         <FullscreenLoader loaded={this.state.loaded} />
         <Background hasLoaded={this.hasLoaded} />
         <Title />
-        <ButtonGroup open={this.showLoginModal} />
+        <ButtonGroup openLogin={this.showLoginModal} openRegister={this.showRegisterModal} />
         <LoginModal open={this.state.loginModalOpen} close={this.closeLoginModal} />
+        <RegisterModal open={this.state.registerModalOpen} close={this.closeRegisterModal} />
       </section>
     );
   }

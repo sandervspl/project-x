@@ -2,12 +2,22 @@
 
 .ui
   &.button
-    padding .8125em 1.25em
-    font-size 1em
+    padding .8125rem 1.25rem
+    font-size 1rem
     border-radius 3px
     color $off_white
     font-weight $demibold !important
     text-transform uppercase !important
+
+    &.facebook
+      background-color $fb_blue
+    &.twitter
+      background-color $tw_blue
+    &.google
+      color $off_white
+      background-color $gp_red
+      &:active, &:hover
+        background-color #cc181e
 
   &.basic.inverted.button
     box-shadow 0px 0px 0px 2px #ffffff inset !important

@@ -8,7 +8,7 @@ const MiniButton = ({ text, href }) => {
   if (href) {
     return (
       <a href={href}>
-        <div className="mini-btn purple"> {text} </div>
+        <div className="mini-btn btn-basic purple"> {text} </div>
       </a>
     );
   }

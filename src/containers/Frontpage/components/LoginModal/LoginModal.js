@@ -18,7 +18,6 @@ const LoginModal = ({ open, close }) => {
     ];
 
     const btnArray = [];
-
     services.forEach((service, index) => {
       btnArray.push(<SmallServiceLoginBtn key={index} serviceName={service} />);
     });
@@ -27,7 +26,7 @@ const LoginModal = ({ open, close }) => {
   }
 
   return (
-    <Modal size="small" open={open} onClose={close} className="login-modal">
+    <Modal size="small" open={open} onClose={close} className="px-modal login-modal">
       <Modal.Content>
         <Modal.Description>
           <Input type="text" placeholder="Email or Username" />

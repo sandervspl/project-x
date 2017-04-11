@@ -45,6 +45,9 @@ a
   color $purple_default
   font-weight $medium
 
+i.fa
+  margin-right .357rem
+
 h4
   font-size 1rem
   font-weight $medium
@@ -53,6 +56,42 @@ input
   font-size 1rem !important
   padding .7857rem .7143rem !important
 
+.small-text
+  font-size .714rem
+  font-weight $regular
+  color $grey
+
 .big-btn
   font-size 1.55rem !important
   padding .7857rem 0 !important
+
+.btn
+  padding .8125em 1.25em
+  border-radius 3px
+  font-size 1rem
+  color $off_white
+  font-weight $demibold !important
+  text-transform uppercase !important
+  line-height inherit !important
+  letter-spacing .02rem
+
+.btn-basic
+  background-color $white
+
+  &.purple
+    color $purple_default
+    border 1px solid $purple_default
+
+.px-modal
+  animation-name modal-appear
+  animation-duration .4s
+  animation-timing-function cubic-bezier(.825, 0, .5, 1)
+  animation-iteration-count 1
+  animation-direction normal
+
+@keyframes modal-appear
+  from
+    margin-top -50px
+    opacity .1
+  to
+    opacity 1

@@ -46,11 +46,6 @@ module.exports = {
     require.resolve('react-dev-utils/webpackHotDevClient'),
     // We ship a few polyfills by default:
     require.resolve('./polyfills'),
-    // FIXME: font awesome. All lines crash. Do not understand what to do. See: https://www.npmjs.com/package/font-awesome-webpack
-    // TODO: is this required to do?
-    // "font-awesome-webpack!./font-awesome/font-awesome.config.js",
-    // require.resolve('./font-awesome/font-awesome.config'),
-    // path.resolve(__dirname, 'font-awesome/font-awesome.config'),
     // Finally, this is your app's code:
     paths.appIndexJs
     // We include the app code last so that if there is a runtime error during
@@ -122,11 +117,9 @@ module.exports = {
           /\.(js|jsx)(\?.*)?$/,
           /\.css$/,
           /\.styl$/,
-          /\.less$/,
           /\.json$/,
           /\.svg$/,
-          /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/
+          /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         ],
         loader: 'url',
         query: {
@@ -140,7 +133,6 @@ module.exports = {
         include: paths.appSrc,
         loader: 'babel',
         query: {
-
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
@@ -160,10 +152,6 @@ module.exports = {
         test: /\.styl$/,
         loader: 'style!css?importLoaders=1!stylus'
       },
-      {
-        test: /\.less$/,
-        loader: 'style!css?importLoaders=1!less'
-      },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
@@ -176,16 +164,12 @@ module.exports = {
         loader: 'file',
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
-        }
+        },
       },
       {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=10000',
       },
-      {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader"
-      }
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]

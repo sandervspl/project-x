@@ -116,11 +116,9 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.styl$/,
-          /\.less$/,
           /\.json$/,
           /\.svg$/,
-          /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/
+          /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         ],
         loader: 'url',
         query: {
@@ -164,14 +162,6 @@ module.exports = {
           extractTextPluginOptions
         )
       },
-      {
-        test: /\.less$/,
-        loader: ExtractTextPlugin.extract(
-          'style',
-          'css?importLoaders=1!less',
-          extractTextPluginOptions
-        )
-      },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
@@ -187,13 +177,9 @@ module.exports = {
         }
       },
       {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader?limit=10000',
       },
-      {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader"
-      }
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]

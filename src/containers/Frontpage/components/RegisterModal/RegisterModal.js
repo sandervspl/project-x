@@ -40,7 +40,7 @@ const RegisterModal = ({ open, close }) => {
           { generateSignupButtons() }
           <Divider horizontal>OR</Divider>
           <button fluid className="btn btn-basic purple">
-            <i className="fa fa-envelope-o" aria-hidden="true" />
+            <i className="fa fa-envelope" aria-hidden="true" />
             Sign up with Email
           </button>
           <span className="small-text policy-text">

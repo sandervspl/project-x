@@ -36,7 +36,12 @@ class Frontpage extends Component {
     }
 
     const obj = { [key]: state };
-    this.setState(obj);
+    this.setState(obj, () => {
+      // onOpen does not work on semantic modal
+      if (this.state.loginModalOpen) {
+        document.querySelector('#px-username-field > input').focus();
+      }
+    });
   };
 
   hasLoaded = () => {

@@ -25,14 +25,26 @@ const LoginModal = ({ isOpen, setModalOpen }) => {
     return btnArray;
   }
 
+  function onChange() {
+    const username = document.querySelector('#px-username-field > input').value;
+    const password = document.querySelector('#px-password-field > input').value;
+    const btn = document.querySelector('#px-signin-btn');
+
+    if (username !== '' && password !== '' && btn.classList.contains('disabled')) {
+      btn.classList.remove('disabled');
+    } else if (username === '' && password === '' && !btn.classList.contains('disabled')) {
+      btn.classList.add('disabled');
+    }
+  }
+
   return (
     <Modal size="small" open={isOpen} onClose={() => setModalOpen('signin', false)} closeIcon="close" className="px-modal login-modal">
       <Modal.Content>
         <Modal.Description>
           <h1>Sign in</h1>
-          <Input type="text" placeholder="Email or Username" />
-          <Input type="password" placeholder="Password" />
-          <Button color="purple" className="signin-btn big-btn" fluid disabled>sign in</Button>
+          <Input type="text" placeholder="Email or Username" id="px-username-field" onChange={onChange} />
+          <Input type="password" placeholder="Password" id="px-password-field" onChange={onChange} />
+          <Button color="purple" className="signin-btn big-btn" id="px-signin-btn" fluid disabled>sign in</Button>
           <p className="help-login">
             <a href="#">{'help, I can\'t sign in.'}</a>
           </p>

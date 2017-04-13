@@ -45,9 +45,7 @@ class Frontpage extends Component {
   };
 
   hasLoaded = () => {
-    this.setState({
-      loaded: true,
-    });
+    this.setState({ loaded: true });
   };
 
   render() {

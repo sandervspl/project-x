@@ -9,7 +9,7 @@ import FooterAuth from '../../../../components/FooterAuth/FooterAuth';
 // style
 import './LoginModal.styl';
 
-const LoginModal = ({ open, close }) => {
+const LoginModal = ({ isOpen, setModalOpen }) => {
   function generateLoginButtons() {
     const services = [
       'facebook',
@@ -26,7 +26,7 @@ const LoginModal = ({ open, close }) => {
   }
 
   return (
-    <Modal size="small" open={open} onClose={close} closeIcon="close" className="px-modal login-modal">
+    <Modal size="small" open={isOpen} onClose={() => setModalOpen('signin', false)} closeIcon="close" className="px-modal login-modal">
       <Modal.Content>
         <Modal.Description>
           <h1>Sign in</h1>
@@ -41,7 +41,10 @@ const LoginModal = ({ open, close }) => {
           <div className="login-service-btns">
             { generateLoginButtons() }
           </div>
-          <FooterAuth type="signup" />
+          <FooterAuth
+            type="signup"
+            setModalOpen={setModalOpen}
+          />
         </Modal.Description>
       </Modal.Content>
     </Modal>
@@ -49,8 +52,8 @@ const LoginModal = ({ open, close }) => {
 };
 
 LoginModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  close: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  setModalOpen: PropTypes.func.isRequired,
 };
 
 export default LoginModal;

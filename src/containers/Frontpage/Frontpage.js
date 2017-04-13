@@ -17,37 +17,33 @@ class Frontpage extends Component {
     loaded: false,
     loginModalOpen: false,
     registerModalOpen: false,
-  }
+  };
 
-  showLoginModal = () => {
-    this.setState({
-      loginModalOpen: true,
-    });
-  }
+  setModalOpen = (modal, state) => {
+    let key = '';
 
-  closeLoginModal = () => {
-    this.setState({
-      loginModalOpen: false,
-    });
-  }
+    switch (modal) {
+      case 'signin':
+        key = 'loginModalOpen';
+        break;
 
-  showRegisterModal = () => {
-    this.setState({
-      registerModalOpen: true,
-    });
-  }
+      case 'signup':
+        key = 'registerModalOpen';
+        break;
 
-  closeRegisterModal = () => {
-    this.setState({
-      registerModalOpen: false,
-    });
-  }
+      default:
+        throw Error('invalid modal. Available modals: "signin" and "signup"');
+    }
+
+    const obj = { [key]: state };
+    this.setState(obj);
+  };
 
   hasLoaded = () => {
     this.setState({
       loaded: true,
     });
-  }
+  };
 
   render() {
     return (
@@ -55,9 +51,15 @@ class Frontpage extends Component {
         <FullscreenLoader loaded={this.state.loaded} />
         <Background hasLoaded={this.hasLoaded} />
         <Title />
-        <ButtonGroup openLogin={this.showLoginModal} openRegister={this.showRegisterModal} />
-        <LoginModal open={this.state.loginModalOpen} close={this.closeLoginModal} />
-        <RegisterModal open={this.state.registerModalOpen} close={this.closeRegisterModal} />
+        <ButtonGroup setModalOpen={this.setModalOpen} />
+        <LoginModal
+          isOpen={this.state.loginModalOpen}
+          setModalOpen={this.setModalOpen}
+        />
+        <RegisterModal
+          isOpen={this.state.registerModalOpen}
+          setModalOpen={this.setModalOpen}
+        />
       </section>
     );
   }

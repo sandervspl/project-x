@@ -34,9 +34,10 @@ const RegisterModal = ({ open, close }) => {
   }
 
   return (
-    <Modal size="small" open={open} onClose={close} className="px-modal register-modal">
+    <Modal size="small" open={open} onClose={close} closeIcon="close" className="px-modal register-modal">
       <Modal.Content>
         <Modal.Description>
+          <h1>Sign up</h1>
           { generateSignupButtons() }
           <Divider horizontal>OR</Divider>
           <button fluid className="btn btn-basic purple">

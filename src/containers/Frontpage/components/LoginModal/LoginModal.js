@@ -26,9 +26,10 @@ const LoginModal = ({ open, close }) => {
   }
 
   return (
-    <Modal size="small" open={open} onClose={close} className="px-modal login-modal">
+    <Modal size="small" open={open} onClose={close} closeIcon="close" className="px-modal login-modal">
       <Modal.Content>
         <Modal.Description>
+          <h1>Sign in</h1>
           <Input type="text" placeholder="Email or Username" />
           <Input type="password" placeholder="Password" />
           <Button color="purple" className="signin-btn big-btn" fluid disabled>sign in</Button>

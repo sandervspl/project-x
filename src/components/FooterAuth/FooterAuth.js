@@ -25,7 +25,7 @@ const FooterAuth = ({ type, setModalOpen }) => {
       content = (
         <div className="inner">
           <span className="small-text">{'Already have an account?'}</span>
-          <MiniButton text="sign in" action={openSigninModal} />
+          <MiniButton action={openSigninModal}>Sign in</MiniButton>
         </div>
       );
       break;
@@ -34,7 +34,7 @@ const FooterAuth = ({ type, setModalOpen }) => {
       content = (
         <div className="inner">
           <span className="small-text">{'Need an account?'}</span>
-          <MiniButton text="sign up" action={openRegisterModal} />
+          <MiniButton action={openRegisterModal}>Sign up</MiniButton>
         </div>
       );
       break;

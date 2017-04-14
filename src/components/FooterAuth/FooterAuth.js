@@ -40,7 +40,7 @@ const FooterAuth = ({ type, setModalOpen }) => {
       break;
 
     default:
-      throw Error('Invalid FooterAuth Type. Only types "signup" and "signin" are available.');
+      break;
   }
 
   return (
@@ -51,7 +51,7 @@ const FooterAuth = ({ type, setModalOpen }) => {
 };
 
 FooterAuth.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['signup', 'signin']).isRequired,
   setModalOpen: PropTypes.func.isRequired,
 };
 

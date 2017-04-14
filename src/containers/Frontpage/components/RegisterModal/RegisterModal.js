@@ -1,6 +1,7 @@
 // dependencies
 import React, { PropTypes } from 'react';
 import { Modal, Button, Divider } from 'semantic-ui-react';
+import { Link } from 'react-router';
 
 // components
 import FooterAuth from '../../../../components/FooterAuth/FooterAuth';
@@ -40,10 +41,12 @@ const RegisterModal = ({ isOpen, setModalOpen }) => {
           <h1>Sign up</h1>
           { generateSignupButtons() }
           <Divider horizontal>OR</Divider>
-          <button className="btn btn-basic purple">
-            <i className="fa fa-envelope" aria-hidden="true" />
-            Sign up with Email
-          </button>
+          <Link to="/register">
+            <button className="btn btn-basic purple">
+              <i className="fa fa-envelope" aria-hidden="true" />
+              Sign up with Email
+            </button>
+          </Link>
           <span className="small-text policy-text">
             By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
           </span>

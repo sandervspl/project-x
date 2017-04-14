@@ -32,7 +32,7 @@ const LoginModal = ({ isOpen, setModalOpen }) => {
 
     if (username !== '' && password !== '' && btn.classList.contains('disabled')) {
       btn.classList.remove('disabled');
-    } else if (username === '' && password === '' && !btn.classList.contains('disabled')) {
+    } else if ((username === '' || password === '') && !btn.classList.contains('disabled')) {
       btn.classList.add('disabled');
     }
   }

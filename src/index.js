@@ -27,7 +27,7 @@ const store = createStore(
 window.store = store;
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={store} key="provider">
     <Frontpage />
   </Provider>,
   document.getElementById('root'),

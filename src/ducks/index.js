@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import FrontpageReducer from './Frontpage';
+import FrontpageReducer from './modules/Frontpage';
 
 const allReducers = combineReducers({
   frontpage: FrontpageReducer,

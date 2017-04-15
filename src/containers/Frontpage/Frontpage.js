@@ -9,9 +9,6 @@ import LoginModal from './components/LoginModal/LoginModal';
 import RegisterModal from './components/RegisterModal/RegisterModal';
 import FullscreenLoader from '../../components/FullscreenLoader/FullscreenLoader';
 
-// style
-import './Frontpage.styl';
-
 class Frontpage extends Component {
   state = {
     loaded: false,
@@ -45,7 +42,7 @@ class Frontpage extends Component {
 
   render() {
     return (
-      <section className="page-fill">
+      <main className="page-fill">
         <FullscreenLoader loaded={this.state.loaded} />
         <Background hasLoaded={this.hasLoaded} />
         <Title />
@@ -58,7 +55,7 @@ class Frontpage extends Component {
           isOpen={this.state.registerModalOpen}
           setModalOpen={this.setModalOpen}
         />
-      </section>
+      </main>
     );
   }
 }

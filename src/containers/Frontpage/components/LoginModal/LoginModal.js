@@ -1,6 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { Modal, Input, Button, Divider } from 'semantic-ui-react';
+import { Modal, Form, Input, Button, Divider } from 'semantic-ui-react';
 
 // components
 import SmallServiceLoginBtn from '../../../../components/SmallServiceLoginBtn/SmallServiceLoginBtn';
@@ -39,12 +39,14 @@ const LoginModal = ({ isOpen, setModalOpen }) => {
 
   return (
     <Modal size="small" open={isOpen} onClose={() => setModalOpen('signin', false)} closeIcon="close" className="px-modal login-modal">
-      <Modal.Header>Sign in to start your party.</Modal.Header>
+      <Modal.Header>Sign in to start your party</Modal.Header>
       <Modal.Content>
         <Modal.Description>
-          <Input type="text" placeholder="Email or Username" id="px-username-field" onChange={onChange} />
-          <Input type="password" placeholder="Password" id="px-password-field" onChange={onChange} />
-          <Button color="purple" className="signin-btn big-btn" id="px-signin-btn" fluid disabled>sign in</Button>
+          <Form>
+            <Input type="text" placeholder="Email or Username" id="px-username-field" onChange={onChange} />
+            <Input type="password" placeholder="Password" id="px-password-field" onChange={onChange} />
+            <Button color="purple" className="signin-btn big-btn" id="px-signin-btn" fluid disabled>sign in</Button>
+          </Form>
           <p className="help-login">
             <a href="#">{'help, I can\'t sign in.'}</a>
           </p>

@@ -37,7 +37,7 @@ const RegisterModal = ({ isOpen, setModalOpen }) => {
   return (
     <Modal size="small" open={isOpen} onClose={() => setModalOpen('signup', false)} closeIcon="close" className="px-modal register-modal">
       <Modal.Header>
-        Sign up to Project-X to create parties and connect with your friends.
+        Sign up to Project-X to create parties and connect with your friends
       </Modal.Header>
       <Modal.Content>
         <Modal.Description>

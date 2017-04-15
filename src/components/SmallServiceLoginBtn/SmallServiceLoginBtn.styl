@@ -12,12 +12,15 @@
     min-width 33%
 
   .small-login-btn
-    padding 1rem
+    padding .7rem
     color $off_white
     font-weight $regular
     border-radius 3px
     text-align center
     text-transform capitalize
+
+    +for_breakpoint(sm-mobile)
+      padding .6rem
 
     span
       +for_breakpoint(sm-mobile)

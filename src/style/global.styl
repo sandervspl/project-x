@@ -75,12 +75,18 @@ select, textarea, input
 .btn
   padding .8125em 1.25em
   border-radius 3px
-  font-size 1rem
+  font-size 1rem !important
   color $off_white
   font-weight $demibold !important
   text-transform uppercase !important
   line-height inherit !important
   letter-spacing .02rem
+
+  +for_breakpoint(tablet)
+    font-size 1.5rem
+
+  +for_breakpoint(desktop)
+    font-size 1.5rem
 
 .btn-basic
   background-color $white

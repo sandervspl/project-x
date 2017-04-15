@@ -1,26 +1,13 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
+
 // style
 import './Background.styl';
-
-/* eslint-disable */
-const BackgroundVideos = [
-  require('../../assets/videos/bg_1_720p.mp4'),
-  require('../../assets/videos/bg_2_720p.mp4'),
-  require('../../assets/videos/bg_3_720p.mp4'),
-];
-/* eslint-enable */
-const backgroundImg = require('../../assets/images/bg_1_ph.png');
 
 class Background extends Component {
   static propTypes = {
     hasLoaded: PropTypes.func.isRequired,
-  }
-
-  static setVideo() {
-    const randVideo = Math.floor(Math.random() * BackgroundVideos.length);
-    return BackgroundVideos[randVideo];
-  }
+  };
 
   /*
    * Apple handheld devices do not allow videos to autoplay.
@@ -49,18 +36,55 @@ class Background extends Component {
     return false;
   }
 
+  constructor(props) {
+    super(props);
+
+    /* eslint-disable */
+    this.backgroundVideos = [
+      require('../../assets/videos/bg_1_720p.mp4'),
+      require('../../assets/videos/bg_2_720p.mp4'),
+      require('../../assets/videos/bg_3_720p.mp4'),
+    ];
+
+    this.backgroundImages = [
+      require('../../assets/images/bg_3.png'),
+      require('../../assets/images/bg_4.png'),
+      require('../../assets/images/bg_5.png'),
+    ];
+    /* eslint-enable */
+  }
+
   componentWillMount() {
     this.isIOS = Background.isIOS();
 
     if (!this.isIOS) {
-      this.videoURI = Background.setVideo();
+      this.videoURI = this.setVideo();
+    } else {
+      this.imageURI = this.setImage();
     }
+  }
+
+  componentDidMount() {
+    if (this.isIOS) {
+      this.props.hasLoaded();
+    }
+  }
+
+  setVideo() {
+    const randVideo = Math.floor(Math.random() * this.backgroundVideos.length);
+    return this.backgroundVideos[randVideo];
+  }
+
+  setImage() {
+    const randImage = Math.floor(Math.random() * this.backgroundImages.length);
+    return this.backgroundImages[randImage];
   }
 
   renderBackground = () => {
     const showVideo = !this.isIOS;
     const { hasLoaded } = this.props;
 
+    // show video on desktop
     if (showVideo) {
       return (
         <video
@@ -70,20 +94,20 @@ class Background extends Component {
           type="video/mp4"
           src={this.videoURI}
           onCanPlayThrough={hasLoaded}
-          className="background-video"
+          className="background video"
         />
       );
     }
 
+    // set random background image for mobile
+    const style = { backgroundImage: `url(${this.imageURI})` };
     return (
-      <img src={backgroundImg} alt="background image" className="background-img" onLoad={hasLoaded} />
+      <div className="background img" style={style} />
     );
   };
 
   render() {
-    return (
-      this.renderBackground()
-    );
+    return this.renderBackground();
   }
 }
 

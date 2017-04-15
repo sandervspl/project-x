@@ -45,18 +45,46 @@
       &::placeholder
         color $grey_light
 
-  &.modal > .content
-    padding 1rem 1rem 0 !important
+  &.modal
+    > .header
+      background-color $grey_lighter
+      border-bottom none
+      color $black
+      font-weight $demibold !important
+      font-size 1.2rem !important
+      text-align center
 
-    > .description
-      padding 0 !important
+    > .content
+      padding 1.75rem 1rem 0 !important
+
+      > .description
+        padding 0 !important
+
+  &.dimmer
+    background-color rgba(0, 0, 0, 0.55)
 
   // the stroke is an image. Can't just override it with a color.
   &.divider
     font-weight $medium
     font-size .857rem
 
-@media (min-width: 768px)
+@media (min-width 768px)
   .ui
     &.button
       font-size 1.15em
+
+@media only screen and (max-width 767px)
+  .ui.modal
+    > .header
+      padding 1.5rem !important
+
+    > .close
+      color $white
+      top -2.2rem !important
+      right -1rem !important
+
+@media only screen and (max-width 991px)
+  .ui.modal > .close
+    top -2.5rem
+    right -1rem
+    color $white

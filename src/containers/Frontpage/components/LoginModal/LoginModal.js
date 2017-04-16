@@ -55,10 +55,7 @@ const LoginModal = ({ isOpen, setModalOpen }) => {
           <div className="login-service-btns">
             { generateLoginButtons() }
           </div>
-          <FooterAuth
-            type="signup"
-            setModalOpen={setModalOpen}
-          />
+          <FooterAuth type="signup" setModalOpen={setModalOpen} />
         </Modal.Description>
       </Modal.Content>
     </Modal>

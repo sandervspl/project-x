@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 
 // components
 import FooterAuth from '../../../../components/FooterAuth/FooterAuth';
+import PolicyText from '../../../../components/PolicyText/PolicyText';
 
 // style
 import './RegisterModal.styl';
@@ -49,13 +50,8 @@ const RegisterModal = ({ isOpen, setModalOpen }) => {
               Sign up with Email
             </button>
           </Link>
-          <span className="small-text policy-text">
-            By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
-          </span>
-          <FooterAuth
-            type="signin"
-            setModalOpen={setModalOpen}
-          />
+          <PolicyText />
+          <FooterAuth type="signin" setModalOpen={setModalOpen} />
         </Modal.Description>
       </Modal.Content>
     </Modal>

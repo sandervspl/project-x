@@ -64,10 +64,15 @@ class Background extends Component {
     }
   }
 
-  componentDidMount() {
-    if (this.isIOS) {
-      this.props.hasLoaded();
-    }
+  // the img element is only there so we can load an image into memory
+  // when it has been loaded, remove it from the DOM
+  // we do this because we can't tell if a CSS 'background-image' is done loading
+  // we need background-image for 'background-size: cover'
+  onLoad = (e) => {
+    const el = e.target;
+    el.parentElement.removeChild(el);
+
+    this.props.hasLoaded();
   }
 
   setVideo() {
@@ -102,7 +107,9 @@ class Background extends Component {
     // set random background image for mobile
     const style = { backgroundImage: `url(${this.imageURI})` };
     return (
-      <div className="background img" style={style} />
+      <div className="background img" style={style}>
+        <img src={this.imageURI} alt="bg-loader" id="bg-loader" onLoad={this.onLoad} />
+      </div>
     );
   };
 

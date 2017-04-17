@@ -45,10 +45,10 @@ const LoginModal = ({ isOpen, setModalOpen }) => {
           <Form>
             <Input type="text" placeholder="Email or Username" id="px-username-field" onChange={onChange} />
             <Input type="password" placeholder="Password" id="px-password-field" onChange={onChange} />
-            <Button color="purple" className="signin-btn big-btn" id="px-signin-btn" fluid disabled>sign in</Button>
+            <Button color="purple" className="signin-btn big-btn" id="px-signin-btn" fluid disabled>Sign in</Button>
           </Form>
           <p className="help-login">
-            <a href="#">{'help, I can\'t sign in.'}</a>
+            <a href="#">{'Help, I can\'t sign in.'}</a>
           </p>
           <Divider horizontal>or</Divider>
           <h4>log in with</h4>

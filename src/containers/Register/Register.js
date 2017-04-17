@@ -3,15 +3,18 @@ import React from 'react';
 
 // components
 import NavigationBar from '../../components/NavigationBar/NavigationBar';
+import LoginForm from './Login/Login';
+import PersonalForm from './Personal/Personal';
 
 // style
 import './Register.styl';
 
 const Register = () => (
-  <main className="page-fill" id="register-page">
+  <main id="register-page">
     <NavigationBar />
-    <section className="inner">
-      <h1>New account</h1>
+    <section className="inner register-forms-container">
+      <LoginForm />
+      <PersonalForm />
     </section>
   </main>
 );

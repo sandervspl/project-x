@@ -23,7 +23,7 @@ const FooterAuth = ({ type, setModalOpen }) => {
   switch (type) {
     case 'signin':
       content = (
-        <div className="inner">
+        <div className="inner-auth">
           <span className="small-text">{'Already have an account?'}</span>
           <MiniButton action={openSigninModal}>Sign in</MiniButton>
         </div>
@@ -32,7 +32,7 @@ const FooterAuth = ({ type, setModalOpen }) => {
 
     case 'signup':
       content = (
-        <div className="inner">
+        <div className="inner-auth">
           <span className="small-text">{'Need an account?'}</span>
           <MiniButton action={openRegisterModal}>Sign up</MiniButton>
         </div>

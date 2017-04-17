@@ -73,17 +73,17 @@ class Background extends Component {
     el.parentElement.removeChild(el);
 
     this.props.hasLoaded();
-  }
+  };
 
-  setVideo() {
+  setVideo = () => {
     const randVideo = Math.floor(Math.random() * this.backgroundVideos.length);
     return this.backgroundVideos[randVideo];
-  }
+  };
 
-  setImage() {
+  setImage = () => {
     const randImage = Math.floor(Math.random() * this.backgroundImages.length);
     return this.backgroundImages[randImage];
-  }
+  };
 
   renderBackground = () => {
     const showVideo = !this.isIOS;

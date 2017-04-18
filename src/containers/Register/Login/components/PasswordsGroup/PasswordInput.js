@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 
-const PasswordInput = ({ fieldId, isValid, validatePassword, requiredLength }) => {
+const PasswordInput = ({ fieldId, isValid, validatePassword, requiredLength, placeholder }) => {
   function onChange(e) {
     const el = e.target;
 
@@ -11,20 +11,17 @@ const PasswordInput = ({ fieldId, isValid, validatePassword, requiredLength }) =
 
       // minimum length of password
       const minLength = requiredLength || 1;
+      const valid = val.length >= minLength;
 
-      if (val.length < minLength) {
-        validatePassword(false, fieldId, val);
-      } else {
-        validatePassword(true, fieldId, val);
-      }
+      validatePassword(valid, fieldId, val);
     }
   }
 
   return (
     <Form.Input
       type="password"
-      placeholder="Password"
-      icon={isValid ? 'check' : 'mail'}
+      placeholder={placeholder || ''}
+      icon={isValid ? 'check' : 'key'}
       className="password"
       onChange={onChange}
     />
@@ -36,6 +33,7 @@ PasswordInput.propTypes = {
   validatePassword: PropTypes.func.isRequired,
   isValid: PropTypes.bool,
   requiredLength: PropTypes.number,
+  placeholder: PropTypes.string,
 };
 
 export default PasswordInput;

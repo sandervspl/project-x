@@ -4,47 +4,61 @@ import { Form, Button } from 'semantic-ui-react';
 
 // components
 import PolicyText from '../../../components/PolicyText/PolicyText';
-
-// style
-import './Login.styl';
+import EmailInput from './components/EmailInput/EmailInput';
+import PasswordsField from './components/PasswordsField/PasswordsField';
 
 class Login extends Component {
-  onChange = () => {
-    const email = document.querySelector('.email > .input > input').value;
-    const password = document.querySelector('.password > .input > input').value;
-    const password2 = document.querySelector('.password-verify > .input > input').value;
-    const btn = document.querySelector('#next-btn');
+  state = {
+    mailValid: null,
+    passwordsValid: null,
+  };
 
-    if (email !== '' && password !== '' && password2 !== '' && btn.classList.contains('disabled')) {
-      btn.classList.remove('disabled');
-    } else if ((email === '' || password === '' || password2 === '') && !btn.classList.contains('disabled')) {
-      btn.classList.add('disabled');
+  componentDidMount() {
+    this.buttonEl = document.querySelector('#next-btn');
+  }
+
+  onClick = (e) => {
+    const { mailValid, passwordsValid } = this.state;
+
+    e.preventDefault();
+
+    if (mailValid && passwordsValid) {
+      const forms = document.querySelectorAll('.register-form');
+      forms.forEach((form) => {
+        form.classList.add('show-personal');
+      });
     }
   };
 
-  onBlur = () => {
-    const password = document.querySelector('.password > .input > input').value;
-    const password2 = document.querySelector('.password-verify > .input > input').value;
+  validateEmail = (mailValid) => {
+    this.setState({ mailValid });
+  };
 
-    if (password === '' || password2 === '') return;
+  validatePasswords = (passwordsValid) => {
+    this.setState({ passwordsValid });
+  };
 
-    if (password !== password2) {
-      const btn = document.querySelector('#next-btn');
+  shouldButtonEnable = () => {
+    const button = this.buttonEl;
+    const { mailValid, passwordsValid } = this.state;
 
-      if (!btn.classList.contains('disabled')) {
-        btn.classList.add('disabled');
+    if (!button) return;
+
+    if (button.classList.contains('disabled')) {
+      if (mailValid && passwordsValid) {
+        button.classList.remove('disabled');
+      }
+    } else if (!mailValid || !passwordsValid) {
+      if (!button.classList.contains('disabled')) {
+        button.classList.add('disabled');
       }
     }
   };
 
-  onClick = () => {
-    const forms = document.querySelectorAll('.register-form');
-    forms.forEach((form) => {
-      form.classList.add('show-personal');
-    });
-  };
-
   render() {
+    const { mailValid, passwordsValid } = this.state;
+    this.shouldButtonEnable();
+
     return (
       <section className="register-form login">
         <h1>New account</h1>
@@ -53,12 +67,23 @@ class Login extends Component {
           Invite your friends blabla etc.
         </p>
         <Form>
-          <Form.Field>
-            <Form.Input type="email" placeholder="Email address" icon="mail" className="email" onChange={this.onChange} />
-          </Form.Field>
-          <Form.Input type="password" placeholder="Password" icon="lock" className="password" onChange={this.onChange} onBlur={this.onBlur} />
-          <Form.Input type="password" placeholder="Verify password" icon="lock" className="password-verify" onChange={this.onChange} onBlur={this.onBlur} />
-          <Button color="purple" className="big-btn disabled" id="next-btn" onClick={this.onClick} fluid>Next</Button>
+          <EmailInput
+            mailValid={mailValid}
+            validateEmail={this.validateEmail}
+          />
+          <PasswordsField
+            passwordsValid={passwordsValid}
+            validatePasswords={this.validatePasswords}
+          />
+          <Button
+            color="purple"
+            className="big-btn disabled"
+            id="next-btn"
+            onClick={this.onClick}
+            fluid
+          >
+            Next
+          </Button>
         </Form>
         <PolicyText />
       </section>

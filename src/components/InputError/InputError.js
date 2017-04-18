@@ -17,7 +17,7 @@ const InputError = ({ children, icon }) => {
 };
 
 InputError.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.string.isRequired,
   icon: PropTypes.string,
 };
 

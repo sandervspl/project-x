@@ -13,10 +13,6 @@ class Login extends Component {
     passwordsValid: null,
   };
 
-  componentDidMount() {
-    this.buttonEl = document.querySelector('#next-btn');
-  }
-
   onClick = (e) => {
     const { mailValid, passwordsValid } = this.state;
 
@@ -39,7 +35,7 @@ class Login extends Component {
   };
 
   shouldButtonEnable = () => {
-    const button = this.buttonEl;
+    const button = document.querySelector('#next-btn');
     const { mailValid, passwordsValid } = this.state;
 
     if (!button) return;

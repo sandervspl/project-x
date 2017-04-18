@@ -51,9 +51,9 @@ const RegisterModal = ({ isOpen, setModalOpen }) => {
             </button>
           </Link>
           <PolicyText />
-          <FooterAuth type="signin" setModalOpen={setModalOpen} />
         </Modal.Description>
       </Modal.Content>
+      <FooterAuth type="signin" setModalOpen={setModalOpen} />
     </Modal>
   );
 };

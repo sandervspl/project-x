@@ -7,7 +7,7 @@ import PasswordInput from './PasswordInput';
 import InputError from '../../../../../components/InputError/InputError';
 
 
-class PasswordsField extends Component {
+class PasswordsGroup extends Component {
   static propTypes = {
     validatePasswords: PropTypes.func.isRequired,
     passwordsValid: PropTypes.bool,
@@ -78,4 +78,4 @@ class PasswordsField extends Component {
   }
 }
 
-export default PasswordsField;
+export default PasswordsGroup;

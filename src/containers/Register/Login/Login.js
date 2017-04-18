@@ -5,7 +5,7 @@ import { Form, Button } from 'semantic-ui-react';
 // components
 import PolicyText from '../../../components/PolicyText/PolicyText';
 import EmailInput from './components/EmailInput/EmailInput';
-import PasswordsField from './components/PasswordsField/PasswordsField';
+import PasswordsGroup from './components/PasswordsGroup/PasswordsGroup';
 
 class Login extends Component {
   state = {
@@ -71,7 +71,7 @@ class Login extends Component {
             mailValid={mailValid}
             validateEmail={this.validateEmail}
           />
-          <PasswordsField
+          <PasswordsGroup
             passwordsValid={passwordsValid}
             validatePasswords={this.validatePasswords}
           />

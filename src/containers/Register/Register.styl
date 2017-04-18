@@ -1,28 +1,33 @@
 @import "~style/common.styl"
 
 #register-page
-    h1
-      font-size 1.786rem
-      font-weight $medium
-      text-align center
+  height 100%
 
-    .register-forms-container
-      overflow hidden
-      white-space nowrap
-      padding-left 0
-      padding-right 0
+  h1
+    font-size 1.786rem
+    font-weight $medium
+    text-align center
+
+  .register-forms-container
+    height 100%
+    overflow hidden
+    white-space nowrap
+    padding-left 0
+    padding-right 0
+
+    .register-form
+      display inline-block
+      padding 0 1.429rem
+      height 100%
+      background-color $white
+      vertical-align top
+      transition transform .3s ease-in-out
+
+      &.show-personal
+        transform translateX(-100%)
 
     .register-about
       margin 0 auto 1.429rem
       text-align center
       width 80%
       white-space normal
-
-    .register-form
-      display inline-block
-      padding 0 1.429rem
-      vertical-align top
-      transition transform .3s ease-in-out
-
-      &.show-personal
-        transform translateX(-100%)

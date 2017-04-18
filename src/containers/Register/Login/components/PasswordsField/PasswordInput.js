@@ -33,8 +33,8 @@ const PasswordInput = ({ fieldId, isValid, validatePassword, requiredLength }) =
 
 PasswordInput.propTypes = {
   fieldId: PropTypes.string.isRequired,
-  isValid: PropTypes.bool.isRequired,
   validatePassword: PropTypes.func.isRequired,
+  isValid: PropTypes.bool,
   requiredLength: PropTypes.number,
 };
 

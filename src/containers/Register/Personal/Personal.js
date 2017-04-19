@@ -26,7 +26,7 @@ class Register extends Component {
 
   render() {
     return (
-      <section className="register-form personal show-personal">
+      <section className="register-form personal">
         <h1>You</h1>
         <p className="register-about">
           Tell us a bit about yourself!

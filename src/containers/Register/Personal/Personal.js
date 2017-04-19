@@ -1,6 +1,6 @@
 // dependencies
 import React, { Component } from 'react';
-import { Form, Button, Icon } from 'semantic-ui-react';
+import { Form, Icon } from 'semantic-ui-react';
 
 // style
 import './Personal.styl';
@@ -8,6 +8,7 @@ import './Personal.styl';
 // components
 import FullNameGroup from './components/FullNameGroup';
 import Username from './components/Username/Username';
+import CreateButton from './components/CreateButton';
 
 class Register extends Component {
   state = {
@@ -23,28 +24,9 @@ class Register extends Component {
     this.setState({ usernameValid });
   }
 
-  shouldButtonEnable = () => {
-    const button = document.querySelector('#create-btn');
-    const { fullNameValid, usernameValid } = this.state;
-
-    if (!button) return;
-
-    if (button.classList.contains('disabled')) {
-      if (fullNameValid && usernameValid) {
-        button.classList.remove('disabled');
-      }
-    } else if (!fullNameValid || !usernameValid) {
-      if (!button.classList.contains('disabled')) {
-        button.classList.add('disabled');
-      }
-    }
-  };
-
   render() {
-    this.shouldButtonEnable();
-
     return (
-      <section className="register-form personal">
+      <section className="register-form personal show-personal">
         <h1>You</h1>
         <p className="register-about">
           Tell us a bit about yourself!
@@ -64,15 +46,10 @@ class Register extends Component {
             setValid={this.setUsernameValid}
             isValid={this.state.usernameValid}
           />
-          <Button
-            color="purple"
-            className="big-btn"
-            id="create-btn"
-            fluid
-            disabled
-          >
-            Create
-          </Button>
+          <CreateButton
+            fullNameValid={this.state.fullNameValid}
+            usernameValid={this.state.usernameValid}
+          />
         </Form>
       </section>
     );

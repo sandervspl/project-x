@@ -1,5 +1,5 @@
 // dependencies
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 
 // components
@@ -8,6 +8,10 @@ import EmailInput from './components/EmailInput/EmailInput';
 import PasswordsGroup from './components/PasswordsGroup/PasswordsGroup';
 
 class Login extends Component {
+  static propTypes = {
+    setLoginFormValidation: PropTypes.func.isRequired,
+  };
+
   state = {
     mailValid: null,
     passwordsValid: null,
@@ -27,25 +31,28 @@ class Login extends Component {
   };
 
   validateEmail = (mailValid) => {
-    this.setState({ mailValid });
+    this.setState({ mailValid }, this.shouldButtonEnable);
   };
 
   validatePasswords = (passwordsValid) => {
-    this.setState({ passwordsValid });
+    this.setState({ passwordsValid }, this.shouldButtonEnable);
   };
 
   shouldButtonEnable = () => {
     const button = document.querySelector('#next-btn');
     const { mailValid, passwordsValid } = this.state;
+    const { setLoginFormValidation } = this.props;
 
     if (!button) return;
 
     if (button.classList.contains('disabled')) {
       if (mailValid && passwordsValid) {
+        setLoginFormValidation(true);
         button.classList.remove('disabled');
       }
     } else if (!mailValid || !passwordsValid) {
       if (!button.classList.contains('disabled')) {
+        setLoginFormValidation(false);
         button.classList.add('disabled');
       }
     }
@@ -53,7 +60,6 @@ class Login extends Component {
 
   render() {
     const { mailValid, passwordsValid } = this.state;
-    this.shouldButtonEnable();
 
     return (
       <section className="register-form login">

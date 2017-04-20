@@ -14,6 +14,7 @@ class CreateButton extends Component {
   static propTypes = {
     fullNameValid: PropTypes.bool,
     usernameValid: PropTypes.bool,
+    loginFormValid: PropTypes.bool,
     createUser: PropTypes.func,
   };
 
@@ -27,6 +28,7 @@ class CreateButton extends Component {
   // Set loading state of button according to the state.
   componentWillReceiveProps(nextProps) {
     const { fullNameValid, usernameValid } = nextProps;
+    const { loginFormValid } = this.props;
     const { isCreatingNewAccount } = nextProps.register;
 
     // Set loading state
@@ -35,7 +37,7 @@ class CreateButton extends Component {
         enabled: false,
         loading: true,
       });
-    } else if (fullNameValid && usernameValid) {
+    } else if (fullNameValid && usernameValid && loginFormValid) {
       // set enabled state
       this.setState({
         enabled: true,

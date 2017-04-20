@@ -1,5 +1,5 @@
 // dependencies
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Form, Icon } from 'semantic-ui-react';
 
 // style
@@ -11,6 +11,10 @@ import Username from './components/Username/Username';
 import CreateButton from './components/CreateButton';
 
 class Register extends Component {
+  static propTypes = {
+    loginFormValid: PropTypes.bool,
+  };
+
   state = {
     fullNameValid: null,
     usernameValid: null,
@@ -49,6 +53,7 @@ class Register extends Component {
           <CreateButton
             fullNameValid={this.state.fullNameValid}
             usernameValid={this.state.usernameValid}
+            loginFormValid={this.props.loginFormValid}
           />
         </Form>
       </section>

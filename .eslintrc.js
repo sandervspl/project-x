@@ -1,3 +1,6 @@
+// dependencies
+var path = require('path');
+
 module.exports = {
   "extends": "airbnb-base",
   "parser": "babel-eslint",
@@ -13,6 +16,13 @@ module.exports = {
     "react",
     "import"
   ],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        config: path.resolve(__dirname, './config/webpack.config.dev.js')
+      }
+    }
+  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true,

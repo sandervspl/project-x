@@ -7,7 +7,7 @@ import { Button } from 'semantic-ui-react';
 import * as RegisterActions from 'ducks/modules/register';
 
 @connect(
-  state => ({ register: state.allReducers.register }),
+  state => ({ register: state.app.register }),
   RegisterActions,
 )
 class CreateButton extends Component {

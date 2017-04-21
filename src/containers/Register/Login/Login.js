@@ -14,7 +14,7 @@ import NextButton from './components/NextButton';
 
 
 @connect(
-  state => ({ register: state.allReducers.register }),
+  state => ({ register: state.app.register }),
   RegisterActions,
 )
 class Login extends Component {

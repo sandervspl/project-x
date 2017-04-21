@@ -45,7 +45,6 @@ class PhotoUpload extends Component {
           <div className="upload-photo-container">
             <Loader
               className="purple-loader"
-              loaded={false}
               size="big"
               active
             />

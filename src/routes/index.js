@@ -8,17 +8,19 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import { createLogger } from 'redux-logger';
-import allReducers from '../ducks';
 
 // components
-import Error404 from '../components/Erro404/Error404';
-import Frontpage from '../containers/Frontpage/Frontpage';
-import Register from '../containers/Register/Register';
-import User from '../containers/User/User';
-import Profile from '../containers/Profile/Profile';
+import Error404 from 'components/Erro404/Error404';
+import Frontpage from 'containers/Frontpage/Frontpage';
+import Register from 'containers/Register/Register';
+import User from 'containers/User/User';
+import Profile from 'containers/Profile/Profile';
+
+// reducers
+import app from 'ducks';
 
 const reducer = combineReducers({
-  allReducers,
+  app,
   routing,
   browser: responsiveStateReducer,
 });

@@ -16,7 +16,7 @@ import CreateButton from './components/CreateButton';
 import PhotoUpload from './components/PhotoUpload/PhotoUpload';
 
 @connect(
-  state => ({ register: state.allReducers.register }),
+  state => ({ register: state.app.register }),
   RegisterActions,
 )
 class Register extends Component {

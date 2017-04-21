@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 
 // components
-import InputError from '../../../../components/InputError/InputError';
+import InputError from 'components/InputError/InputError';
 import NameInput from './NameInput/NameInput';
 
 class FullNameGroup extends Component {

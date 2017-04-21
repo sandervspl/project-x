@@ -4,8 +4,8 @@ import { Modal, Button, Divider } from 'semantic-ui-react';
 import { Link } from 'react-router';
 
 // components
-import FooterAuth from '../../../../components/FooterAuth/FooterAuth';
-import PolicyText from '../../../../components/PolicyText/PolicyText';
+import FooterAuth from 'components/FooterAuth/FooterAuth';
+import PolicyText from 'components/PolicyText/PolicyText';
 
 // style
 import './RegisterModal.styl';

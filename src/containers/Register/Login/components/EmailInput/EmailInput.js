@@ -4,7 +4,7 @@ import { Form } from 'semantic-ui-react';
 import { isEmail, isEmpty } from 'validator';
 
 // components
-import InputError from '../../../../../components/InputError/InputError';
+import InputError from 'components/InputError/InputError';
 
 const EmailInput = ({ mailValid, validateEmail }) => {
   function onChange(e) {

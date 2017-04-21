@@ -2,7 +2,7 @@
 import React from 'react';
 
 // components
-import NavigationBar from '../../components/NavigationBar/NavigationBar';
+import NavigationBar from 'components/NavigationBar/NavigationBar';
 import LoginForm from './Login/Login';
 import PersonalForm from './Personal/Personal';
 

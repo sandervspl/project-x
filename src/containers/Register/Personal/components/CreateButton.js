@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
 // actions
-import * as RegisterActions from '../../../../ducks/modules/Register';
+import * as RegisterActions from 'ducks/modules/register';
 
 @connect(
   state => ({ register: state.allReducers.register }),

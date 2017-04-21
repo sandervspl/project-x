@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 
 // components
-import InputError from '../../../../../components/InputError/InputError';
+import InputError from 'components/InputError/InputError';
 
 const Username = ({ setValid, isValid }) => {
   // minimum amount of characters needed for valid username

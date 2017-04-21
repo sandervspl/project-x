@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react';
 
 // components
-import MiniButton from '../MiniButton/MiniButton';
+import MiniButton from 'components/MiniButton/MiniButton';
 
 // style
 import './FooterAuth.styl';

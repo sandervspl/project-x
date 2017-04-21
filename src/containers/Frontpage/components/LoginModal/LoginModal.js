@@ -3,8 +3,8 @@ import React, { PropTypes } from 'react';
 import { Modal, Form, Input, Button, Divider } from 'semantic-ui-react';
 
 // components
-import SmallServiceLoginBtn from '../../../../components/SmallServiceLoginBtn/SmallServiceLoginBtn';
-import FooterAuth from '../../../../components/FooterAuth/FooterAuth';
+import SmallServiceLoginBtn from 'components/SmallServiceLoginBtn/SmallServiceLoginBtn';
+import FooterAuth from 'components/FooterAuth/FooterAuth';
 
 // style
 import './LoginModal.styl';

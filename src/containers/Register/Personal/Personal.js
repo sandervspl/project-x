@@ -3,6 +3,9 @@ import React, { Component, PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
+// actions
+import * as RegisterActions from 'ducks/modules/register';
+
 // style
 import './Personal.styl';
 
@@ -11,9 +14,6 @@ import FullNameGroup from './components/FullNameGroup';
 import Username from './components/Username/Username';
 import CreateButton from './components/CreateButton';
 import PhotoUpload from './components/PhotoUpload/PhotoUpload';
-
-// actions
-import * as RegisterActions from '../../../ducks/modules/Register';
 
 @connect(
   state => ({ register: state.allReducers.register }),

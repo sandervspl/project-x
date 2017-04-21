@@ -3,13 +3,15 @@ import React, { Component, PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
+// actions
+import * as RegisterActions from 'ducks/modules/register';
+
 // components
-import PolicyText from '../../../components/PolicyText/PolicyText';
+import PolicyText from 'components/PolicyText/PolicyText';
 import EmailInput from './components/EmailInput/EmailInput';
 import PasswordsGroup from './components/PasswordsGroup/PasswordsGroup';
 import NextButton from './components/NextButton';
 
-import * as RegisterActions from '../../../ducks/modules/Register';
 
 @connect(
   state => ({ register: state.allReducers.register }),

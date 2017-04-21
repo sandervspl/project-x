@@ -6,12 +6,12 @@ import { Loader as LoaderSemantic } from 'semantic-ui-react';
 import './FullscreenLoader.styl';
 
 const Loader = ({ loaded }) => {
-  const cls = loaded ? 'page-fill loader loaded' : 'page-fill loader';
+  const cls = loaded ? 'page-fill full-page-loader loaded' : 'page-fill full-page-loader';
 
   return (
     <div className={cls}>
       <LoaderSemantic
-        className="px-loader"
+        className="page-loader purple-loader"
         size="massive"
         inline
         active

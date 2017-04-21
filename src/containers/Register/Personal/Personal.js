@@ -1,6 +1,6 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
-import { Form, Icon } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 // style
@@ -10,6 +10,7 @@ import './Personal.styl';
 import FullNameGroup from './components/FullNameGroup';
 import Username from './components/Username/Username';
 import CreateButton from './components/CreateButton';
+import PhotoUpload from './components/PhotoUpload/PhotoUpload';
 
 // actions
 import * as RegisterActions from '../../../ducks/modules/Register';
@@ -61,15 +62,7 @@ class Register extends Component {
           Tell us a bit about yourself!
         </p>
         <Form>
-          <Form.Field className="photo-upload">
-            <label htmlFor="file-upload" className="custom-file-upload">
-              <div className="upload up-icon">
-                <Icon name="plus" />
-              </div>
-              <div className="upload up-text">Photo</div>
-            </label>
-            <input id="file-upload" type="file" />
-          </Form.Field>
+          <PhotoUpload />
           <FullNameGroup setValid={this.setFullNameValid} />
           <Username
             setValid={this.setUsernameValid}

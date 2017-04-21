@@ -1,5 +1,6 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
+import MobileDetect from 'mobile-detect';
 
 // style
 import './Background.styl';
@@ -8,33 +9,6 @@ class Background extends Component {
   static propTypes = {
     hasLoaded: PropTypes.func.isRequired,
   };
-
-  /*
-   * Apple handheld devices do not allow videos to autoplay.
-   * Videos can sometimes go full screen as well.
-   * Show still image instead of video if is apple device.
-   * TODO: Check how android phones handle videos
-   */
-  static isIOS() {
-    const iDevices = [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod',
-    ];
-
-    if (typeof navigator.platform !== 'undefined') {
-      while (iDevices.length) {
-        if (navigator.platform === iDevices.pop()) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
 
   constructor(props) {
     super(props);
@@ -52,15 +26,15 @@ class Background extends Component {
       require('../../assets/images/bg_5.png'),
     ];
     /* eslint-enable */
+
+    this.isMobileDevice = this.isAMobileDevice();
   }
 
   componentWillMount() {
-    this.isIOS = Background.isIOS();
-
-    if (!this.isIOS) {
-      this.videoURI = this.setVideo();
-    } else {
+    if (this.isMobileDevice) {
       this.imageURI = this.setImage();
+    } else {
+      this.videoURI = this.setVideo();
     }
   }
 
@@ -85,8 +59,24 @@ class Background extends Component {
     return this.backgroundImages[randImage];
   };
 
+  /*
+   * Don't let mobile devices download a movie
+   * and load an image instead
+   */
+  isAMobileDevice = () => {
+    const md = new MobileDetect(window.navigator.userAgent);
+
+    if (md.phone() !== null ||
+        md.tablet() !== null ||
+        md.isPhoneSized()) {
+      return true;
+    }
+
+    return false;
+  };
+
   renderBackground = () => {
-    const showVideo = !this.isIOS;
+    const showVideo = !this.isMobileDevice;
     const { hasLoaded } = this.props;
 
     // show video on desktop

@@ -12,9 +12,6 @@ import * as RegisterActions from '../../../../ducks/modules/Register';
 )
 class CreateButton extends Component {
   static propTypes = {
-    fullNameValid: PropTypes.bool,
-    usernameValid: PropTypes.bool,
-    loginFormValid: PropTypes.bool,
     createUser: PropTypes.func,
   };
 
@@ -23,13 +20,14 @@ class CreateButton extends Component {
     loading: false,
   };
 
-  // Check if we are creating a new account.
-  // This implies the user has pressed the create button.
-  // Set loading state of button according to the state.
+  /*
+   * Check if we are creating a new account,
+   * or if the button should enable.
+   */
   componentWillReceiveProps(nextProps) {
-    const { fullNameValid, usernameValid } = nextProps;
-    const { loginFormValid } = this.props;
+    const { loginFormValid, personalFormValid } = nextProps.register;
     const { isCreatingNewAccount } = nextProps.register;
+    const isValid = loginFormValid && personalFormValid;
 
     // Set loading state
     if (isCreatingNewAccount) {
@@ -37,7 +35,7 @@ class CreateButton extends Component {
         enabled: false,
         loading: true,
       });
-    } else if (fullNameValid && usernameValid && loginFormValid) {
+    } else if (isValid) {
       // set enabled state
       this.setState({
         enabled: true,
@@ -51,11 +49,11 @@ class CreateButton extends Component {
     }
   }
 
-  // Handles user click on create button.
-  // Disables the button and starts the async account creation process.
-  // Any result will re-enable the button.
-  // Because redux handles the fetching request status, loading state of button
-  // is handled on componentWillReceiveProps.
+  /*
+   * Handles user click on create button.
+   * Disables the button and starts the async account creation process.
+   * Any result will re-enable the button.
+   */
   onClick = (e) => {
     const { createUser } = this.props;
 

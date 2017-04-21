@@ -5,10 +5,18 @@ import fetch from 'isomorphic-fetch';
 const CREATE_START = 'px/register/CREATE_START';
 const CREATE_SUCCESS = 'px/register/CREATE_SUCCESS';
 const CREATE_FAIL = 'px/register/CREATE_FAIL';
+const LOGIN_FORM_VALID = 'px/register/LOGIN_FORM_VALID';
+const LOGIN_FORM_INVALID = 'px/register/LOGIN_FORM_INVALID';
+const PERSONAL_FORM_VALID = 'px/register/PERSONAL_FORM_VALID';
+const PERSONAL_FORM_INVALID = 'px/register/PERSONAL_FORM_INVALID';
+const TO_REGISTER_PAGE = 'px/register/TO_REGISTER_PAGE';
 
 const initialState = {
   loaded: false,
+  loginFormValid: null,
+  personalFormValid: null,
   isCreatingNewAccount: false,
+  page: 1,
 };
 
 // Reducer
@@ -30,6 +38,36 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         isCreatingNewAccount: false,
+      };
+
+    case LOGIN_FORM_VALID:
+      return {
+        ...state,
+        loginFormValid: true,
+      };
+
+    case LOGIN_FORM_INVALID:
+      return {
+        ...state,
+        loginFormValid: false,
+      };
+
+    case PERSONAL_FORM_VALID:
+      return {
+        ...state,
+        personalFormValid: true,
+      };
+
+    case PERSONAL_FORM_INVALID:
+      return {
+        ...state,
+        personalFormValid: false,
+      };
+
+    case TO_REGISTER_PAGE:
+      return {
+        ...state,
+        page: action.page,
       };
 
     default:
@@ -57,6 +95,25 @@ export function createFail() {
   };
 }
 
+export function setLoginFormValidation(valid) {
+  if (valid) return { type: LOGIN_FORM_VALID };
+  return { type: LOGIN_FORM_INVALID };
+}
+
+export function setPersonalFormValidation(valid) {
+  if (valid) return { type: PERSONAL_FORM_VALID };
+  return { type: PERSONAL_FORM_INVALID };
+}
+
+export function toRegisterPage(pageNum) {
+  return {
+    type: TO_REGISTER_PAGE,
+    page: pageNum,
+  };
+}
+
+
+// async actions
 export function createUser() {
   return (dispatch) => {
     dispatch(createStart());

@@ -1,15 +1,27 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
-import { Form, Button } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 // components
 import PolicyText from '../../../components/PolicyText/PolicyText';
 import EmailInput from './components/EmailInput/EmailInput';
 import PasswordsGroup from './components/PasswordsGroup/PasswordsGroup';
+import NextButton from './components/NextButton';
 
+import * as RegisterActions from '../../../ducks/modules/Register';
+
+@connect(
+  state => ({ register: state.allReducers.register }),
+  RegisterActions,
+)
 class Login extends Component {
   static propTypes = {
-    setLoginFormValidation: PropTypes.func.isRequired,
+    setLoginFormValidation: PropTypes.func,
+    register: PropTypes.shape({
+      loginFormValid: PropTypes.bool,
+      page: PropTypes.number,
+    }),
   };
 
   state = {
@@ -17,52 +29,31 @@ class Login extends Component {
     passwordsValid: null,
   };
 
-  onClick = (e) => {
-    const { mailValid, passwordsValid } = this.state;
-
-    e.preventDefault();
-
-    if (mailValid && passwordsValid) {
-      const forms = document.querySelectorAll('.register-form');
-      forms.forEach((form) => {
-        form.classList.add('show-personal');
-      });
-    }
-  };
-
   validateEmail = (mailValid) => {
-    this.setState({ mailValid }, this.shouldButtonEnable);
+    this.setState({ mailValid }, this.isFormValid);
   };
 
   validatePasswords = (passwordsValid) => {
-    this.setState({ passwordsValid }, this.shouldButtonEnable);
+    this.setState({ passwordsValid }, this.isFormValid);
   };
 
-  shouldButtonEnable = () => {
-    const button = document.querySelector('#next-btn');
+  isFormValid = () => {
     const { mailValid, passwordsValid } = this.state;
     const { setLoginFormValidation } = this.props;
+    const { loginFormValid } = this.props.register;
+    const isValid = mailValid && passwordsValid;
 
-    if (!button) return;
-
-    if (button.classList.contains('disabled')) {
-      if (mailValid && passwordsValid) {
-        setLoginFormValidation(true);
-        button.classList.remove('disabled');
-      }
-    } else if (!mailValid || !passwordsValid) {
-      if (!button.classList.contains('disabled')) {
-        setLoginFormValidation(false);
-        button.classList.add('disabled');
-      }
+    if (loginFormValid !== isValid) {
+      setLoginFormValidation(isValid);
     }
   };
 
   render() {
     const { mailValid, passwordsValid } = this.state;
+    const { page } = this.props.register;
 
     return (
-      <section className="register-form login">
+      <section className={`register-form login ${page === 2 && 'show-personal'}`}>
         <h1>New account</h1>
         <p className="register-about">
           Registering an account at Project-x lets you create your own unique party environment.
@@ -77,15 +68,7 @@ class Login extends Component {
             passwordsValid={passwordsValid}
             validatePasswords={this.validatePasswords}
           />
-          <Button
-            color="purple"
-            className="big-btn disabled"
-            id="next-btn"
-            onClick={this.onClick}
-            fluid
-          >
-            Next
-          </Button>
+          <NextButton />
         </Form>
         <PolicyText />
       </section>

@@ -2,20 +2,21 @@
 import fetch from 'isomorphic-fetch';
 
 // Actions
-const CREATE_START = 'px/register/CREATE_START';
-const CREATE_SUCCESS = 'px/register/CREATE_SUCCESS';
-const CREATE_FAIL = 'px/register/CREATE_FAIL';
-const LOGIN_FORM_VALID = 'px/register/LOGIN_FORM_VALID';
-const LOGIN_FORM_INVALID = 'px/register/LOGIN_FORM_INVALID';
-const PERSONAL_FORM_VALID = 'px/register/PERSONAL_FORM_VALID';
-const PERSONAL_FORM_INVALID = 'px/register/PERSONAL_FORM_INVALID';
-const TO_REGISTER_PAGE = 'px/register/TO_REGISTER_PAGE';
+export const CREATE_START = 'px/register/CREATE_START';
+export const CREATE_SUCCESS = 'px/register/CREATE_SUCCESS';
+export const CREATE_FAIL = 'px/register/CREATE_FAIL';
+export const LOGIN_FORM_VALID = 'px/register/LOGIN_FORM_VALID';
+export const LOGIN_FORM_INVALID = 'px/register/LOGIN_FORM_INVALID';
+export const PERSONAL_FORM_VALID = 'px/register/PERSONAL_FORM_VALID';
+export const PERSONAL_FORM_INVALID = 'px/register/PERSONAL_FORM_INVALID';
+export const TO_REGISTER_PAGE = 'px/register/TO_REGISTER_PAGE';
 
-const initialState = {
+export const initialState = {
   loaded: false,
   loginFormValid: null,
   personalFormValid: null,
   isCreatingNewAccount: false,
+  failMessage: '',
   page: 1,
 };
 
@@ -38,6 +39,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         isCreatingNewAccount: false,
+        failMessage: action.message,
       };
 
     case LOGIN_FORM_VALID:
@@ -130,9 +132,9 @@ export function createUser() {
         return response;
       })
       .catch((err) => {
+        dispatch(createFail());
         if (err) {
-          dispatch(createFail());
-          throw new Error(err);
+          console.error(err);
         }
       });
   };

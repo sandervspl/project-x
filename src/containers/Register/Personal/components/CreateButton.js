@@ -1,20 +1,12 @@
 // dependencies
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
-// actions
-import * as RegisterActions from 'ducks/modules/register';
-
 @connect(
   state => ({ register: state.app.register }),
-  RegisterActions,
 )
 class CreateButton extends Component {
-  static propTypes = {
-    createUser: PropTypes.func,
-  };
-
   state = {
     enabled: false,
     loading: false,
@@ -49,24 +41,8 @@ class CreateButton extends Component {
     }
   }
 
-  /*
-   * Handles user click on create button.
-   * Disables the button and starts the async account creation process.
-   * Any result will re-enable the button.
-   */
   onClick = () => {
-    // const { createUser } = this.props;
-
-    // e.preventDefault();
     this.setState({ disabled: true });
-
-    // createUser()
-    //   .then(() => {
-    //     this.setState({ disabled: false });
-    //   })
-    //   .catch(() => {
-    //     this.setState({ disabled: false });
-    //   });
   };
 
   render() {

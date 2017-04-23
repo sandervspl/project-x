@@ -117,23 +117,18 @@ export function toRegisterPage(pageNum) {
 
 // async actions
 export function createUser(newUser) {
-  return (dispatch) => {
+  console.log(newUser);
+
+  return async (dispatch) => {
     dispatch(createStart());
 
-    return fetch('https://www.reddit.com/r/dota2.json')
-      .then((response) => {
-        if (response.status >= 400) {
-          dispatch(createFail());
-          throw new Error('Bad response from server');
-        }
-
-        console.log(newUser);
-        dispatch(createSuccess());
-
-        return response;
-      })
-      .catch(() => {
-        dispatch(createFail());
-      });
+    try {
+      const result = await fetch('https://www.reddit.com/r/dota2.json');
+      dispatch(createSuccess());
+      return result;
+    } catch (err) {
+      dispatch(createFail());
+      return null;
+    }
   };
 }

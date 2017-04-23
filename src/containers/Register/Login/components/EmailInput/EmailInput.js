@@ -30,6 +30,7 @@ const EmailInput = ({ mailValid, validateEmail }) => {
         placeholder="Email address"
         icon={isValid ? 'check' : 'mail'}
         className="email"
+        name="email"
         onChange={onChange}
       />
       { showError && <InputError>Enter a valid e-mail address.</InputError> }

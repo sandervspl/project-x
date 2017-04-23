@@ -1,6 +1,5 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
-import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 // actions
@@ -61,15 +60,13 @@ class Register extends Component {
         <p className="register-about">
           Tell us a bit about yourself!
         </p>
-        <Form>
-          <PhotoUpload />
-          <FullNameGroup setValid={this.setFullNameValid} />
-          <Username
-            setValid={this.setUsernameValid}
-            isValid={this.state.usernameValid}
-          />
-          <CreateButton />
-        </Form>
+        <PhotoUpload />
+        <FullNameGroup setValid={this.setFullNameValid} />
+        <Username
+          setValid={this.setUsernameValid}
+          isValid={this.state.usernameValid}
+        />
+        <CreateButton />
       </section>
     );
   }

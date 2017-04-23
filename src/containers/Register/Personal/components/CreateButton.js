@@ -54,19 +54,19 @@ class CreateButton extends Component {
    * Disables the button and starts the async account creation process.
    * Any result will re-enable the button.
    */
-  onClick = (e) => {
-    const { createUser } = this.props;
+  onClick = () => {
+    // const { createUser } = this.props;
 
-    e.preventDefault();
+    // e.preventDefault();
     this.setState({ disabled: true });
 
-    createUser()
-      .then(() => {
-        this.setState({ disabled: false });
-      })
-      .catch(() => {
-        this.setState({ disabled: false });
-      });
+    // createUser()
+    //   .then(() => {
+    //     this.setState({ disabled: false });
+    //   })
+    //   .catch(() => {
+    //     this.setState({ disabled: false });
+    //   });
   };
 
   render() {

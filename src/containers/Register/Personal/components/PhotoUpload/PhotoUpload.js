@@ -81,6 +81,7 @@ class PhotoUpload extends Component {
           type="file"
           onChange={this.handleImageChange}
           disabled={loading}
+          name="avatar"
         />
       </Form.Field>
     );

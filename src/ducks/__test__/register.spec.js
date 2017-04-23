@@ -49,5 +49,5 @@ describe('Register reducer', () => {
     });
   });
 
-  it('Should return a new user on create');
+  it('Should return a new user object on create');
 });

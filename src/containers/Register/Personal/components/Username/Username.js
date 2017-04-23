@@ -23,6 +23,7 @@ const Username = ({ setValid, isValid }) => {
     <Form.Field>
       <Form.Input
         placeholder="Username"
+        name="username"
         icon={isValid ? 'check' : 'user circle'}
         onChange={onChange}
       />

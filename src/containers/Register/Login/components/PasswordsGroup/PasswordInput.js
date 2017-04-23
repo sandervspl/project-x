@@ -2,7 +2,13 @@
 import React, { PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 
-const PasswordInput = ({ fieldId, isValid, validatePassword, requiredLength, placeholder }) => {
+const PasswordInput = ({ fieldId,
+                         isValid,
+                         validatePassword,
+                         requiredLength,
+                         placeholder,
+                         name,
+}) => {
   function onChange(e) {
     const el = e.target;
 
@@ -21,6 +27,7 @@ const PasswordInput = ({ fieldId, isValid, validatePassword, requiredLength, pla
     <Form.Input
       type="password"
       placeholder={placeholder || ''}
+      name={name || ''}
       icon={isValid ? 'check' : 'key'}
       className="password"
       onChange={onChange}
@@ -34,6 +41,7 @@ PasswordInput.propTypes = {
   isValid: PropTypes.bool,
   requiredLength: PropTypes.number,
   placeholder: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default PasswordInput;

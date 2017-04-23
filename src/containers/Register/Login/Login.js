@@ -1,6 +1,5 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
-import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 // actions
@@ -61,17 +60,15 @@ class Login extends Component {
           Registering an account at Project-x lets you create your own unique party environment.
           Invite your friends blabla etc.
         </p>
-        <Form>
-          <EmailInput
-            mailValid={mailValid}
-            validateEmail={this.validateEmail}
-          />
-          <PasswordsGroup
-            passwordsValid={passwordsValid}
-            validatePasswords={this.validatePasswords}
-          />
-          <NextButton />
-        </Form>
+        <EmailInput
+          mailValid={mailValid}
+          validateEmail={this.validateEmail}
+        />
+        <PasswordsGroup
+          passwordsValid={passwordsValid}
+          validatePasswords={this.validatePasswords}
+        />
+        <NextButton />
         <PolicyText />
       </section>
     );

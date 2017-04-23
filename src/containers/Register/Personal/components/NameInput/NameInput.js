@@ -5,7 +5,7 @@ import { Form } from 'semantic-ui-react';
 // style
 import './NameInput.styl';
 
-const FirstName = ({ setValid, isValid, placeholder }) => {
+const FirstName = ({ setValid, isValid, placeholder, name }) => {
   function onChange(e) {
     const el = e.target;
 
@@ -18,6 +18,7 @@ const FirstName = ({ setValid, isValid, placeholder }) => {
   return (
     <Form.Input
       placeholder={placeholder || ''}
+      name={name || ''}
       icon={isValid ? 'check' : 'user'}
       className="fullname"
       onChange={onChange}
@@ -29,6 +30,7 @@ FirstName.propTypes = {
   setValid: PropTypes.func.isRequired,
   isValid: PropTypes.bool,
   placeholder: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default FirstName;

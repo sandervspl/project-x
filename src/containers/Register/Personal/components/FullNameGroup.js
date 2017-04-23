@@ -42,12 +42,14 @@ class FullNameGroup extends Component {
           setValid={this.setFirstNameValid}
           isValid={firstNameValid}
           placeholder="First name"
+          name="firstName"
         />
         <NameInput
           key="1"
           setValid={this.setLastNameValid}
           isValid={lastNameValid}
           placeholder="Last name"
+          name="lastName"
         />
         { showErrorFirstname && <InputError>Please fill in a first name.</InputError> }
         { showErrorlastname && <InputError>Please fill in a last name.</InputError> }

@@ -62,6 +62,7 @@ class PasswordsGroup extends Component {
             requiredLength={this.requiredLength}
             isValid={password1Valid}
             placeholder="Password"
+            name="password"
           />
           { pw1TooShort && <InputError>Should be at least 8 characters long.</InputError> }
         </Form.Field>
@@ -72,6 +73,7 @@ class PasswordsGroup extends Component {
             requiredLength={this.requiredLength}
             isValid={pw2Valid}
             placeholder="Verify password"
+            name="verify-password"
           />
           { passwordsNotEqual && <InputError>Passwords do not match.</InputError> }
         </Form.Field>

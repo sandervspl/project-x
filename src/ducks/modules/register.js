@@ -116,7 +116,7 @@ export function toRegisterPage(pageNum) {
 
 
 // async actions
-export function createUser() {
+export function createUser(newUser) {
   return (dispatch) => {
     dispatch(createStart());
 
@@ -127,15 +127,13 @@ export function createUser() {
           throw new Error('Bad response from server');
         }
 
+        console.log(newUser);
         dispatch(createSuccess());
 
         return response;
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(createFail());
-        if (err) {
-          console.error(err);
-        }
       });
   };
 }

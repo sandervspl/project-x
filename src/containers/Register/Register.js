@@ -21,12 +21,20 @@ import './Register.styl';
 class Register extends Component {
   static propTypes = {
     createUser: PropTypes.func,
+    register: PropTypes.shape({
+      loginFormValid: PropTypes.bool,
+      personalFormValid: PropTypes.bool,
+    }),
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
+    const { loginFormValid, personalFormValid } = this.props.register;
     const { createUser } = this.props;
+
+    // only allow user creation if form is completely valid
+    if (!loginFormValid || !personalFormValid) return;
 
     // look for all inputs in the form
     const form = e.target;

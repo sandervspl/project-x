@@ -1,6 +1,6 @@
 // dependencies
-import { fetch } from 'isomorphic-fetch';
-import config from '../../config';
+import fetch from 'isomorphic-fetch';
+import cfg from '../../config';
 
 // Actions
 export const CREATE_START = 'px/register/CREATE_START';
@@ -79,19 +79,19 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 // Action Creators
-export function createStart() {
+function createStart() {
   return {
     type: CREATE_START,
   };
 }
 
-export function createSuccess() {
+function createSuccess() {
   return {
     type: CREATE_SUCCESS,
   };
 }
 
-export function createFail() {
+function createFail() {
   return {
     type: CREATE_FAIL,
     message: 'Unable to connect to server. Try again later.',
@@ -125,7 +125,9 @@ export function createUser(newUser) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newUser),
     };
-    const { host, port } = config.server;
+
+    // grab server info from config
+    const { host, port } = cfg.server;
 
     // set creation state to start
     dispatch(createStart());

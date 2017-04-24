@@ -5,8 +5,9 @@ import { isEmpty } from 'validator';
 
 const PasswordInput = ({ setPasswordValidation }) => {
   function onChange(e) {
-    const valid = !isEmpty(e.target.value);
-    setPasswordValidation(valid);
+    const value = e.target.value;
+    const valid = !isEmpty(value);
+    setPasswordValidation(valid, value);
   }
 
   return (

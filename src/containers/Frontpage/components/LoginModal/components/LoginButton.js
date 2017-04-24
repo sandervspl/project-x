@@ -1,28 +1,49 @@
 // dependencies
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
-const LoginButton = ({ formValid }) => {
-  function handleClick(e) {
+// actions
+import * as authActions from 'ducks/modules/auth';
+
+@connect(
+  state => ({ auth: state.app.auth }),
+  authActions,
+)
+class LoginButton extends Component {
+  static propTypes = {
+    formValid: PropTypes.bool,
+    formValues: PropTypes.shape({}),
+    login: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      loggingIn: PropTypes.bool,
+    }),
+  };
+
+  handleClick = (e) => {
     e.preventDefault();
+    const { login, formValues } = this.props;
+    login(formValues);
   }
 
-  return (
-    <Button
-      color="purple"
-      className="signin-btn big-btn"
-      id="px-signin-btn"
-      onClick={handleClick}
-      fluid
-      disabled={!formValid}
-    >
-      Sign in
-    </Button>
-  );
-};
+  render() {
+    const { formValid } = this.props;
+    const { loggingIn } = this.props.auth;
 
-LoginButton.propTypes = {
-  formValid: PropTypes.bool,
-};
+    return (
+      <Button
+        color="purple"
+        className="signin-btn big-btn"
+        id="px-signin-btn"
+        onClick={this.handleClick}
+        fluid
+        disabled={!formValid}
+        loading={loggingIn}
+      >
+        Sign in
+      </Button>
+    );
+  }
+}
 
 export default LoginButton;

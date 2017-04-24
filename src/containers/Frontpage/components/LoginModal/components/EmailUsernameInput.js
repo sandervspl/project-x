@@ -5,8 +5,9 @@ import { isEmpty } from 'validator';
 
 const EmailUsernameInput = ({ setEmailUsernameValidation }) => {
   function onChange(e) {
-    const valid = !isEmpty(e.target.value);
-    setEmailUsernameValidation(valid);
+    const value = e.target.value;
+    const valid = !isEmpty(value);
+    setEmailUsernameValidation(valid, value);
   }
 
   return (

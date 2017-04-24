@@ -22,14 +22,30 @@ class LoginModal extends Component {
     emailUsernameValid: null,
     passwordValid: null,
     formValid: null,
+    formValues: {
+      emailUsername: '',
+      password: '',
+    },
   };
 
-  setEmailUsernameValidation = (valid) => {
-    this.setState({ emailUsernameValid: valid }, this.isFormValid);
+  setEmailUsernameValidation = (valid, value) => {
+    this.setState({
+      emailUsernameValid: valid,
+      formValues: {
+        ...this.state.formValues,
+        emailUsername: value,
+      },
+    }, this.isFormValid);
   }
 
-  setPasswordValid = (valid) => {
-    this.setState({ passwordValid: valid }, this.isFormValid);
+  setPasswordValid = (valid, value) => {
+    this.setState({
+      passwordValid: valid,
+      formValues: {
+        ...this.state.formValues,
+        password: value,
+      },
+    }, this.isFormValid);
   }
 
   isFormValid = () => {
@@ -40,7 +56,7 @@ class LoginModal extends Component {
 
   render() {
     const { isOpen, setModalOpen } = this.props;
-    const { formValid } = this.state;
+    const { formValid, formValues } = this.state;
 
     return (
       <Modal
@@ -56,7 +72,7 @@ class LoginModal extends Component {
             <Form>
               <EmailUsernameInput setEmailUsernameValidation={this.setEmailUsernameValidation} />
               <PasswordInput setPasswordValidation={this.setPasswordValid} />
-              <LoginButton formValid={formValid} />
+              <LoginButton formValid={formValid} formValues={formValues} />
             </Form>
             <p className="help-login">
               <a href="#">{'Help, I can\'t sign in.'}</a>

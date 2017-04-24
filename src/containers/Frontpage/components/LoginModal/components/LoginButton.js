@@ -1,6 +1,7 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import { Button } from 'semantic-ui-react';
 
 // actions
@@ -18,12 +19,23 @@ class LoginButton extends Component {
     auth: PropTypes.shape({
       loggingIn: PropTypes.bool,
     }),
+    setLoginFailed: PropTypes.func,
   };
 
   handleClick = (e) => {
     e.preventDefault();
-    const { login, formValues } = this.props;
-    login(formValues);
+
+    const { login, formValues, setLoginFailed } = this.props;
+
+    login(formValues)
+      .then((result) => {
+        if (result.status < 400) {
+          setLoginFailed(false);
+          browserHistory.push('/user');
+        } else {
+          setLoginFailed(true);
+        }
+      });
   }
 
   render() {

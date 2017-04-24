@@ -26,7 +26,12 @@ class LoginModal extends Component {
       emailUsername: '',
       password: '',
     },
+    loginFailed: false,
   };
+
+  setLoginFailed = (loginFailed) => {
+    this.setState({ loginFailed });
+  }
 
   setEmailUsernameValidation = (valid, value) => {
     this.setState({
@@ -56,7 +61,7 @@ class LoginModal extends Component {
 
   render() {
     const { isOpen, setModalOpen } = this.props;
-    const { formValid, formValues } = this.state;
+    const { formValid, formValues, loginFailed } = this.state;
 
     return (
       <Modal
@@ -71,8 +76,15 @@ class LoginModal extends Component {
           <Modal.Description>
             <Form>
               <EmailUsernameInput setEmailUsernameValidation={this.setEmailUsernameValidation} />
-              <PasswordInput setPasswordValidation={this.setPasswordValid} />
-              <LoginButton formValid={formValid} formValues={formValues} />
+              <PasswordInput
+                setPasswordValidation={this.setPasswordValid}
+                loginFailed={loginFailed}
+              />
+              <LoginButton
+                formValid={formValid}
+                formValues={formValues}
+                setLoginFailed={this.setLoginFailed}
+              />
             </Form>
             <p className="help-login">
               <a href="#">{'Help, I can\'t sign in.'}</a>

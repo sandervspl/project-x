@@ -8,6 +8,7 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import { createLogger } from 'redux-logger';
+import Cookies from 'js-cookie';
 
 // components
 import Error404 from 'components/Error404/Error404';
@@ -40,6 +41,7 @@ const store = createStore(
 // store debugger
 if (process.env.NODE_ENV === 'development') {
   window.store = store;
+  window.cookies = Cookies;
 }
 
 // Create an enhanced history that syncs navigation events with the store

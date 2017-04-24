@@ -179,7 +179,7 @@ export function login(credentials) {
     // attempt async create request
     try {
       const result = await fetch(`http://${host}:${port}/auths/local`, init);
-      console.log(result);
+
       if (result.status < 400) {
         dispatch(loginSuccess(emailUsername));
       } else {

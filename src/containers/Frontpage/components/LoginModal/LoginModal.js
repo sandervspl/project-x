@@ -1,70 +1,78 @@
 // dependencies
-import React, { PropTypes } from 'react';
-import { Modal, Form, Input, Button, Divider } from 'semantic-ui-react';
+import React, { Component, PropTypes } from 'react';
+import { Modal, Form, Divider } from 'semantic-ui-react';
 
 // components
-import SmallServiceLoginBtn from 'components/SmallServiceLoginBtn/SmallServiceLoginBtn';
 import FooterAuth from 'components/FooterAuth/FooterAuth';
+import EmailUsernameInput from './components/EmailUsernameInput';
+import PasswordInput from './components/PasswordInput';
+import LoginButton from './components/LoginButton';
+import ServiceLoginButtonGroup from './components/ServiceLoginButtonGroup';
 
 // style
 import './LoginModal.styl';
 
-const LoginModal = ({ isOpen, setModalOpen }) => {
-  function generateLoginButtons() {
-    const services = [
-      'facebook',
-      'twitter',
-      'google',
-    ];
+class LoginModal extends Component {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    setModalOpen: PropTypes.func.isRequired,
+  };
 
-    const btnArray = [];
-    services.forEach((service, index) => {
-      btnArray.push(<SmallServiceLoginBtn key={index} serviceName={service} />);
-    });
+  state = {
+    emailUsernameValid: null,
+    passwordValid: null,
+    formValid: null,
+  };
 
-    return btnArray;
+  setEmailUsernameValidation = (valid) => {
+    this.setState({ emailUsernameValid: valid }, this.isFormValid);
   }
 
-  function onChange() {
-    const username = document.querySelector('#px-username-field > input').value;
-    const password = document.querySelector('#px-password-field > input').value;
-    const btn = document.querySelector('#px-signin-btn');
-
-    if (username !== '' && password !== '' && btn.classList.contains('disabled')) {
-      btn.classList.remove('disabled');
-    } else if ((username === '' || password === '') && !btn.classList.contains('disabled')) {
-      btn.classList.add('disabled');
-    }
+  setPasswordValid = (valid) => {
+    this.setState({ passwordValid: valid }, this.isFormValid);
   }
 
-  return (
-    <Modal size="small" open={isOpen} onClose={() => setModalOpen('signin', false)} closeIcon="close" className="px-modal login-modal">
-      <Modal.Header>Sign in to start your party</Modal.Header>
-      <Modal.Content>
-        <Modal.Description>
-          <Form>
-            <Input type="text" placeholder="Email or Username" id="px-username-field" onChange={onChange} />
-            <Input type="password" placeholder="Password" id="px-password-field" onChange={onChange} />
-            <Button color="purple" className="signin-btn big-btn" id="px-signin-btn" fluid disabled>Sign in</Button>
-          </Form>
-          <p className="help-login">
-            <a href="#">{'Help, I can\'t sign in.'}</a>
-          </p>
-          <Divider horizontal>or</Divider>
-          <h4>log in with</h4>
-          <div className="login-service-btns">
-            { generateLoginButtons() }
-          </div>
-        </Modal.Description>
-      </Modal.Content>
-      <FooterAuth type="signup" setModalOpen={setModalOpen} />
-    </Modal>
-  );
-};
+  isFormValid = () => {
+    const { emailUsernameValid, passwordValid } = this.state;
+    const formValid = emailUsernameValid && passwordValid;
+    this.setState({ formValid });
+  }
 
-LoginModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  setModalOpen: PropTypes.func.isRequired,
-};
+  render() {
+    const { isOpen, setModalOpen } = this.props;
+    const { formValid } = this.state;
+
+    return (
+      <Modal
+        size="small"
+        open={isOpen}
+        onClose={() => setModalOpen('signin', false)}
+        closeIcon="close"
+        className="px-modal login-modal"
+      >
+        <Modal.Header>Sign in to start your party</Modal.Header>
+        <Modal.Content>
+          <Modal.Description>
+            <Form>
+              <EmailUsernameInput setEmailUsernameValidation={this.setEmailUsernameValidation} />
+              <PasswordInput setPasswordValidation={this.setPasswordValid} />
+              <LoginButton formValid={formValid} />
+            </Form>
+            <p className="help-login">
+              <a href="#">{'Help, I can\'t sign in.'}</a>
+            </p>
+            <Divider horizontal>or</Divider>
+            <h4>log in with</h4>
+            <ServiceLoginButtonGroup />
+          </Modal.Description>
+        </Modal.Content>
+        <FooterAuth
+          type="signup"
+          setModalOpen={setModalOpen}
+        />
+      </Modal>
+    );
+  }
+}
 
 export default LoginModal;

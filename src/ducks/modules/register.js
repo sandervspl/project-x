@@ -1,6 +1,6 @@
 // dependencies
-import fetch from 'isomorphic-fetch';
-import config from 'cfg';
+import { fetch } from 'isomorphic-fetch';
+import config from '../../config';
 
 // Actions
 export const CREATE_START = 'px/register/CREATE_START';

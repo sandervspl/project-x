@@ -49,7 +49,5 @@ describe('Register reducer', () => {
     });
   });
 
-  it('Should return a new user object on create', () => {
-    expect(register.createUser({})).not.toBeNull();
-  });
+  it('Should return a new user object on create');
 });

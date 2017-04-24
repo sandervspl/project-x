@@ -10,7 +10,7 @@ import promise from 'redux-promise';
 import { createLogger } from 'redux-logger';
 
 // components
-import Error404 from 'components/Erro404/Error404';
+import Error404 from 'components/Error404/Error404';
 import Frontpage from 'containers/Frontpage/Frontpage';
 import Register from 'containers/Register/Register';
 import User from 'containers/User/User';

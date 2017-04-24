@@ -21,11 +21,20 @@ import './Register.styl';
 class Register extends Component {
   static propTypes = {
     createUser: PropTypes.func,
+    toRegisterPage: PropTypes.func,
     register: PropTypes.shape({
       loginFormValid: PropTypes.bool,
       personalFormValid: PropTypes.bool,
+      page: PropTypes.number,
     }),
   };
+
+  componentWillUnmount() {
+    const { toRegisterPage } = this.props;
+    const { page } = this.props.register;
+
+    if (page !== 1) toRegisterPage(1);
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -39,14 +48,16 @@ class Register extends Component {
     // look for all inputs in the form
     const form = e.target;
     const inputs = form.querySelectorAll('input');
-    let newUser = {};
+    const newUser = { user: {} };
 
     // put input values in an object
     inputs.forEach((input) => {
       if (input.name === 'verify-password') return;
+      // FIXME: remove when it's available
+      if (input.name === 'avatar') return;
 
-      newUser = {
-        ...newUser,
+      newUser.user = {
+        ...newUser.user,
         [input.name]: input.value,
       };
     });

@@ -1,5 +1,6 @@
 // dependencies
 import fetch from 'isomorphic-fetch';
+import config from 'cfg';
 
 // Actions
 export const CREATE_START = 'px/register/CREATE_START';
@@ -117,14 +118,28 @@ export function toRegisterPage(pageNum) {
 
 // async actions
 export function createUser(newUser) {
-  console.log(newUser);
-
   return async (dispatch) => {
+    // set init for request
+    const init = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newUser),
+    };
+    const { host, port } = config.server;
+
+    // set creation state to start
     dispatch(createStart());
 
+    // attempt async create request
     try {
-      const result = await fetch('https://www.reddit.com/r/dota2.json');
-      dispatch(createSuccess());
+      const result = await fetch(`http://${host}:${port}/users/create`, init);
+
+      if (result.status < 400) {
+        dispatch(createSuccess());
+      } else {
+        dispatch(createFail());
+      }
+
       return result;
     } catch (err) {
       dispatch(createFail());

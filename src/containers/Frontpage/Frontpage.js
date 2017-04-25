@@ -1,6 +1,5 @@
 // dependencies
-import React, { Component } from 'react';
-import qs from 'query-string';
+import React, { Component, PropTypes } from 'react';
 
 // components
 import FullscreenLoader from 'components/FullscreenLoader/FullscreenLoader';
@@ -11,6 +10,12 @@ import LoginModal from './components/LoginModal/LoginModal';
 import RegisterModal from './components/RegisterModal/RegisterModal';
 
 class Frontpage extends Component {
+  static propTypes = {
+    location: PropTypes.shape({
+      query: PropTypes.shape({}),
+    }),
+  };
+
   state = {
     loaded: false,
     loginModalOpen: false,
@@ -18,16 +23,18 @@ class Frontpage extends Component {
   };
 
   componentWillMount() {
-    const queries = qs.parse(window.location.search);
+    const { query } = this.props.location;
 
-    if (queries.login && queries.login === '1') {
+    // open login modal
+    if (query.login && query.login === '1') {
       this.setState({
         loginModalOpen: true,
         registerModalOpen: false,
       });
     }
 
-    if (queries.register && queries.register === '1') {
+    // open register modal
+    if (query.register && query.register === '1') {
       this.setState({
         loginModalOpen: false,
         registerModalOpen: true,

@@ -29,10 +29,11 @@ class LoginButton extends Component {
 
     login(formValues)
       .then((result) => {
-        if (result.status < 400) {
-          setLoginFailed(false);
+        if (result) {
+          // redirect to user page
           browserHistory.push('/user');
         } else {
+          // let user know login failed
           setLoginFailed(true);
         }
       });

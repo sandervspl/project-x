@@ -6,9 +6,9 @@ import { isEmpty } from 'validator';
 import cfg from '../../config';
 
 // Actions
-export const LOAD_START = 'px/auth/LOAD_START';
-export const LOAD_SUCCESS = 'px/auth/LOAD_SUCCESS';
-export const LOAD_FAIL = 'px/auth/LOAD_FAIL';
+export const FETCH_START = 'px/auth/FETCH_START';
+export const FETCH_SUCCESS = 'px/auth/FETCH_SUCCESS';
+export const FETCH_FAIL = 'px/auth/FETCH_FAIL';
 export const LOGIN_START = 'px/auth/LOGIN_START';
 export const LOGIN_SUCCESS = 'px/auth/LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'px/auth/LOGIN_FAIL';
@@ -16,6 +16,7 @@ export const LOGOUT_START = 'px/auth/LOGOUT_START';
 export const LOGOUT_SUCCESS = 'px/auth/LOGOUT_SUCCESS';
 export const LOGOUT_FAIL = 'px/auth/LOGOUT_FAIL';
 
+// state
 const initialState = {
   load: false,
   loggingIn: false,
@@ -23,26 +24,33 @@ const initialState = {
   user: null,
 };
 
+// cookies
+const authToken = 'authToken';
+
+// server info
+const { host, port } = cfg.server;
+
 // Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case LOAD_START:
+    case FETCH_START:
       return {
         ...state,
         load: true,
       };
 
-    case LOAD_SUCCESS:
+    case FETCH_SUCCESS:
       return {
         ...state,
         load: false,
         user: action.user,
       };
 
-    case LOAD_FAIL:
+    case FETCH_FAIL:
       return {
         ...state,
         load: false,
+        user: null,
         failMessage: action.message,
       };
 
@@ -76,7 +84,6 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loggingOut: false,
-        user: null,
       };
 
     case LOGOUT_FAIL:
@@ -98,12 +105,9 @@ function loginStart() {
   };
 }
 
-function loginSuccess(result) {
-  Cookies.set('username', result);
-
+function loginSuccess() {
   return {
     type: LOGIN_SUCCESS,
-    result,
   };
 }
 
@@ -131,28 +135,69 @@ export function logoutFail() {
   };
 }
 
-export function loadStart() {
+export function fetchStart() {
   return {
-    type: LOAD_START,
+    type: FETCH_START,
   };
 }
 
-export function loadSuccess(username) {
+export function fetchSuccess(user) {
   return {
-    type: LOAD_SUCCESS,
-    user: username,
+    type: FETCH_SUCCESS,
+    user,
   };
 }
 
-export function loadFail() {
+export function fetchFail() {
   return {
-    type: LOAD_FAIL,
-    message: 'Unable to connect retrieve user data.',
+    type: FETCH_FAIL,
+    message: 'Unable to retrieve user data.',
   };
 }
 
 
 // async actions
+function checkStatus(status) {
+  return status >= 200 && status < 300;
+}
+
+export function fetchUserData() {
+  return async (dispatch) => {
+    dispatch(fetchStart());
+
+    // get token from cookie
+    const token = Cookies.get(authToken);
+
+    // set init for request
+    const init = {
+      method: 'GET',
+      headers: {
+        'jwt-authorization-token': `Bearer ${token}`,
+      },
+    };
+
+    try {
+      // fetch user data
+      const result = await fetch(`http://${host}:${port}/users/me`, init)
+        .then(response => response.json())
+        .catch(dispatch(fetchFail()));
+
+      const { statusCode } = result.meta;
+
+      if (checkStatus(statusCode)) {
+        const { payload } = result;
+        dispatch(fetchSuccess(payload));
+      } else {
+        dispatch(fetchFail());
+      }
+
+      return result;
+    } catch (err) {
+      return null;
+    }
+  };
+}
+
 export function login(credentials) {
   return async (dispatch) => {
     const { emailUsername, password } = credentials;
@@ -170,46 +215,47 @@ export function login(credentials) {
       body: JSON.stringify(userCredentials),
     };
 
-    // grab server info from config
-    const { host, port } = cfg.server;
-
-    // set creation state to start
+    // set login state to start
     dispatch(loginStart());
 
-    // attempt async create request
+    // attempt async login request
     try {
-      const result = await fetch(`http://${host}:${port}/auths/local`, init);
+      const result = await fetch(`http://${host}:${port}/auths/local`, init)
+        .then(response => response.json())
+        .catch(dispatch(loginFail()));
 
-      if (result.status < 400) {
-        dispatch(loginSuccess(emailUsername));
-      } else {
-        dispatch(loginFail());
+      // fetch success
+      const { statusCode } = result.meta;
+      const { token } = result.payload;
+
+      if (checkStatus(statusCode)) {
+        if (!isEmpty(token)) {
+          // save token
+          Cookies.set(authToken, token);
+
+          // fetch user data with retrieved token
+          const userData = await dispatch(fetchUserData());
+          const fetchStatus = userData.meta.statusCode;
+
+          if (checkStatus(fetchStatus)) {
+            dispatch(loginSuccess());
+            browserHistory.push('/user');
+            return true;
+          }
+
+          dispatch(loginFail());
+          return false;
+        }
       }
 
-      return result;
+      // failed
+      dispatch(loginFail());
+
+      return false;
     } catch (err) {
       dispatch(loginFail());
-      return null;
-    }
-  };
-}
 
-export async function fetchUserData() {
-  return async (dispatch) => {
-    dispatch(loadStart());
-
-    try {
-      const username = await Cookies.get('username');
-
-      if (username instanceof undefined || isEmpty(username)) {
-        dispatch(loadFail());
-        browserHistory.push('/');
-      }
-
-      dispatch(loadSuccess(username));
-    } catch (err) {
-      dispatch(loadFail());
-      browserHistory.push('/');
+      return false;
     }
   };
 }

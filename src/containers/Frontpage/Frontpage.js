@@ -1,5 +1,6 @@
 // dependencies
 import React, { Component } from 'react';
+import qs from 'query-string';
 
 // components
 import FullscreenLoader from 'components/FullscreenLoader/FullscreenLoader';
@@ -15,6 +16,24 @@ class Frontpage extends Component {
     loginModalOpen: false,
     registerModalOpen: false,
   };
+
+  componentWillMount() {
+    const queries = qs.parse(window.location.search);
+
+    if (queries.login && queries.login === '1') {
+      this.setState({
+        loginModalOpen: true,
+        registerModalOpen: false,
+      });
+    }
+
+    if (queries.register && queries.register === '1') {
+      this.setState({
+        loginModalOpen: false,
+        registerModalOpen: true,
+      });
+    }
+  }
 
   setModalOpen = (modal, state) => {
     let key = '';

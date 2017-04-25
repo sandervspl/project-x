@@ -7,12 +7,12 @@ import NavigationBar from 'components/NavigationBar/NavigationBar';
 import './User.styl';
 
 const User = ({ children }) => (
-  <div className="page-fill">
+  <main className="page-fill">
     <NavigationBar />
     <div className="inner">
       { children }
     </div>
-  </div>
+  </main>
 );
 
 User.propTypes = {

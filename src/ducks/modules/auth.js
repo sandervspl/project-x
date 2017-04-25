@@ -187,12 +187,23 @@ export function fetchUserData() {
       if (checkStatus(statusCode)) {
         const { payload } = result;
         dispatch(fetchSuccess(payload));
+      } else if (statusCode === 401) {
+        // auth error; token has probably expired.
+        console.error('ERROR: Token has expired or is invalid. Login required.');
+        dispatch(fetchFail());
+
+        // redirect to front page with login modal open
+        browserHistory.push('/?login=1');
       } else {
+        // some sort of error occured
+        console.error(`ERROR: ${statusCode}`);
         dispatch(fetchFail());
       }
 
       return result;
     } catch (err) {
+      console.log(err);
+      dispatch(fetchFail());
       return null;
     }
   };
@@ -253,8 +264,8 @@ export function login(credentials) {
 
       return false;
     } catch (err) {
+      console.log(err);
       dispatch(loginFail());
-
       return false;
     }
   };

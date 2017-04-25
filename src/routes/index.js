@@ -15,7 +15,7 @@ import Error404 from 'components/Error404/Error404';
 import Frontpage from 'containers/Frontpage/Frontpage';
 import Register from 'containers/Register/Register';
 import User from 'containers/User/User';
-import Profile from 'containers/Profile/Profile';
+import Profile from 'containers/User/Profile/Profile';
 
 // reducers
 import app from 'ducks';

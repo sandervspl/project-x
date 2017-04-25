@@ -51,7 +51,7 @@ class Profile extends Component {
 
     const { firstName, lastName, username, email } = this.props.auth.user;
     return (
-      <div>
+      <section>
         <h1>Profile</h1>
         <Authorized>
           <ul>
@@ -61,7 +61,7 @@ class Profile extends Component {
             <li>{email}</li>
           </ul>
         </Authorized>
-      </div>
+      </section>
     );
   }
 }

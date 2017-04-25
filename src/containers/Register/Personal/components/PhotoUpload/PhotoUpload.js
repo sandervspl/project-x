@@ -22,6 +22,8 @@ class PhotoUpload extends Component {
     reader.onloadstart = () => {
       this.setState({
         loading: true,
+        file: '',
+        imagePreviewUrl: '',
       });
     };
 

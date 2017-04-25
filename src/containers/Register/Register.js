@@ -7,6 +7,7 @@ import * as registerActions from 'ducks/modules/register';
 
 // components
 import NavigationBar from 'components/NavigationBar/NavigationBar';
+import FooterAuth from 'components/FooterAuth/FooterAuth';
 import LoginForm from './Login/Login';
 import PersonalForm from './Personal/Personal';
 
@@ -75,6 +76,7 @@ class Register extends Component {
             <LoginForm />
             <PersonalForm />
           </form>
+          <FooterAuth type="signin" redirectURL="/?login=1" />
         </section>
       </main>
     );

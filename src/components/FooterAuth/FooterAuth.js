@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import { browserHistory } from 'react-router';
 
 // components
 import MiniButton from 'components/MiniButton/MiniButton';
@@ -7,18 +8,23 @@ import MiniButton from 'components/MiniButton/MiniButton';
 // style
 import './FooterAuth.styl';
 
-const FooterAuth = ({ type, setModalOpen }) => {
+const FooterAuth = ({ type, setModalOpen, redirectURL }) => {
   let content = '<div/>';
 
-  const openSigninModal = function openSigninModal() {
-    setModalOpen('signup', false);
-    setModalOpen('signin', true);
-  };
+  function openSigninModal() {
+    if (setModalOpen) {
+      setModalOpen('signup', false);
+      setModalOpen('signin', true);
+    } else if (redirectURL) {
+      // redirect to front page login modal
+      browserHistory.push(redirectURL);
+    }
+  }
 
-  const openRegisterModal = function openRegisterModal() {
+  function openRegisterModal() {
     setModalOpen('signin', false);
     setModalOpen('signup', true);
-  };
+  }
 
   switch (type) {
     case 'signin':
@@ -52,7 +58,8 @@ const FooterAuth = ({ type, setModalOpen }) => {
 
 FooterAuth.propTypes = {
   type: PropTypes.oneOf(['signup', 'signin']).isRequired,
-  setModalOpen: PropTypes.func.isRequired,
+  setModalOpen: PropTypes.func,
+  redirectURL: PropTypes.string,
 };
 
 export default FooterAuth;

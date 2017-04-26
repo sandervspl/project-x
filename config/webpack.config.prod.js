@@ -86,6 +86,7 @@ module.exports = {
       ducks: path.resolve(__dirname, '../src/ducks'),
       components: path.resolve(__dirname, '../src/components'),
       containers: path.resolve(__dirname, '../src/containers'),
+      helpers: path.resolve(__dirname, '../src/helpers'),
       style: path.resolve(__dirname, '../src/style'),
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/

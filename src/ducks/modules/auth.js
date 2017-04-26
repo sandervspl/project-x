@@ -3,6 +3,7 @@ import fetch from 'isomorphic-fetch';
 import Cookies from 'js-cookie';
 import { browserHistory } from 'react-router';
 import { isEmpty } from 'validator';
+import statusOK from '../../helpers/async';
 import cfg from '../../config';
 
 // Actions
@@ -157,10 +158,6 @@ export function fetchFail() {
 
 
 // async actions
-function checkStatus(status) {
-  return status >= 200 && status < 300;
-}
-
 export const fetchUserData = pToken => async (dispatch) => {
   dispatch(fetchStart());
 
@@ -182,7 +179,7 @@ export const fetchUserData = pToken => async (dispatch) => {
 
     const { statusCode } = result.meta;
 
-    if (checkStatus(statusCode)) {
+    if (statusOK(statusCode)) {
       const { payload } = result;
       dispatch(fetchSuccess(payload));
     } else if (statusCode === 401) {
@@ -235,7 +232,7 @@ export const login = credentials => async (dispatch) => {
     const { statusCode } = result.meta;
     const { token } = result.payload;
 
-    if (checkStatus(statusCode)) {
+    if (statusOK(statusCode)) {
       if (!isEmpty(token)) {
         // save token
         Cookies.set(authToken, token);
@@ -244,7 +241,7 @@ export const login = credentials => async (dispatch) => {
         const userData = await dispatch(fetchUserData());
         const fetchStatus = userData.meta.statusCode;
 
-        if (checkStatus(fetchStatus)) {
+        if (statusOK(fetchStatus)) {
           dispatch(loginSuccess());
           browserHistory.push('/user');
           return true;

@@ -3,6 +3,7 @@ import fetch from 'isomorphic-fetch';
 import { isEmail } from 'validator';
 import { browserHistory } from 'react-router';
 import Cookies from 'js-cookie';
+import statusOK from '../../helpers/async';
 import cfg from '../../config';
 
 // auth actions
@@ -221,7 +222,7 @@ export const createUser = newUser => async (dispatch) => {
     const { statusCode } = result.meta;
     const { token } = result.payload;
 
-    if (statusCode >= 200 && statusCode < 300) {
+    if (statusOK(statusCode)) {
       // save token to cookie
       Cookies.set('authToken', token);
 

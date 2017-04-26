@@ -63,8 +63,8 @@ class Register extends Component {
         <PhotoUpload />
         <FullNameGroup setValid={this.setFullNameValid} />
         <Username
-          setValid={this.setUsernameValid}
-          isValid={this.state.usernameValid}
+          validateUsername={this.setUsernameValid}
+          usernameValid={this.state.usernameValid}
         />
         <CreateButton />
       </section>

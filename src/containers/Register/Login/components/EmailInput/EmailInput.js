@@ -45,7 +45,6 @@ class EmailInput extends Component {
     }
   }
 
-  // TODO: Check if email exists on /users/exists
   handleBlur = async (e) => {
     const { checkExists, validateEmail } = this.props;
     const value = e.target.value;
@@ -54,7 +53,6 @@ class EmailInput extends Component {
     if (!isEmail(value)) return;
 
     const exists = await checkExists(value);
-    console.log(exists);
     validateEmail(!exists);
   }
 

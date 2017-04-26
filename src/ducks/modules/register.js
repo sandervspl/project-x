@@ -248,7 +248,7 @@ export function checkExists(id) {
         return false;
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
 
     // id exists

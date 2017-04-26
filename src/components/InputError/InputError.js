@@ -9,7 +9,7 @@ const InputError = ({ children, icon }) => {
   const iconName = icon || 'warning circle';
 
   return (
-    <Label>
+    <Label className="input-error">
       <Icon name={iconName} />
       { children }
     </Label>

@@ -1,5 +1,6 @@
 // dependencies
 import fetch from 'isomorphic-fetch';
+import { isEmail } from 'validator';
 import cfg from '../../config';
 
 // Actions
@@ -11,7 +12,11 @@ export const LOGIN_FORM_INVALID = 'px/register/LOGIN_FORM_INVALID';
 export const PERSONAL_FORM_VALID = 'px/register/PERSONAL_FORM_VALID';
 export const PERSONAL_FORM_INVALID = 'px/register/PERSONAL_FORM_INVALID';
 export const TO_REGISTER_PAGE = 'px/register/TO_REGISTER_PAGE';
+export const FETCH_START = 'px/register/FETCH_START';
+export const FETCH_SUCCESS = 'px/register/FETCH_SUCCESS';
+export const FETCH_FAIL = 'px/register/FETCH_FAIL';
 
+// state
 export const initialState = {
   loaded: false,
   loginFormValid: null,
@@ -19,7 +24,14 @@ export const initialState = {
   isCreatingNewAccount: false,
   failMessage: '',
   page: 1,
+  fetching: false,
+  fetchMessage: '',
+  emailExists: false,
+  usernameExists: false,
 };
+
+// server info
+const { host, port } = cfg.server;
 
 // Reducer
 export default function reducer(state = initialState, action = {}) {
@@ -73,6 +85,30 @@ export default function reducer(state = initialState, action = {}) {
         page: action.page,
       };
 
+    case FETCH_START:
+      return {
+        ...state,
+        fetching: true,
+        fetchMessage: action.msg,
+        [`${action.idType}Exists`]: action[`${action.idType}Exists`],
+      };
+
+    case FETCH_SUCCESS:
+      return {
+        ...state,
+        fetching: false,
+        fetchMessage: action.msg,
+        [`${action.idType}Exists`]: action[`${action.idType}Exists`],
+      };
+
+    case FETCH_FAIL:
+      return {
+        ...state,
+        fetching: false,
+        fetchMessage: action.msg,
+        [`${action.idType}Exists`]: action[`${action.idType}Exists`],
+      };
+
     default:
       return state;
   }
@@ -95,6 +131,41 @@ function createFail() {
   return {
     type: CREATE_FAIL,
     message: 'Unable to connect to server. Try again later.',
+  };
+}
+
+function fetchStart(idType) {
+  return {
+    type: FETCH_START,
+    msg: '',
+    idType,
+    [`${idType}Exists`]: false,
+  };
+}
+
+function fetchSuccess(idType) {
+  return {
+    type: FETCH_SUCCESS,
+    msg: '',
+    idType,
+    [`${idType}Exists`]: false,
+  };
+}
+
+const fetchFailMsg = 'Unable to connect to server. Try again later.';
+function fetchFail(idType, msg = fetchFailMsg) {
+  if (idType) {
+    return {
+      type: FETCH_FAIL,
+      msg,
+      idType,
+      [`${idType}Exists`]: true,
+    };
+  }
+
+  return {
+    type: FETCH_FAIL,
+    msg,
   };
 }
 
@@ -126,17 +197,16 @@ export function createUser(newUser) {
       body: JSON.stringify(newUser),
     };
 
-    // grab server info from config
-    const { host, port } = cfg.server;
-
     // set creation state to start
     dispatch(createStart());
 
     // attempt async create request
     try {
       const result = await fetch(`http://${host}:${port}/users/create`, init);
+      // TODO: to json -> grab token for login
 
       if (result.status < 400) {
+        // TODO: log in
         dispatch(createSuccess());
       } else {
         dispatch(createFail());
@@ -147,5 +217,43 @@ export function createUser(newUser) {
       dispatch(createFail());
       return null;
     }
+  };
+}
+
+export function checkExists(id) {
+  return async (dispatch) => {
+    // determine if email or username
+    const isUsername = !isEmail(id);
+    const idType = isUsername ? 'username' : 'email';
+
+    // set init for request
+    const init = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    };
+
+    // set start state
+    dispatch(fetchStart(idType));
+
+    try {
+      const result = await fetch(`http://${host}:${port}/users/exists`, init)
+        .then(response => response.json());
+
+      const { statusCode } = result.meta;
+
+      if (statusCode === 200) {
+        // id does not exist
+        dispatch(fetchSuccess(idType));
+        return false;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    // id exists
+    const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
+    dispatch(fetchFail(idType, `${idTypeCap} already exists.`));
+    return true;
   };
 }

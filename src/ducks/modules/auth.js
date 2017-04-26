@@ -65,7 +65,6 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loggingIn: false,
-        user: action.result,
       };
 
     case LOGIN_FAIL:
@@ -225,8 +224,7 @@ export const login = credentials => async (dispatch) => {
   // attempt async login request
   try {
     const result = await fetch(`http://${host}:${port}/auths/local`, init)
-      .then(response => response.json())
-      .catch(dispatch(loginFail()));
+      .then(response => response.json());
 
     // fetch success
     const { statusCode } = result.meta;
@@ -238,6 +236,7 @@ export const login = credentials => async (dispatch) => {
         Cookies.set(authToken, token);
 
         // fetch user data with retrieved token
+        // console.log('Fetching user data after log in...');
         const userData = await dispatch(fetchUserData());
         const fetchStatus = userData.meta.statusCode;
 

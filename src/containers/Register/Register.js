@@ -21,7 +21,7 @@ import './Register.styl';
 )
 class Register extends Component {
   static propTypes = {
-    createUser: PropTypes.func,
+    createUserProcess: PropTypes.func,
     toRegisterPage: PropTypes.func,
     register: PropTypes.shape({
       loginFormValid: PropTypes.bool,
@@ -41,7 +41,7 @@ class Register extends Component {
     e.preventDefault();
 
     const { loginFormValid, personalFormValid } = this.props.register;
-    const { createUser } = this.props;
+    const { createUserProcess } = this.props;
 
     // only allow user creation if form is completely valid
     if (!loginFormValid || !personalFormValid) return;
@@ -64,7 +64,7 @@ class Register extends Component {
     });
 
     // send data to create user action
-    createUser(newUser);
+    createUserProcess(newUser);
   }
 
   render() {

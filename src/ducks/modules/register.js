@@ -39,6 +39,8 @@ export const initialState = {
 // server info
 const { host, port } = cfg.server;
 
+const authToken = 'authToken';
+
 // Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -211,37 +213,49 @@ export const createUser = newUser => async (dispatch) => {
     body: JSON.stringify(newUser),
   };
 
+  const result = await fetch(`http://${host}:${port}/users/create`, init)
+    .then(response => response.json());
+
+  const { statusCode } = result.meta;
+  const { token } = result.payload;
+
+  if (statusOK(statusCode)) {
+    // save token to cookie
+    Cookies.set(authToken, token);
+
+    // set state to success
+    dispatch(createSuccess());
+    return true;
+  }
+
+  dispatch(createFail());
+  return false;
+};
+
+export const createUserProcess = newUser => async (dispatch) => {
   // set creation state to start
   dispatch(createStart());
 
   // attempt async create request
   try {
-    const result = await fetch(`http://${host}:${port}/users/create`, init)
-      .then(response => response.json());
+    const create = await dispatch(createUser(newUser));
 
-    const { statusCode } = result.meta;
-    const { token } = result.payload;
-
-    if (statusOK(statusCode)) {
-      // save token to cookie
-      Cookies.set('authToken', token);
-
-      // set state to success
-      dispatch(createSuccess());
-
+    if (create) {
       // fetch user data with auth token
-      dispatch(fetchUserData(token));
+      const token = Cookies.get(authToken);
+
+      // fetch user data and save to state
+      await dispatch(fetchUserData(token));
 
       // redirect to user page
       browserHistory.push('/user');
     } else {
+      // console.log('not ok status');
       dispatch(createFail());
     }
-
-    return result;
   } catch (err) {
+    // console.log(err);
     dispatch(createFail());
-    return null;
   }
 };
 
@@ -276,6 +290,7 @@ export const checkExists = id => async (dispatch) => {
 
   // id exists
   const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
+
   dispatch(fetchFail(idType, `${idTypeCap} already exists.`));
   return true;
 };

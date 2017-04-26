@@ -10,7 +10,7 @@ import './Personal.styl';
 
 // components
 import FullNameGroup from './components/FullNameGroup';
-import Username from './components/Username/Username';
+import UsernameInput from './components/UsernameInput/UsernameInput';
 import CreateButton from './components/CreateButton';
 import PhotoUpload from './components/PhotoUpload/PhotoUpload';
 
@@ -62,7 +62,7 @@ class Register extends Component {
         </p>
         <PhotoUpload />
         <FullNameGroup setValid={this.setFullNameValid} />
-        <Username
+        <UsernameInput
           validateUsername={this.setUsernameValid}
           usernameValid={this.state.usernameValid}
         />

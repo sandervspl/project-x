@@ -197,72 +197,67 @@ export function toRegisterPage(pageNum) {
 
 
 // async actions
-export function createUser(newUser) {
-  return async (dispatch) => {
-    // set init for request
-    const init = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newUser),
-    };
+export const createUser = newUser => async (dispatch) => {
+  // set init for request
+  const init = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newUser),
+  };
 
-    // set creation state to start
-    dispatch(createStart());
+  // set creation state to start
+  dispatch(createStart());
 
-    // attempt async create request
-    try {
-      const result = await fetch(`http://${host}:${port}/users/create`, init);
-      // TODO: to json -> grab token for login
+  // attempt async create request
+  try {
+    const result = await fetch(`http://${host}:${port}/users/create`, init);
+    // TODO: to json -> grab token for login
 
-      if (result.status < 400) {
-        // TODO: log in
-        dispatch(createSuccess());
-      } else {
-        dispatch(createFail());
-      }
-
-      return result;
-    } catch (err) {
+    if (result.status < 400) {
+      // TODO: log in
+      dispatch(createSuccess());
+    } else {
       dispatch(createFail());
-      return null;
-    }
-  };
-}
-
-export function checkExists(id) {
-  return async (dispatch) => {
-    // determine if email or username
-    const isUsername = !isEmail(id);
-    const idType = isUsername ? 'username' : 'email';
-
-    // set init for request
-    const init = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id }),
-    };
-
-    // set start state
-    dispatch(fetchStart(idType));
-
-    try {
-      const result = await fetch(`http://${host}:${port}/users/exists`, init)
-        .then(response => response.json());
-
-      const { statusCode } = result.meta;
-
-      if (statusCode === 200) {
-        // id does not exist
-        dispatch(fetchSuccess(idType));
-        return false;
-      }
-    } catch (err) {
-      // console.log(err);
     }
 
-    // id exists
-    const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
-    dispatch(fetchFail(idType, `${idTypeCap} already exists.`));
-    return true;
+    return result;
+  } catch (err) {
+    dispatch(createFail());
+    return null;
+  }
+};
+
+export const checkExists = id => async (dispatch) => {
+  const isUsername = !isEmail(id);
+  const idType = isUsername ? 'username' : 'email';
+
+  // set init for request
+  const init = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id }),
   };
-}
+
+  // set start state
+  dispatch(fetchStart(idType));
+
+  try {
+    const result = await fetch(`http://${host}:${port}/users/exists`, init)
+      .then(response => response.json());
+
+    const { statusCode } = result.meta;
+
+    if (statusCode === 200) {
+      // id does not exist
+      dispatch(fetchSuccess(idType));
+      return false;
+    }
+  } catch (err) {
+    // console.log(err);
+  }
+
+  // id exists
+  const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
+  dispatch(fetchFail(idType, `${idTypeCap} already exists.`));
+  return true;
+};

@@ -161,112 +161,102 @@ function checkStatus(status) {
   return status >= 200 && status < 300;
 }
 
-export function fetchUserData() {
-  return async (dispatch) => {
-    dispatch(fetchStart());
+export const fetchUserData = () => async (dispatch) => {
+  dispatch(fetchStart());
 
-    // get token from cookie
-    const token = Cookies.get(authToken);
+  // get token from cookie
+  const token = Cookies.get(authToken);
 
-    // set init for request
-    const init = {
-      method: 'GET',
-      headers: {
-        'jwt-authorization-token': `Bearer ${token}`,
-      },
-    };
-
-    try {
-      // fetch user data
-      const result = await fetch(`http://${host}:${port}/users/me`, init)
-        .then(response => response.json())
-        .catch(dispatch(fetchFail()));
-
-      const { statusCode } = result.meta;
-
-      if (checkStatus(statusCode)) {
-        const { payload } = result;
-        dispatch(fetchSuccess(payload));
-      } else if (statusCode === 401) {
-        // auth error; token has probably expired.
-        // console.error('ERROR: Token has expired or is invalid. Login required.');
-        dispatch(fetchFail());
-
-        // redirect to front page with login modal open
-        browserHistory.push('/?login=1');
-      } else {
-        // some sort of error occured
-        // console.error(`ERROR: ${statusCode}`);
-        dispatch(fetchFail());
-      }
-
-      return result;
-    } catch (err) {
-      // console.log(err);
-      dispatch(fetchFail());
-      return null;
-    }
+  // set init for request
+  const init = {
+    method: 'GET',
+    headers: {
+      'jwt-authorization-token': `Bearer ${token}`,
+    },
   };
-}
 
-export function login(credentials) {
-  return async (dispatch) => {
-    const { emailUsername, password } = credentials;
+  try {
+    // fetch user data
+    const result = await fetch(`http://${host}:${port}/users/me`, init)
+      .then(response => response.json())
+      .catch(dispatch(fetchFail()));
 
-    // set up correct object for request
-    const userCredentials = {
-      username: emailUsername,
-      password,
-    };
+    const { statusCode } = result.meta;
 
-    // set init for request
-    const init = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userCredentials),
-    };
+    if (checkStatus(statusCode)) {
+      const { payload } = result;
+      dispatch(fetchSuccess(payload));
+    } else if (statusCode === 401) {
+      // auth error; token has probably expired.
+      // console.error('ERROR: Token has expired or is invalid. Login required.');
+      dispatch(fetchFail());
 
-    // set login state to start
-    dispatch(loginStart());
+      // redirect to front page with login modal open
+      browserHistory.push('/?login=1');
+    } else {
+      // some sort of error occured
+      // console.error(`ERROR: ${statusCode}`);
+      dispatch(fetchFail());
+    }
 
-    // attempt async login request
-    try {
-      const result = await fetch(`http://${host}:${port}/auths/local`, init)
-        .then(response => response.json())
-        .catch(dispatch(loginFail()));
+    return result;
+  } catch (err) {
+    // console.log(err);
+    dispatch(fetchFail());
+    return null;
+  }
+};
 
-      // fetch success
-      const { statusCode } = result.meta;
-      const { token } = result.payload;
+export const login = credentials => async (dispatch) => {
+  const { emailUsername, password } = credentials;
 
-      if (checkStatus(statusCode)) {
-        if (!isEmpty(token)) {
-          // save token
-          Cookies.set(authToken, token);
+  // set up correct object for request
+  const userCredentials = {
+    username: emailUsername,
+    password,
+  };
 
-          // fetch user data with retrieved token
-          const userData = await dispatch(fetchUserData());
-          const fetchStatus = userData.meta.statusCode;
+  // set init for request
+  const init = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userCredentials),
+  };
 
-          if (checkStatus(fetchStatus)) {
-            dispatch(loginSuccess());
-            browserHistory.push('/user');
-            return true;
-          }
+  // set login state to start
+  dispatch(loginStart());
 
-          dispatch(loginFail());
-          return false;
+  // attempt async login request
+  try {
+    const result = await fetch(`http://${host}:${port}/auths/local`, init)
+      .then(response => response.json())
+      .catch(dispatch(loginFail()));
+
+    // fetch success
+    const { statusCode } = result.meta;
+    const { token } = result.payload;
+
+    if (checkStatus(statusCode)) {
+      if (!isEmpty(token)) {
+        // save token
+        Cookies.set(authToken, token);
+
+        // fetch user data with retrieved token
+        const userData = await dispatch(fetchUserData());
+        const fetchStatus = userData.meta.statusCode;
+
+        if (checkStatus(fetchStatus)) {
+          dispatch(loginSuccess());
+          browserHistory.push('/user');
+          return true;
         }
       }
-
-      // failed
-      dispatch(loginFail());
-
-      return false;
-    } catch (err) {
-      // console.log(err);
-      dispatch(loginFail());
-      return false;
     }
-  };
-}
+  } catch (err) {
+    // console.log(err);
+  }
+
+  // failed
+  dispatch(loginFail());
+  return false;
+};

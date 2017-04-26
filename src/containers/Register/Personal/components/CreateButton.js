@@ -41,7 +41,7 @@ class CreateButton extends Component {
     }
   }
 
-  onClick = () => {
+  handleClick = () => {
     this.setState({ disabled: true });
   };
 
@@ -52,7 +52,7 @@ class CreateButton extends Component {
       <Button
         className="big-btn"
         id="create-btn"
-        onClick={this.onClick}
+        onClick={this.handleClick}
         fluid
         color="purple"
         disabled={!enabled}

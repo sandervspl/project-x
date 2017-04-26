@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { isEmail, isEmpty } from 'validator';
+import _ from 'lodash';
 
 // components
 import InputError from 'components/InputError/InputError';
@@ -24,9 +25,10 @@ class EmailInput extends Component {
       fetchMessage: PropTypes.string,
     }),
     checkExists: PropTypes.func,
+    invalidId: PropTypes.func,
   };
 
-  handleChange = (e) => {
+  handleChange = _.debounce((e) => {
     const el = e.target;
     const { validateEmail } = this.props;
     const { emailExists } = this.props.register;
@@ -43,18 +45,22 @@ class EmailInput extends Component {
         validateEmail(false);
       }
     }
-  }
+  }, 750);
 
   handleBlur = async (e) => {
-    const { checkExists, validateEmail } = this.props;
+    const { checkExists, validateEmail, invalidId } = this.props;
     const value = e.target.value;
 
     if (isEmpty(value)) return;
-    if (!isEmail(value)) return;
+    if (!isEmail(value)) {
+      invalidId('email');
+      validateEmail(false);
+      return;
+    }
 
     const exists = await checkExists(value);
     validateEmail(!exists);
-  }
+  };
 
   handleIcon = () => {
     const { mailValid } = this.props;
@@ -65,7 +71,7 @@ class EmailInput extends Component {
     if (isValid && !emailExists) return 'check';
 
     return 'mail';
-  }
+  };
 
   render() {
     const { mailValid } = this.props;
@@ -81,7 +87,7 @@ class EmailInput extends Component {
           icon={icon}
           className="email"
           name="email"
-          onChange={this.handleChange}
+          onChange={(e) => { e.persist(); this.handleChange(e); }}
           onBlur={this.handleBlur}
           disabled={fetching}
         />

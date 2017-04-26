@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
+import _ from 'lodash';
 
 // components
 import InputError from 'components/InputError/InputError';
@@ -23,10 +24,11 @@ class Username extends Component {
       fetchMessage: PropTypes.string,
     }),
     checkExists: PropTypes.func,
+    invalidId: PropTypes.func,
   };
   static usernameMinLength = 3;
 
-  handleChange = (e) => {
+  handleChange = _.debounce((e) => {
     const el = e.target;
     // minimum amount of characters needed for valid username
     const { validateUsername } = this.props;
@@ -35,17 +37,21 @@ class Username extends Component {
       const val = el.value;
       validateUsername(val.length >= Username.usernameMinLength);
     }
-  }
+  }, 750);
 
   handleBlur = async (e) => {
-    const { checkExists, validateUsername } = this.props;
+    const { checkExists, validateUsername, invalidId } = this.props;
     const value = e.target.value;
 
-    if (value.length < Username.usernameMinLength) return;
+    if (value.length < Username.usernameMinLength) {
+      invalidId('username');
+      validateUsername(false);
+      return;
+    }
 
     const exists = await checkExists(value);
     validateUsername(!exists);
-  }
+  };
 
   handleIcon = () => {
     const { usernameValid } = this.props;
@@ -70,7 +76,7 @@ class Username extends Component {
           placeholder="Username"
           name="username"
           icon={icon}
-          onChange={this.handleChange}
+          onChange={(e) => { e.persist(); this.handleChange(e); }}
           onBlur={this.handleBlur}
           disabled={fetching}
         />

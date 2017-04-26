@@ -90,7 +90,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         fetching: true,
         fetchMessage: action.msg,
-        [`${action.idType}Exists`]: action[`${action.idType}Exists`],
+        [`${action.idType}Exists`]: action.exists,
       };
 
     case FETCH_SUCCESS:
@@ -98,7 +98,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         fetching: false,
         fetchMessage: action.msg,
-        [`${action.idType}Exists`]: action[`${action.idType}Exists`],
+        [`${action.idType}Exists`]: action.exists,
       };
 
     case FETCH_FAIL:
@@ -106,7 +106,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         fetching: false,
         fetchMessage: action.msg,
-        [`${action.idType}Exists`]: action[`${action.idType}Exists`],
+        [`${action.idType}Exists`]: action.exists,
       };
 
     default:
@@ -139,7 +139,7 @@ function fetchStart(idType) {
     type: FETCH_START,
     msg: '',
     idType,
-    [`${idType}Exists`]: false,
+    exists: false,
   };
 }
 
@@ -148,7 +148,7 @@ function fetchSuccess(idType) {
     type: FETCH_SUCCESS,
     msg: '',
     idType,
-    [`${idType}Exists`]: false,
+    exists: false,
   };
 }
 
@@ -159,13 +159,22 @@ function fetchFail(idType, msg = fetchFailMsg) {
       type: FETCH_FAIL,
       msg,
       idType,
-      [`${idType}Exists`]: true,
+      exists: true,
     };
   }
 
   return {
     type: FETCH_FAIL,
     msg,
+  };
+}
+
+export function invalidId(idType) {
+  return {
+    type: FETCH_FAIL,
+    msg: '',
+    idType,
+    exists: false,
   };
 }
 

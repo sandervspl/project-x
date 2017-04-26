@@ -1,6 +1,7 @@
 // dependencies
 import React, { PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
+import _ from 'lodash';
 
 const PasswordInput = ({ fieldId,
                          isValid,
@@ -9,7 +10,7 @@ const PasswordInput = ({ fieldId,
                          placeholder,
                          name,
 }) => {
-  function onChange(e) {
+  const handleChange = _.debounce((e) => {
     const el = e.target;
 
     if (el) {
@@ -21,7 +22,7 @@ const PasswordInput = ({ fieldId,
 
       validatePassword(valid, fieldId, val);
     }
-  }
+  }, 750);
 
   return (
     <Form.Input
@@ -30,7 +31,7 @@ const PasswordInput = ({ fieldId,
       name={name || ''}
       icon={isValid ? 'check' : 'key'}
       className="password"
-      onChange={onChange}
+      onChange={(e) => { e.persist(); handleChange(e); }}
     />
   );
 };

@@ -161,11 +161,11 @@ function checkStatus(status) {
   return status >= 200 && status < 300;
 }
 
-export const fetchUserData = () => async (dispatch) => {
+export const fetchUserData = pToken => async (dispatch) => {
   dispatch(fetchStart());
 
   // get token from cookie
-  const token = Cookies.get(authToken);
+  const token = pToken || Cookies.get(authToken);
 
   // set init for request
   const init = {
@@ -178,8 +178,7 @@ export const fetchUserData = () => async (dispatch) => {
   try {
     // fetch user data
     const result = await fetch(`http://${host}:${port}/users/me`, init)
-      .then(response => response.json())
-      .catch(dispatch(fetchFail()));
+      .then(response => response.json());
 
     const { statusCode } = result.meta;
 

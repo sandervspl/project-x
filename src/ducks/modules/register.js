@@ -1,7 +1,12 @@
 // dependencies
 import fetch from 'isomorphic-fetch';
 import { isEmail } from 'validator';
+import { browserHistory } from 'react-router';
+import Cookies from 'js-cookie';
 import cfg from '../../config';
+
+// auth actions
+import { fetchUserData } from './auth';
 
 // Actions
 export const CREATE_START = 'px/register/CREATE_START';
@@ -210,12 +215,24 @@ export const createUser = newUser => async (dispatch) => {
 
   // attempt async create request
   try {
-    const result = await fetch(`http://${host}:${port}/users/create`, init);
-    // TODO: to json -> grab token for login
+    const result = await fetch(`http://${host}:${port}/users/create`, init)
+      .then(response => response.json());
 
-    if (result.status < 400) {
-      // TODO: log in
+    const { statusCode } = result.meta;
+    const { token } = result.payload;
+
+    if (statusCode >= 200 && statusCode < 300) {
+      // save token to cookie
+      Cookies.set('authToken', token);
+
+      // set state to success
       dispatch(createSuccess());
+
+      // fetch user data with auth token
+      dispatch(fetchUserData(token));
+
+      // redirect to user page
+      browserHistory.push('/user');
     } else {
       dispatch(createFail());
     }

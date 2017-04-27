@@ -65,14 +65,7 @@ class Background extends Component {
    */
   isAMobileDevice = () => {
     const md = new MobileDetect(window.navigator.userAgent);
-
-    if (md.phone() !== null ||
-        md.tablet() !== null ||
-        md.isPhoneSized()) {
-      return true;
-    }
-
-    return false;
+    return md.phone() !== null || md.tablet() !== null || md.isPhoneSized();
   };
 
   renderBackground = () => {

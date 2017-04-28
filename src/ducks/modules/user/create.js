@@ -147,9 +147,6 @@ export const createUser = newUser => async (dispatch) => {
   let result = await fetch(`${API_HOST}/users/create`, init);
   result = await result.json();
 
-  console.log(init);
-  console.log(result);
-
   const { statusCode } = result.meta;
 
   if (statusOK(statusCode)) {

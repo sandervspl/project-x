@@ -13,7 +13,7 @@ export const SUCCESS = 'px/user/FETCH_SUCCESS';
 export const FAIL = 'px/user/FETCH_FAIL';
 
 // state
-const initialState = {
+export const initialState = {
   loading: false,
   error: false,
   loaded: false,

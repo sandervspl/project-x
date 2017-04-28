@@ -10,7 +10,7 @@ export const SUCCESS = 'px/user/EXISTS_SUCCESS';
 export const FAIL = 'px/user/EXISTS_FAIL';
 
 // state
-const initialState = {
+export const initialState = {
   loading: false,
   error: false,
   loaded: false,

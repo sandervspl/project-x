@@ -13,7 +13,7 @@ export const SUCCESS = 'px/user/LOGIN_SUCCESS';
 export const FAIL = 'px/user/LOGIN_FAIL';
 
 // state
-const initialState = {
+export const initialState = {
   loading: false,
   error: false,
   loaded: false,
@@ -87,6 +87,9 @@ export const login = credentials => async (dispatch) => {
     body: JSON.stringify(userCredentials),
   };
 
+  // set login state to start
+  dispatch(loginStart());
+
   // authorization
   let response = await fetch(`${API_HOST}/auths/local`, init);
   response = await response.json();
@@ -99,9 +102,6 @@ export const login = credentials => async (dispatch) => {
 };
 
 export const loginProcess = credentials => async (dispatch) => {
-  // set login state to start
-  dispatch(loginStart());
-
   // attempt authorization on server
   const loginResponse = await dispatch(login(credentials));
   const authorized = statusOK(loginResponse.meta.statusCode);

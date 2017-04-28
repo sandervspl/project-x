@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 // actions
-import * as registerActions from 'ducks/modules/register';
+import * as createActions from 'ducks/modules/user/create';
 
 // components
 import NavigationBar from 'components/NavigationBar/NavigationBar';
@@ -16,14 +16,14 @@ import './Register.styl';
 
 
 @connect(
-  state => ({ register: state.app.register }),
-  registerActions,
+  state => ({ create: state.app.user.userCreate }),
+  createActions,
 )
 class Register extends Component {
   static propTypes = {
     createUserProcess: PropTypes.func,
     toRegisterPage: PropTypes.func,
-    register: PropTypes.shape({
+    create: PropTypes.shape({
       loginFormValid: PropTypes.bool,
       personalFormValid: PropTypes.bool,
       page: PropTypes.number,
@@ -32,7 +32,7 @@ class Register extends Component {
 
   componentWillUnmount() {
     const { toRegisterPage } = this.props;
-    const { page } = this.props.register;
+    const { page } = this.props.create;
 
     if (page !== 1) toRegisterPage(1);
   }
@@ -40,7 +40,7 @@ class Register extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { loginFormValid, personalFormValid } = this.props.register;
+    const { loginFormValid, personalFormValid } = this.props.create;
     const { createUserProcess } = this.props;
 
     // only allow user creation if form is completely valid

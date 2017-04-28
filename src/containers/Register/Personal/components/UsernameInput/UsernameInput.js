@@ -8,34 +8,41 @@ import _ from 'lodash';
 import InputError from 'components/InputError/InputError';
 
 // actions
-import * as RegisterActions from 'ducks/modules/register';
+import * as existsActions from 'ducks/modules/user/exists';
 
 @connect(
-  state => ({ register: state.app.register }),
-  RegisterActions,
+  state => ({ exists: state.app.user.userExists }),
+  existsActions,
 )
 class Username extends Component {
   static propTypes = {
     validateUsername: PropTypes.func.isRequired,
     usernameValid: PropTypes.bool,
-    register: PropTypes.shape({
-      fetching: PropTypes.bool,
+    exists: PropTypes.shape({
+      loading: PropTypes.bool,
       usernameExists: PropTypes.bool,
-      fetchMessage: PropTypes.string,
+      errorMessage: PropTypes.string,
     }),
     checkExists: PropTypes.func,
     invalidId: PropTypes.func,
   };
-  static usernameMinLength = 3;
+
+  constructor(p) {
+    super(p);
+    this.usernameMinLength = 3;
+  }
 
   handleChange = _.debounce((e) => {
     const el = e.target;
     // minimum amount of characters needed for valid username
     const { validateUsername } = this.props;
+    const { usernameExists } = this.props.exists;
 
-    if (el) {
+    if (usernameExists) {
+      validateUsername(false);
+    } else if (el) {
       const val = el.value;
-      validateUsername(val.length >= Username.usernameMinLength);
+      validateUsername(val.length >= this.usernameMinLength);
     }
   }, 750);
 
@@ -43,7 +50,7 @@ class Username extends Component {
     const { checkExists, validateUsername, invalidId } = this.props;
     const value = e.target.value;
 
-    if (value.length < Username.usernameMinLength) {
+    if (value.length < this.usernameMinLength) {
       invalidId('username');
       validateUsername(false);
       return;
@@ -55,10 +62,10 @@ class Username extends Component {
 
   handleIcon = () => {
     const { usernameValid } = this.props;
-    const { fetching, usernameExists } = this.props.register;
+    const { loading, usernameExists } = this.props.exists;
     const isValid = (usernameValid !== null && usernameValid);
 
-    if (fetching) return 'spinner';
+    if (loading) return 'spinner';
     if (isValid && !usernameExists) return 'check';
 
     return 'user circle';
@@ -66,7 +73,7 @@ class Username extends Component {
 
   render() {
     const { usernameValid } = this.props;
-    const { fetching, usernameExists, fetchMessage } = this.props.register;
+    const { loading, usernameExists, errorMessage } = this.props.exists;
     const showErrorShort = (usernameValid !== null && !usernameValid && !usernameExists);
     const icon = this.handleIcon();
 
@@ -78,13 +85,13 @@ class Username extends Component {
           icon={icon}
           onChange={(e) => { e.persist(); this.handleChange(e); }}
           onBlur={this.handleBlur}
-          disabled={fetching}
+          disabled={loading}
         />
         {
           showErrorShort &&
           <InputError>Username is too short.</InputError>
         }
-        { usernameExists && <InputError>{ fetchMessage }</InputError> }
+        { usernameExists && <InputError>{ errorMessage }</InputError> }
       </Form.Field>
     );
   }

@@ -1,47 +1,34 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 import { Button } from 'semantic-ui-react';
 
 // actions
-import * as authActions from 'ducks/modules/auth';
+import * as loginActions from 'ducks/modules/user/login';
 
 @connect(
-  state => ({ auth: state.app.auth }),
-  authActions,
+  state => ({ userLogin: state.app.user.userLogin }),
+  loginActions,
 )
 class LoginButton extends Component {
   static propTypes = {
     formValid: PropTypes.bool,
     formValues: PropTypes.shape({}),
-    login: PropTypes.func.isRequired,
-    auth: PropTypes.shape({
-      loggingIn: PropTypes.bool,
+    loginProcess: PropTypes.func,
+    userLogin: PropTypes.shape({
+      loading: PropTypes.bool,
     }),
-    setLoginFailed: PropTypes.func,
   };
 
   handleClick = (e) => {
     e.preventDefault();
-
-    const { login, formValues, setLoginFailed } = this.props;
-
-    login(formValues)
-      .then((result) => {
-        if (result) {
-          // redirect to user page
-          browserHistory.push('/user');
-        } else {
-          // let user know login failed
-          setLoginFailed(true);
-        }
-      });
+    const { loginProcess, formValues } = this.props;
+    loginProcess(formValues);
   }
 
   render() {
     const { formValid } = this.props;
-    const { loggingIn } = this.props.auth;
+    const { loading } = this.props.userLogin;
 
     return (
       <Button
@@ -51,7 +38,7 @@ class LoginButton extends Component {
         onClick={this.handleClick}
         fluid
         disabled={!formValid}
-        loading={loggingIn}
+        loading={loading}
       >
         Sign in
       </Button>

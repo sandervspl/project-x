@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 // actions
-import * as RegisterActions from 'ducks/modules/register';
+import * as createActions from 'ducks/modules/user/create';
 
 // style
 import './Personal.styl';
@@ -15,13 +15,13 @@ import CreateButton from './components/CreateButton';
 import PhotoUpload from './components/PhotoUpload/PhotoUpload';
 
 @connect(
-  state => ({ register: state.app.register }),
-  RegisterActions,
+  state => ({ create: state.app.user.userCreate }),
+  createActions,
 )
 class Register extends Component {
   static propTypes = {
     setPersonalFormValidation: PropTypes.func,
-    register: PropTypes.shape({
+    create: PropTypes.shape({
       personalFormValid: PropTypes.bool,
       page: PropTypes.number,
     }),
@@ -37,13 +37,14 @@ class Register extends Component {
   };
 
   setUsernameValid = (usernameValid) => {
+    console.log(`username is valid: ${usernameValid}`);
     this.setState({ usernameValid }, this.isFormValid);
   };
 
   isFormValid = () => {
     const { fullNameValid, usernameValid } = this.state;
     const { setPersonalFormValidation } = this.props;
-    const { personalFormValid } = this.props.register;
+    const { personalFormValid } = this.props.create;
     const isValid = fullNameValid && usernameValid;
 
     if (personalFormValid !== isValid) {
@@ -52,7 +53,7 @@ class Register extends Component {
   };
 
   render() {
-    const { page } = this.props.register;
+    const { page } = this.props.create;
 
     return (
       <section className={`register-form login ${page === 2 && 'show-personal'}`}>

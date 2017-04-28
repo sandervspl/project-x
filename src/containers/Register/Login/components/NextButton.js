@@ -3,16 +3,16 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
-import * as RegisterActions from 'ducks/modules/register';
+import * as createActions from 'ducks/modules/user/create';
 
 @connect(
-  state => ({ register: state.app.register }),
-  RegisterActions,
+  state => ({ create: state.app.user.userCreate }),
+  createActions,
 )
 class NextButton extends Component {
   static propTypes = {
     toRegisterPage: PropTypes.func,
-    register: PropTypes.shape({
+    create: PropTypes.shape({
       loginFormValid: PropTypes.bool,
     }),
   };
@@ -22,7 +22,7 @@ class NextButton extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { loginFormValid } = nextProps.register;
+    const { loginFormValid } = nextProps.create;
     const { enabled } = this.state;
 
     if (loginFormValid !== enabled) {
@@ -32,7 +32,7 @@ class NextButton extends Component {
 
   onClick = (e) => {
     const { toRegisterPage } = this.props;
-    const { loginFormValid } = this.props.register;
+    const { loginFormValid } = this.props.create;
 
     e.preventDefault();
 

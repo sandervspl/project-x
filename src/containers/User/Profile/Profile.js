@@ -2,23 +2,26 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
+import _ from 'lodash';
 
 // components
 import Authorized from 'components/Authorized/Authorized';
 
 // actions
-import * as authActions from 'ducks/modules/auth';
+import * as getUserActions from 'ducks/modules/user/getUser';
 
 // style
 import './Profile.styl';
 
 @connect(
-  state => ({ auth: state.app.auth }),
-  authActions,
+  state => ({ getUser: state.app.user.getUser }),
+  getUserActions,
 )
 class Profile extends Component {
   static propTypes = {
-    auth: PropTypes.shape({
+    getUser: PropTypes.shape({
+      loading: PropTypes.bool,
+      error: PropTypes.bool,
       user: PropTypes.shape({
         firstName: PropTypes.string,
         lastName: PropTypes.string,
@@ -31,16 +34,16 @@ class Profile extends Component {
 
   componentWillMount() {
     const { fetchUserData } = this.props;
-    const { user } = this.props.auth;
+    const { user } = this.props.getUser;
 
     // fetch user data if its missing
-    if (!user) fetchUserData();
+    if (_.isEmpty(user)) fetchUserData();
   }
 
   render() {
-    const { user } = this.props.auth;
+    const { loading, error } = this.props.getUser;
 
-    if (!user) {
+    if (loading) {
       return (
         <div>
           <h1>Profile</h1>
@@ -49,7 +52,16 @@ class Profile extends Component {
       );
     }
 
-    const { firstName, lastName, username, email } = this.props.auth.user;
+    if (error) {
+      return (
+        <div>
+          <h1>Profile</h1>
+          <h3>Something went wrong.</h3>
+        </div>
+      );
+    }
+
+    const { firstName, lastName, username, email } = this.props.getUser.user;
     return (
       <section>
         <h1>Profile</h1>

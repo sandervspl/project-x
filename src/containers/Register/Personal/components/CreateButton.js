@@ -1,12 +1,16 @@
 // dependencies
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
-@connect(
-  state => ({ register: state.app.register }),
-)
+@connect(state => ({ create: state.app.user.userCreate }))
 class CreateButton extends Component {
+  static propTypes = {
+    create: PropTypes.shape({
+      loaded: PropTypes.bool,
+    }),
+  };
+
   state = {
     enabled: false,
     loading: false,
@@ -17,12 +21,11 @@ class CreateButton extends Component {
    * or if the button should enable.
    */
   componentWillReceiveProps(nextProps) {
-    const { loginFormValid, personalFormValid } = nextProps.register;
-    const { isCreatingNewAccount } = nextProps.register;
+    const { loginFormValid, personalFormValid, loading } = nextProps.create;
     const isValid = loginFormValid && personalFormValid;
 
     // Set loading state
-    if (isCreatingNewAccount) {
+    if (loading) {
       this.setState({
         enabled: false,
         loading: true,
@@ -47,6 +50,7 @@ class CreateButton extends Component {
 
   render() {
     const { enabled, loading } = this.state;
+    const { loaded } = this.props.create;
 
     return (
       <Button
@@ -55,7 +59,7 @@ class CreateButton extends Component {
         onClick={this.handleClick}
         fluid
         color="purple"
-        disabled={!enabled}
+        disabled={!enabled || loaded}
         loading={loading}
       >
         Create

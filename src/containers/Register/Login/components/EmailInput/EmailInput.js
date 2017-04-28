@@ -9,20 +9,20 @@ import _ from 'lodash';
 import InputError from 'components/InputError/InputError';
 
 // actions
-import * as RegisterActions from 'ducks/modules/register';
+import * as existsActions from 'ducks/modules/user/exists';
 
 @connect(
-  state => ({ register: state.app.register }),
-  RegisterActions,
+  state => ({ exists: state.app.user.userExists }),
+  existsActions,
 )
 class EmailInput extends Component {
   static propTypes = {
     validateEmail: PropTypes.func.isRequired,
     mailValid: PropTypes.bool,
-    register: PropTypes.shape({
-      fetching: PropTypes.bool,
+    exists: PropTypes.shape({
+      loading: PropTypes.bool,
       emailExists: PropTypes.bool,
-      fetchMessage: PropTypes.string,
+      errorMessage: PropTypes.string,
     }),
     checkExists: PropTypes.func,
     invalidId: PropTypes.func,
@@ -31,7 +31,7 @@ class EmailInput extends Component {
   handleChange = _.debounce((e) => {
     const el = e.target;
     const { validateEmail } = this.props;
-    const { emailExists } = this.props.register;
+    const { emailExists } = this.props.exists;
 
     // invalidate if email exists in database
     if (emailExists) {
@@ -64,10 +64,10 @@ class EmailInput extends Component {
 
   handleIcon = () => {
     const { mailValid } = this.props;
-    const { fetching, emailExists } = this.props.register;
+    const { loading, emailExists } = this.props.exists;
     const isValid = (mailValid !== null && mailValid);
 
-    if (fetching) return 'spinner';
+    if (loading) return 'spinner';
     if (isValid && !emailExists) return 'check';
 
     return 'mail';
@@ -75,7 +75,7 @@ class EmailInput extends Component {
 
   render() {
     const { mailValid } = this.props;
-    const { fetching, emailExists, fetchMessage } = this.props.register;
+    const { loading, emailExists, errorMessage } = this.props.exists;
     const showInvalidError = (mailValid !== null && !mailValid && !emailExists);
     const icon = this.handleIcon();
 
@@ -89,10 +89,10 @@ class EmailInput extends Component {
           name="email"
           onChange={(e) => { e.persist(); this.handleChange(e); }}
           onBlur={this.handleBlur}
-          disabled={fetching}
+          disabled={loading}
         />
         { showInvalidError && <InputError>Enter a valid e-mail address.</InputError> }
-        { emailExists && <InputError>{ fetchMessage }</InputError> }
+        { emailExists && <InputError>{ errorMessage }</InputError> }
       </Form.Field>
     );
   }

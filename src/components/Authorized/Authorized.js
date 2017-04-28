@@ -1,18 +1,20 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 // actions
-import * as authActions from 'ducks/modules/auth';
+import * as getUserActions from 'ducks/modules/user/getUser';
 
 @connect(
-  state => ({ auth: state.app.auth }),
-  authActions,
+  state => ({ getUser: state.app.user.getUser }),
+  getUserActions,
 )
 class Authorized extends Component {
   static propTypes = {
     children: PropTypes.element,
-    auth: PropTypes.shape({
+    getUser: PropTypes.shape({
+      loaded: PropTypes.bool,
       user: PropTypes.shape({}),
     }),
   };
@@ -21,8 +23,8 @@ class Authorized extends Component {
 
   render() {
     const { children } = this.props;
-    const { user } = this.props.auth;
-    const authorized = user !== 'undefined' && user !== null;
+    const { loaded, user } = this.props.getUser;
+    const authorized = loaded && !_.isEmpty(user);
 
     if (authorized) {
       return (

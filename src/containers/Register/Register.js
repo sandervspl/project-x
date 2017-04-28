@@ -49,7 +49,7 @@ class Register extends Component {
     // look for all inputs in the form
     const form = e.target;
     const inputs = form.querySelectorAll('input');
-    const newUser = { user: {} };
+    let newUser = {};
 
     // put input values in an object
     inputs.forEach((input) => {
@@ -57,8 +57,8 @@ class Register extends Component {
       // FIXME: remove when it's available
       if (input.name === 'avatar') return;
 
-      newUser.user = {
-        ...newUser.user,
+      newUser = {
+        ...newUser,
         [input.name]: input.value,
       };
     });

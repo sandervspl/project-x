@@ -42,15 +42,17 @@ export default function reducer(state = initialState, action = {}) {
         [`${action.idType}Exists`]: action.exists,
       };
 
-    case FAIL:
+    case FAIL: {
+      const idTypeCap = action.idType.charAt(0).toUpperCase() + action.idType.slice(1);
       return {
         ...state,
         loading: false,
         error: true,
         loaded: false,
-        errorMessage: action.message,
+        errorMessage: `${idTypeCap} already exists.`,
         [`${action.idType}Exists`]: action.exists,
       };
+    }
 
     default:
       return state;
@@ -63,7 +65,6 @@ function fetchStart(idType) {
     type: START,
     idType,
     exists: false,
-    errorMessage: '',
   };
 }
 
@@ -72,17 +73,14 @@ function fetchSuccess(idType) {
     type: SUCCESS,
     idType,
     exists: false,
-    errorMessage: '',
   };
 }
 
 export function fetchFail(idType) {
-  const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
   return {
     type: FAIL,
     idType,
     exists: true,
-    message: `${idTypeCap} already exists.`,
   };
 }
 

@@ -9,14 +9,14 @@ import { API_HOST, cookies } from '../../../config';
 import { fetchUserData } from './getUser';
 
 // Actions
-export const CREATE_START = 'px/register/CREATE_START';
-export const CREATE_SUCCESS = 'px/register/CREATE_SUCCESS';
-export const CREATE_FAIL = 'px/register/CREATE_FAIL';
-export const LOGIN_FORM_VALID = 'px/register/LOGIN_FORM_VALID';
-export const LOGIN_FORM_INVALID = 'px/register/LOGIN_FORM_INVALID';
-export const PERSONAL_FORM_VALID = 'px/register/PERSONAL_FORM_VALID';
-export const PERSONAL_FORM_INVALID = 'px/register/PERSONAL_FORM_INVALID';
-export const TO_REGISTER_PAGE = 'px/register/TO_REGISTER_PAGE';
+export const START = 'px/user/CREATE_START';
+export const SUCCESS = 'px/user/CREATE_SUCCESS';
+export const FAIL = 'px/user/CREATE_FAIL';
+export const LOGIN_FORM_VALID = 'px/user/LOGIN_FORM_VALID';
+export const LOGIN_FORM_INVALID = 'px/user/LOGIN_FORM_INVALID';
+export const PERSONAL_FORM_VALID = 'px/user/PERSONAL_FORM_VALID';
+export const PERSONAL_FORM_INVALID = 'px/user/PERSONAL_FORM_INVALID';
+export const TO_REGISTER_PAGE = 'px/user/TO_REGISTER_PAGE';
 
 // state
 export const initialState = {
@@ -34,7 +34,7 @@ const authToken = cookies.auth.token;
 // Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case CREATE_START:
+    case START:
       return {
         ...state,
         loading: true,
@@ -42,7 +42,7 @@ export default function reducer(state = initialState, action = {}) {
         loaded: false,
       };
 
-    case CREATE_SUCCESS:
+    case SUCCESS:
       return {
         ...state,
         loading: false,
@@ -50,7 +50,7 @@ export default function reducer(state = initialState, action = {}) {
         loaded: true,
       };
 
-    case CREATE_FAIL:
+    case FAIL:
       return {
         ...state,
         loading: false,
@@ -96,20 +96,19 @@ export default function reducer(state = initialState, action = {}) {
 // Action Creators
 function createStart() {
   return {
-    type: CREATE_START,
+    type: START,
   };
 }
 
 function createSuccess() {
   return {
-    type: CREATE_SUCCESS,
+    type: SUCCESS,
   };
 }
 
 function createFail() {
   return {
-    type: CREATE_FAIL,
-    message: 'Unable to connect to server. Try again later.',
+    type: FAIL,
   };
 }
 
@@ -135,20 +134,27 @@ export const createUser = newUser => async (dispatch) => {
   // set creation state to start
   dispatch(createStart());
 
+  // set up correct format
+  const userObject = { user: { ...newUser } };
+
   // set init for request
   const init = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newUser),
+    body: JSON.stringify(userObject),
   };
 
   let result = await fetch(`${API_HOST}/users/create`, init);
   result = await result.json();
 
+  console.log(init);
+  console.log(result);
+
   const { statusCode } = result.meta;
-  const { token } = result.payload;
 
   if (statusOK(statusCode)) {
+    const { token } = result.payload;
+
     // save token to cookie
     Cookies.set(authToken, token);
 

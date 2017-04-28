@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { browserHistory } from 'react-router';
 import { isEmpty } from 'validator';
 import statusOK from '../../helpers/async';
-import cfg from '../../config';
+import { API_HOST, cookies } from '../../config';
 
 // Actions
 export const FETCH_START = 'px/auth/FETCH_START';
@@ -26,10 +26,7 @@ const initialState = {
 };
 
 // cookies
-const authToken = 'authToken';
-
-// server info
-const { host, port } = cfg.server;
+const authToken = cookies.auth.token;
 
 // Reducer
 export default function reducer(state = initialState, action = {}) {
@@ -173,7 +170,7 @@ export const fetchUserData = pToken => async (dispatch) => {
 
   try {
     // fetch user data
-    const result = await fetch(`http://${host}:${port}/users/me`, init)
+    const result = await fetch(`${API_HOST}/users/me`, init)
       .then(response => response.json());
 
     const { statusCode } = result.meta;
@@ -223,7 +220,7 @@ export const login = credentials => async (dispatch) => {
 
   // attempt async login request
   try {
-    const result = await fetch(`http://${host}:${port}/auths/local`, init)
+    const result = await fetch(`${API_HOST}/auths/local`, init)
       .then(response => response.json());
 
     // fetch success

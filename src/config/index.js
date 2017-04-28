@@ -1,10 +1,9 @@
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
-const config = {
-  server: {
-    host: isDev ? 'localhost' : '',
-    port: isDev ? '4000' : '',
+export const API_HOST = isDev ? 'http://localhost:4000' : '';
+
+export const cookies = {
+  auth: {
+    token: 'authToken',
   },
 };
-
-export default config;

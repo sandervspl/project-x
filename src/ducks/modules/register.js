@@ -4,7 +4,7 @@ import { isEmail } from 'validator';
 import { browserHistory } from 'react-router';
 import Cookies from 'js-cookie';
 import statusOK from '../../helpers/async';
-import cfg from '../../config';
+import { API_HOST, cookies } from '../../config';
 
 // auth actions
 import { fetchUserData } from './auth';
@@ -36,10 +36,8 @@ export const initialState = {
   usernameExists: false,
 };
 
-// server info
-const { host, port } = cfg.server;
-
-const authToken = 'authToken';
+// cookies
+const authToken = cookies.auth.token;
 
 // Reducer
 export default function reducer(state = initialState, action = {}) {
@@ -213,7 +211,7 @@ export const createUser = newUser => async (dispatch) => {
     body: JSON.stringify(newUser),
   };
 
-  const result = await fetch(`http://${host}:${port}/users/create`, init)
+  const result = await fetch(`${API_HOST}/users/create`, init)
     .then(response => response.json());
 
   const { statusCode } = result.meta;
@@ -274,7 +272,7 @@ export const checkExists = id => async (dispatch) => {
   dispatch(fetchStart(idType));
 
   try {
-    const result = await fetch(`http://${host}:${port}/users/exists`, init)
+    const result = await fetch(`${API_HOST}/users/exists`, init)
       .then(response => response.json());
 
     const { statusCode } = result.meta;

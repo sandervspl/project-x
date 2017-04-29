@@ -15,15 +15,15 @@ class Background extends Component {
 
     /* eslint-disable */
     this.backgroundVideos = [
-      require('../../assets/videos/bg_1_720p.mp4'),
-      require('../../assets/videos/bg_2_720p.mp4'),
-      require('../../assets/videos/bg_3_720p.mp4'),
+      require('../assets/videos/bg_1_720p.mp4'),
+      require('../assets/videos/bg_2_720p.mp4'),
+      require('../assets/videos/bg_3_720p.mp4'),
     ];
 
     this.backgroundImages = [
-      require('../../assets/images/bg_3.png'),
-      require('../../assets/images/bg_4.png'),
-      require('../../assets/images/bg_5.png'),
+      require('../assets/images/bg_3.png'),
+      require('../assets/images/bg_4.png'),
+      require('../assets/images/bg_5.png'),
     ];
     /* eslint-enable */
 

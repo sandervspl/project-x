@@ -3,11 +3,11 @@ import React, { Component, PropTypes } from 'react';
 
 // components
 import FullscreenLoader from 'components/FullscreenLoader/FullscreenLoader';
-import Background from './components/Background/Background';
-import Title from './components/Title/Title';
-import ButtonGroup from './components/ButtonGroup/ButtonGroup';
-import LoginModal from './components/LoginModal/LoginModal';
-import RegisterModal from './components/RegisterModal/RegisterModal';
+import Background from './Background/Background';
+import Title from './Title/Title';
+import ButtonGroup from './ButtonGroup/ButtonGroup';
+import LoginModal from './LoginModal/LoginModal';
+import RegisterModal from './RegisterModal/RegisterModal';
 
 class Frontpage extends Component {
   static propTypes = {

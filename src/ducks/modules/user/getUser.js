@@ -1,6 +1,7 @@
 // dependencies
 import fetch from 'isomorphic-fetch';
 import Cookies from 'js-cookie';
+import { browserHistory } from 'react-router';
 import statusOK from '../../../helpers/async';
 import { API_HOST, cookies } from '../../../config';
 
@@ -111,8 +112,7 @@ export const fetchUserData = pToken => async (dispatch) => {
     return response;
   } else if (statusCode === 401) {
     // auth error; token has probably expired.
-    // console.error('ERROR: Token has expired or is invalid. Login required.');
-    // TODO: do something
+    browserHistory.push('/?login=1');
   }
 
   // something went wrong

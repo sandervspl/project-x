@@ -6,7 +6,7 @@ import { isEmpty } from 'validator';
 // components
 import InputError from 'components/InputError/InputError';
 
-const PasswordInput = ({ setPasswordValidation, loginFailed }) => {
+const PasswordInput = ({ setPasswordValidation, loginFailed, errorMsg }) => {
   function onChange(e) {
     const value = e.target.value;
     const valid = !isEmpty(value);
@@ -22,7 +22,7 @@ const PasswordInput = ({ setPasswordValidation, loginFailed }) => {
         name="password"
         onChange={onChange}
       />
-      { loginFailed && <InputError>Invalid username and/or password.</InputError> }
+      { loginFailed && <InputError>{errorMsg}</InputError> }
     </Form.Field>
   );
 };
@@ -30,6 +30,7 @@ const PasswordInput = ({ setPasswordValidation, loginFailed }) => {
 PasswordInput.propTypes = {
   setPasswordValidation: PropTypes.func.isRequired,
   loginFailed: PropTypes.bool,
+  errorMsg: PropTypes.string,
 };
 
 export default PasswordInput;

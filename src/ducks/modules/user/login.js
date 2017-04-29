@@ -17,6 +17,7 @@ export const initialState = {
   loading: false,
   error: false,
   loaded: false,
+  errorMessage: '',
 };
 
 // reducer
@@ -28,6 +29,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: true,
         error: false,
         loaded: false,
+        errorMessage: '',
       };
 
     case SUCCESS:
@@ -36,6 +38,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         error: false,
         loaded: true,
+        errorMessage: '',
       };
 
     case FAIL:
@@ -44,6 +47,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         error: true,
         loaded: false,
+        errorMessage: action.errorMessage,
       };
 
     default:
@@ -64,9 +68,11 @@ function loginSuccess() {
   };
 }
 
-function loginFail() {
+const defaultMsg = 'Invalid username and/or password.';
+function loginFail(errorMessage = defaultMsg) {
   return {
     type: FAIL,
+    errorMessage,
   };
 }
 
@@ -91,20 +97,26 @@ export const login = credentials => async (dispatch) => {
   dispatch(loginStart());
 
   // authorization
-  let response = await fetch(`${API_HOST}/auths/local`, init);
-  response = await response.json();
+  try {
+    let response = await fetch(`${API_HOST}/auths/local`, init);
+    response = await response.json();
 
-  // set state to result
-  const { statusCode } = response.meta;
-  dispatch(statusOK(statusCode) ? loginSuccess() : loginFail());
+    // set state to result
+    const { statusCode } = response.meta;
+    dispatch(statusOK(statusCode) ? loginSuccess() : loginFail());
 
-  return response;
+    return response;
+  } catch (err) {
+    // console.error(`LOGIN ERROR: ${err}`);
+    dispatch(loginFail('Unable to sign in at this moment.'));
+    return null;
+  }
 };
 
 export const loginProcess = credentials => async (dispatch) => {
   // attempt authorization on server
   const loginResponse = await dispatch(login(credentials));
-  const authorized = statusOK(loginResponse.meta.statusCode);
+  const authorized = loginResponse && statusOK(loginResponse.meta.statusCode);
 
   // unable to authorize
   if (!authorized) return false;

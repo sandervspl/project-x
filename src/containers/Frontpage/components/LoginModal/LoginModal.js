@@ -20,6 +20,7 @@ class LoginModal extends Component {
     setModalOpen: PropTypes.func.isRequired,
     userLogin: PropTypes.shape({
       error: PropTypes.bool,
+      errorMessage: PropTypes.string,
     }),
   };
 
@@ -61,7 +62,7 @@ class LoginModal extends Component {
 
   render() {
     const { isOpen, setModalOpen } = this.props;
-    const { error } = this.props.userLogin;
+    const { error, errorMessage } = this.props.userLogin;
     const { formValid, formValues } = this.state;
 
     return (
@@ -80,6 +81,7 @@ class LoginModal extends Component {
               <PasswordInput
                 setPasswordValidation={this.setPasswordValid}
                 loginFailed={error}
+                errorMsg={errorMessage}
               />
               <LoginButton
                 formValid={formValid}

@@ -16,6 +16,7 @@ import Frontpage from 'containers/Frontpage/Frontpage';
 import Register from 'containers/Register/Register';
 import User from 'containers/User/User';
 import Profile from 'containers/User/Profile/Profile';
+import App from 'containers/App/App';
 
 // reducers
 import app from 'ducks';
@@ -47,13 +48,16 @@ if (process.env.NODE_ENV === 'development') {
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
 
+// NOTE: routes on the App path will get the navbar and sidebar
 export default () => (
   <Provider store={store} key="provider">
     <Router history={history}>
       <Route exact path="/" components={Frontpage} />
-      <Route path="/register" components={Register} />
-      <Route path="/user" components={User}>
-        <IndexRoute components={Profile} />
+      <Route components={App}>
+        <Route path="/register" components={Register} />
+        <Route path="/user" components={User}>
+          <IndexRoute components={Profile} />
+        </Route>
       </Route>
       <Route path="*" components={Error404} />
     </Router>

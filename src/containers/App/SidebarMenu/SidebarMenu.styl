@@ -1,0 +1,31 @@
+@import "~style/common.styl"
+
+#app
+  .sidebar-inner
+    background-color $black_light
+
+    .item
+      padding .75rem 1.143rem
+      background-color $black
+      border none
+      color $off_white
+      text-align left
+
+      &::before
+        background $black_light
+
+      &.logo-item
+        padding 2rem 0
+        text-align center
+        background-color transparent
+
+      i
+        display inline-block
+        margin 0 !important
+        padding-right 1rem
+        color $purple_medium
+        font-size 1.75rem !important
+        vertical-align middle
+
+        &.logo
+          font-size 4rem !important

@@ -32,14 +32,9 @@ class Register extends Component {
     usernameValid: null,
   };
 
-  setFullNameValid = (fullNameValid) => {
-    this.setState({ fullNameValid }, this.isFormValid);
-  };
+  setFullNameValid = fullNameValid => this.setState({ fullNameValid }, this.isFormValid);
 
-  setUsernameValid = (usernameValid) => {
-    console.log(`username is valid: ${usernameValid}`);
-    this.setState({ usernameValid }, this.isFormValid);
-  };
+  setUsernameValid = usernameValid => this.setState({ usernameValid }, this.isFormValid);
 
   isFormValid = () => {
     const { fullNameValid, usernameValid } = this.state;

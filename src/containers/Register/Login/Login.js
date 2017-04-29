@@ -30,14 +30,9 @@ class Login extends Component {
     passwordsValid: null,
   };
 
-  validateEmail = (emailValid) => {
-    console.log(`email is valid: ${emailValid}`);
-    this.setState({ emailValid }, this.isFormValid);
-  };
+  validateEmail = emailValid => this.setState({ emailValid }, this.isFormValid);
 
-  validatePasswords = (passwordsValid) => {
-    this.setState({ passwordsValid }, this.isFormValid);
-  };
+  validatePasswords = passwordsValid => this.setState({ passwordsValid }, this.isFormValid);
 
   isFormValid = () => {
     const { emailValid, passwordsValid } = this.state;

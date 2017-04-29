@@ -1,33 +1,34 @@
 @import "~style/common.styl"
 
-.top-nav
+#navbar
   position fixed
-  top 0
-  left 0
-  height 40px
-  background-color $black !important
-  box-shadow 0 2px 3px rgba(0, 0, 0, .5) !important
-  border none !important
-  border-radius 0 !important
+  z-index 1000
 
-  > *
-    color $white !important
+  .top-nav
+    position fixed
+    top 0
+    left 0
+    height 40px
+    background-color $black !important
+    box-shadow 0 2px 3px rgba(0, 0, 0, .5) !important
+    border none !important
+    border-radius 0 !important
 
-  .title
-    margin 0 auto
+    > *
+      color $white !important
 
-    > a
-      font-size 1.429rem
-      color $white
-      font-weight $bold !important
-      font-style italic
+    .title
+      margin 0 auto
 
-  .dropdown
-    position absolute !important
-    top 10px
+      > a
+        font-size 1.429rem
+        color $white
+        font-weight $bold !important
+        font-style italic
 
-    &.item
-      padding 0 1rem !important
+    button
+      position fixed
+      top 8px
 
     .icon
       color $white

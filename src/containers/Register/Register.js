@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import * as createActions from 'ducks/modules/user/create';
 
 // components
-import NavigationBar from 'components/NavigationBar/NavigationBar';
 import FooterAuth from 'components/FooterAuth/FooterAuth';
 import LoginForm from './Login/Login';
 import PersonalForm from './Personal/Personal';
@@ -69,8 +68,7 @@ class Register extends Component {
 
   render() {
     return (
-      <main id="register-page">
-        <NavigationBar />
+      <main id="register-page" className="page-fill">
         <section className="inner register-forms-container">
           <form className="ui form" onSubmit={this.handleSubmit}>
             <LoginForm />

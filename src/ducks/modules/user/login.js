@@ -107,10 +107,7 @@ export const loginProcess = credentials => async (dispatch) => {
   const authorized = statusOK(loginResponse.meta.statusCode);
 
   // unable to authorize
-  if (!authorized) {
-    dispatch(loginFail());
-    return false;
-  }
+  if (!authorized) return false;
 
   // grab token from response
   const { token } = loginResponse.payload;

@@ -1,6 +1,7 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { Modal, Form, Divider } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
 // components
 import FooterAuth from 'components/FooterAuth/FooterAuth';
@@ -12,10 +13,14 @@ import ServiceLoginButtonGroup from './components/ServiceLoginButtonGroup';
 // style
 import './LoginModal.styl';
 
+@connect(state => ({ userLogin: state.app.user.userLogin }))
 class LoginModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     setModalOpen: PropTypes.func.isRequired,
+    userLogin: PropTypes.shape({
+      error: PropTypes.bool,
+    }),
   };
 
   state = {
@@ -26,12 +31,7 @@ class LoginModal extends Component {
       emailUsername: '',
       password: '',
     },
-    loginFailed: false,
   };
-
-  setLoginFailed = (loginFailed) => {
-    this.setState({ loginFailed });
-  }
 
   setEmailUsernameValidation = (valid, value) => {
     this.setState({
@@ -61,7 +61,8 @@ class LoginModal extends Component {
 
   render() {
     const { isOpen, setModalOpen } = this.props;
-    const { formValid, formValues, loginFailed } = this.state;
+    const { error } = this.props.userLogin;
+    const { formValid, formValues } = this.state;
 
     return (
       <Modal
@@ -78,12 +79,11 @@ class LoginModal extends Component {
               <EmailUsernameInput setEmailUsernameValidation={this.setEmailUsernameValidation} />
               <PasswordInput
                 setPasswordValidation={this.setPasswordValid}
-                loginFailed={loginFailed}
+                loginFailed={error}
               />
               <LoginButton
                 formValid={formValid}
                 formValues={formValues}
-                setLoginFailed={this.setLoginFailed}
               />
             </Form>
             <p className="help-login">

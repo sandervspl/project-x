@@ -49,20 +49,25 @@ class Register extends Component {
 
   render() {
     const { page } = this.props.create;
+    const isPageTwo = page === 2;
 
     return (
-      <section className={`register-form login ${page === 2 && 'show-personal'}`}>
-        <h1>You</h1>
-        <p className="register-about">
-          Tell us a bit about yourself!
-        </p>
-        <PhotoUpload />
-        <FullNameGroup setValid={this.setFullNameValid} />
-        <UsernameInput
-          validateUsername={this.setUsernameValid}
-          usernameValid={this.state.usernameValid}
-        />
-        <CreateButton />
+      <section className={`register-form login ${isPageTwo && 'show-personal'}`}>
+        {isPageTwo &&
+        <div>
+          <h1>You</h1>
+          <p className="register-about">
+            Tell us a bit about yourself!
+          </p>
+          <PhotoUpload />
+          <FullNameGroup setValid={this.setFullNameValid} />
+          <UsernameInput
+            validateUsername={this.setUsernameValid}
+            usernameValid={this.state.usernameValid}
+          />
+          <CreateButton />
+        </div>
+        }
       </section>
     );
   }

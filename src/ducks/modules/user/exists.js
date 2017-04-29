@@ -43,13 +43,12 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case FAIL: {
-      const idTypeCap = action.idType.charAt(0).toUpperCase() + action.idType.slice(1);
       return {
         ...state,
         loading: false,
         error: true,
         loaded: false,
-        errorMessage: `${idTypeCap} already exists.`,
+        errorMessage: action.errorMessage,
         [`${action.idType}Exists`]: action.exists,
       };
     }
@@ -76,11 +75,15 @@ function fetchSuccess(idType) {
   };
 }
 
-export function fetchFail(idType) {
+export function fetchFail(idType, errorMessage) {
+  const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
+  const msg = errorMessage || `${idTypeCap} already exists.`;
+
   return {
     type: FAIL,
     idType,
     exists: true,
+    errorMessage: msg,
   };
 }
 
@@ -109,15 +112,21 @@ export const checkExists = id => async (dispatch) => {
   dispatch(fetchStart(idType));
 
   // request server
-  let result = await fetch(`${API_HOST}/users/exists`, init);
-  result = await result.json();
+  try {
+    let result = await fetch(`${API_HOST}/users/exists`, init);
+    result = await result.json();
 
-  const { statusCode } = result.meta;
+    const { statusCode } = result.meta;
 
-  if (statusOK(statusCode)) {
-    // id does not exist
-    dispatch(fetchSuccess(idType));
-    return false;
+    if (statusOK(statusCode)) {
+      // id does not exist
+      dispatch(fetchSuccess(idType));
+      return false;
+    }
+  } catch (err) {
+    // console.log(`EXISTS ERROR: ${err}`);
+    dispatch(fetchFail(idType, 'Server error.'));
+    return true;
   }
 
   // id exists

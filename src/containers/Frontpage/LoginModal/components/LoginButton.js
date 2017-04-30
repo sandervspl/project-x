@@ -17,6 +17,7 @@ class LoginButton extends Component {
     loginProcess: PropTypes.func,
     userLogin: PropTypes.shape({
       loading: PropTypes.bool,
+      loaded: PropTypes.bool,
     }),
   };
 
@@ -28,7 +29,7 @@ class LoginButton extends Component {
 
   render() {
     const { formValid } = this.props;
-    const { loading } = this.props.userLogin;
+    const { loading, loaded } = this.props.userLogin;
 
     return (
       <Button
@@ -37,7 +38,7 @@ class LoginButton extends Component {
         id="px-signin-btn"
         onClick={this.handleClick}
         fluid
-        disabled={!formValid}
+        disabled={!formValid || loading || loaded}
         loading={loading}
       >
         Sign in

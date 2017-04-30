@@ -26,7 +26,7 @@ export default function reducer(state = initialState, action = {}) {
     case START:
       return {
         ...state,
-        loading: true,
+        loading: action.loading !== undefined ? action.loading : true,
         error: false,
         loaded: false,
         errorMessage: '',
@@ -56,9 +56,10 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 // action creators
-function loginStart() {
+function loginStart(loading = true) {
   return {
     type: START,
+    loading,
   };
 }
 
@@ -75,6 +76,10 @@ function loginFail(errorMessage = defaultMsg) {
     errorMessage,
   };
 }
+
+export const loginReset = () => (dispatch) => {
+  dispatch(loginStart(false));
+};
 
 // async actions
 export const login = credentials => async (dispatch) => {
@@ -134,7 +139,7 @@ export const loginProcess = credentials => async (dispatch) => {
       return true;
     }
   } catch (err) {
-    console.log(`LOGIN FETCH DATA ERROR: ${err}`);
+    // console.log(`LOGIN FETCH DATA ERROR: ${err}`);
   }
 
   return false;

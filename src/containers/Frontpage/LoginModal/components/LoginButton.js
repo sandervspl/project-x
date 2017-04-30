@@ -19,7 +19,12 @@ class LoginButton extends Component {
       loading: PropTypes.bool,
       loaded: PropTypes.bool,
     }),
+    loginReset: PropTypes.func,
   };
+
+  componentDidMount() {
+    this.props.loginReset();
+  }
 
   handleClick = (e) => {
     e.preventDefault();

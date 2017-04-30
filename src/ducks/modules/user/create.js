@@ -26,6 +26,7 @@ export const initialState = {
   loginFormValid: null,
   personalFormValid: null,
   page: 1,
+  errorMessage: '',
 };
 
 // cookies
@@ -40,6 +41,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: true,
         error: false,
         loaded: false,
+        errorMessage: '',
       };
 
     case SUCCESS:
@@ -48,6 +50,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         error: false,
         loaded: true,
+        errorMessage: '',
       };
 
     case FAIL:
@@ -56,6 +59,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         error: true,
         loaded: false,
+        errorMessage: action.errorMessage,
       };
 
     case LOGIN_FORM_VALID:
@@ -106,9 +110,10 @@ function createSuccess() {
   };
 }
 
-function createFail() {
+function createFail(errorMessage = 'Unable to register at this moment.') {
   return {
     type: FAIL,
+    errorMessage,
   };
 }
 
@@ -144,20 +149,24 @@ export const createUser = newUser => async (dispatch) => {
     body: JSON.stringify(userObject),
   };
 
-  let result = await fetch(`${API_HOST}/users/create`, init);
-  result = await result.json();
+  try {
+    let result = await fetch(`${API_HOST}/users/create`, init);
+    result = await result.json();
 
-  const { statusCode } = result.meta;
+    const { statusCode } = result.meta;
 
-  if (statusOK(statusCode)) {
-    const { token } = result.payload;
+    if (statusOK(statusCode)) {
+      const { token } = result.payload;
 
-    // save token to cookie
-    Cookies.set(authToken, token);
+      // save token to cookie
+      Cookies.set(authToken, token);
 
-    // set state to success
-    dispatch(createSuccess());
-    return true;
+      // set state to success
+      dispatch(createSuccess());
+      return true;
+    }
+  } catch (err) {
+    // console.log(`CREATE ERROR: ${err}`);
   }
 
   dispatch(createFail());

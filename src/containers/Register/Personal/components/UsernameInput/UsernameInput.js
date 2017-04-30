@@ -11,7 +11,10 @@ import InputError from 'components/InputError/InputError';
 import * as existsActions from 'ducks/modules/user/exists';
 
 @connect(
-  state => ({ exists: state.app.user.userExists }),
+  state => ({
+    exists: state.app.user.userExists,
+    create: state.app.user.userCreate,
+  }),
   existsActions,
 )
 class Username extends Component {
@@ -25,6 +28,10 @@ class Username extends Component {
     }),
     checkExists: PropTypes.func,
     invalidId: PropTypes.func,
+    create: PropTypes.shape({
+      error: PropTypes.bool,
+      errorMessage: PropTypes.string,
+    }),
   };
 
   constructor(p) {
@@ -74,6 +81,8 @@ class Username extends Component {
   render() {
     const { usernameValid } = this.props;
     const { loading, usernameExists, errorMessage } = this.props.exists;
+    const { error } = this.props.create;
+    const errorMessageCreate = this.props.create.errorMessage;
     const showErrorShort = (usernameValid !== null && !usernameValid && !usernameExists);
     const icon = this.handleIcon();
 
@@ -91,7 +100,8 @@ class Username extends Component {
           showErrorShort &&
           <InputError>Username is too short.</InputError>
         }
-        { usernameExists && <InputError>{ errorMessage }</InputError> }
+        { usernameExists && <InputError>{errorMessage}</InputError> }
+        { error && <InputError>{errorMessageCreate}</InputError>}
       </Form.Field>
     );
   }

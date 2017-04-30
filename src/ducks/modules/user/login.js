@@ -125,14 +125,17 @@ export const loginProcess = credentials => async (dispatch) => {
   const { token } = loginResponse.payload;
 
   // fetch user data with token
-  const userDataResponse = await dispatch(fetchUserData(token));
-  const { statusCode } = userDataResponse.meta;
+  try {
+    const fetchedUserData = await dispatch(fetchUserData(token));
 
-  // something went wrong
-  if (!statusOK(statusCode)) return false;
+    if (fetchedUserData) {
+      // redirect to user page
+      browserHistory.push('/user');
+      return true;
+    }
+  } catch (err) {
+    console.log(`LOGIN FETCH DATA ERROR: ${err}`);
+  }
 
-  // redirect to user page
-  browserHistory.push('/user');
-
-  return true;
+  return false;
 };

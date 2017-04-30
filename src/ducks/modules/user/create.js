@@ -182,12 +182,9 @@ export const createUserProcess = newUser => async (dispatch) => {
     const token = Cookies.get(authToken);
 
     // fetch user data and save to state
-    const userDataResponse = await dispatch(fetchUserData(token));
-    const { statusCode } = userDataResponse.meta;
+    const fetchedUserData = await dispatch(fetchUserData(token));
 
-    if (statusOK(statusCode)) {
-      // redirect to user page
-      browserHistory.push('/user');
-    }
+    // redirect to user page
+    if (fetchedUserData) browserHistory.push('/user');
   }
 };

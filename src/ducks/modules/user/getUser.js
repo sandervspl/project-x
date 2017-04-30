@@ -19,6 +19,7 @@ export const initialState = {
   error: false,
   loaded: false,
   user: {},
+  errorMessage: '',
 };
 
 // reducer
@@ -30,6 +31,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: true,
         error: false,
         loaded: false,
+        errorMessage: '',
       };
 
     case SUCCESS:
@@ -39,6 +41,7 @@ export default function reducer(state = initialState, action = {}) {
         error: false,
         loaded: true,
         user: action.user,
+        errorMessage: '',
       };
 
     case FAIL:
@@ -47,6 +50,7 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         error: true,
         loaded: false,
+        errorMessage: action.errorMessage,
       };
 
     default:
@@ -71,6 +75,7 @@ function fetchSuccess(user) {
 function fetchFail() {
   return {
     type: FAIL,
+    errorMessage: 'Server error.',
   };
 }
 
@@ -100,22 +105,26 @@ export const fetchUserData = pToken => async (dispatch) => {
   };
 
   // fetch user data
-  let response = await fetch(`${API_HOST}/users/me`, init);
-  response = await response.json();
+  try {
+    let response = await fetch(`${API_HOST}/users/me`, init);
+    response = await response.json();
 
-  const { statusCode } = response.meta;
-  const { payload } = response;
+    const { statusCode } = response.meta;
+    const { payload } = response;
 
-  if (statusOK(statusCode)) {
-    // set state to success
-    dispatch(fetchSuccess(payload));
-    return response;
-  } else if (statusCode === 401) {
-    // auth error; token has probably expired.
-    browserHistory.push('/?login=1');
+    if (statusOK(statusCode)) {
+      // set state to success
+      dispatch(fetchSuccess(payload));
+      return true;
+    } else if (statusCode === 401) {
+      // auth error; token has probably expired.
+      browserHistory.push('/?login=1');
+    }
+  } catch (err) {
+    // console.log(`GET DATA ERROR: ${err}`);
   }
 
   // something went wrong
   dispatch(fetchFail());
-  return response;
+  return false;
 };

@@ -37,7 +37,9 @@ class Profile extends Component {
     const { user } = this.props.getUser;
 
     // fetch user data if its missing
-    if (_.isEmpty(user)) fetchUserData();
+    if (_.isEmpty(user)) {
+      fetchUserData();
+    }
   }
 
   render() {

@@ -1,7 +1,7 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { Sidebar, Icon, Menu } from 'semantic-ui-react';
-import { browserHistory } from 'react-router';
+// import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 
 // components
@@ -15,16 +15,19 @@ import * as userActions from 'ducks/modules/user/getUser';
 import './SidebarMenu.styl';
 
 // sidebar items
-const ItemLogo = () => {
-  function handleClick() {
-    browserHistory.push('/');
-  }
-
-  return (
-    <Menu.Item name="home" onClick={handleClick} className="logo-item">
-      <Icon name="music" fitted className="sidebar-icon logo" />
-    </Menu.Item>
-  );
+const ItemTop = ({ toggleOpen }) => (
+  <Menu.Item name="home" className="item-top">
+    <div className="item-left">
+      <a href="#" className="item-text-language">ENGLISH</a>
+    </div>
+    <div className="item-right" onClick={toggleOpen}>
+      <span className="item-text sidebar-close-text">CLOSE</span>
+      <Icon name="close" fitted />
+    </div>
+  </Menu.Item>
+);
+ItemTop.propTypes = {
+  toggleOpen: PropTypes.func,
 };
 
 const ItemLogOut = ({ logout }) => {
@@ -36,7 +39,7 @@ const ItemLogOut = ({ logout }) => {
   return (
     <Menu.Item name="logout" onClick={handleClick}>
       <Icon name="shutdown" fitted className="sidebar-icon" />
-      Logout
+      <span className="item-text">Logout</span>
     </Menu.Item>
   );
 };
@@ -47,7 +50,7 @@ ItemLogOut.propTypes = {
 const ItemTwo = () => (
   <Menu.Item name="home">
     <Icon name="home" fitted className="sidebar-icon" />
-    Item two
+    <span className="item-text">Item two</span>
   </Menu.Item>
 );
 
@@ -82,7 +85,7 @@ class SidebarMenu extends Component {
             inverted
             className="sidebar-inner"
           >
-            <ItemLogo />
+            <ItemTop toggleOpen={this.toggleOpen} />
             <Authorized>
               <ItemLogOut logout={unauthorize} />
             </Authorized>
@@ -92,6 +95,7 @@ class SidebarMenu extends Component {
             <NavigationBar toggleSidebar={this.toggleOpen} />
             {children}
           </Sidebar.Pusher>
+          <div className="pushable-overlay" />
         </Sidebar.Pushable>
       </div>
     );

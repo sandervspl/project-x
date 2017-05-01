@@ -30,7 +30,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 // NOTE: routes on the App path will get the navbar and sidebar
 export default () => (
   <Provider store={store} key="provider">
-    <Router history={history}>
+    <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
       <Route exact path="/" components={Frontpage} onEnter={isAuth} />
       <Route components={App}>
         <Route path="/register" components={Register} onEnter={isAuth} />

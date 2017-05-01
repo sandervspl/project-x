@@ -16,8 +16,8 @@ import App from 'containers/App/App';
 // redux store
 import store from 'store';
 
-// helpers
-// import { isLoggedIn } from 'helpers/auth';
+// middleware
+import { authRedirect } from './middleware/auth';
 
 // debugging
 if (process.env.NODE_ENV === 'development') {
@@ -31,7 +31,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 export default () => (
   <Provider store={store} key="provider">
     <Router history={history}>
-      <Route exact path="/" components={Frontpage} />
+      <Route exact path="/" components={Frontpage} onEnter={authRedirect} />
       <Route components={App}>
         <Route path="/register" components={Register} />
         <Route path="/user" components={User}>

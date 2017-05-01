@@ -17,7 +17,7 @@ import App from 'containers/App/App';
 import store from 'store';
 
 // middleware
-import { authRedirect } from './middleware/auth';
+import { isAuth, hasAccess } from './middleware/auth';
 
 // debugging
 if (process.env.NODE_ENV === 'development') {
@@ -31,10 +31,10 @@ const history = syncHistoryWithStore(browserHistory, store);
 export default () => (
   <Provider store={store} key="provider">
     <Router history={history}>
-      <Route exact path="/" components={Frontpage} onEnter={authRedirect} />
+      <Route exact path="/" components={Frontpage} onEnter={isAuth} />
       <Route components={App}>
-        <Route path="/register" components={Register} />
-        <Route path="/user" components={User}>
+        <Route path="/register" components={Register} onEnter={isAuth} />
+        <Route path="/user" components={User} onEnter={hasAccess}>
           <IndexRoute components={Profile} />
         </Route>
       </Route>

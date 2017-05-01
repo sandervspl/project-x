@@ -31,15 +31,15 @@ class LoginButton extends Component {
     }),
     loginActions: PropTypes.shape({
       loginProcess: PropTypes.func,
-      loginReset: PropTypes.func,
+      resetLogin: PropTypes.func,
     }),
   };
 
   componentDidMount() {
     const { loaded } = this.props.userLogin;
-    const { loginReset } = this.props.loginActions;
+    const { resetLogin } = this.props.loginActions;
 
-    if (loaded) loginReset();
+    if (loaded) resetLogin();
   }
 
   handleClick = (e) => {

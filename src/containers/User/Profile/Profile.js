@@ -10,6 +10,9 @@ import Authorized from 'components/Authorized/Authorized';
 // actions
 import * as getUserActions from 'ducks/modules/user/getUser';
 
+// helpers
+import { isLoggedIn } from 'helpers/auth';
+
 // style
 import './Profile.styl';
 
@@ -32,12 +35,14 @@ class Profile extends Component {
     fetchUserData: PropTypes.func,
   };
 
-  componentWillMount() {
+  async componentDidMount() {
     const { fetchUserData } = this.props;
     const { user } = this.props.getUser;
 
+    const isAuth = await isLoggedIn();
+
     // fetch user data if its missing
-    if (_.isEmpty(user)) {
+    if (isAuth && _.isEmpty(user)) {
       fetchUserData();
     }
   }

@@ -2,10 +2,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Sidebar, Icon, Menu } from 'semantic-ui-react';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 
 // components
 import NavigationBar from 'components/NavigationBar/NavigationBar';
 import Authorized from 'components/Authorized/Authorized';
+
+// actions
+import * as userActions from 'ducks/modules/user/getUser';
 
 // style
 import './SidebarMenu.styl';
@@ -23,9 +27,10 @@ const ItemLogo = () => {
   );
 };
 
-const ItemLogOut = () => {
+const ItemLogOut = ({ logout }) => {
   function handleClick() {
-    console.log('log out');
+    // TODO: add modal: are you sure? Y/N
+    logout();
   }
 
   return (
@@ -34,6 +39,9 @@ const ItemLogOut = () => {
       Logout
     </Menu.Item>
   );
+};
+ItemLogOut.propTypes = {
+  logout: PropTypes.func,
 };
 
 const ItemTwo = () => (
@@ -44,9 +52,11 @@ const ItemTwo = () => (
 );
 
 // sidebar
+@connect(null, userActions)
 class SidebarMenu extends Component {
   static propTypes = {
     children: PropTypes.element,
+    unauthorize: PropTypes.func,
   };
 
   state = {
@@ -56,7 +66,7 @@ class SidebarMenu extends Component {
   toggleOpen = () => this.setState({ open: !this.state.open });
 
   render() {
-    const { children } = this.props;
+    const { children, unauthorize } = this.props;
     const { open } = this.state;
 
     return (
@@ -74,7 +84,7 @@ class SidebarMenu extends Component {
           >
             <ItemLogo />
             <Authorized>
-              <ItemLogOut />
+              <ItemLogOut logout={unauthorize} />
             </Authorized>
             <ItemTwo />
           </Sidebar>

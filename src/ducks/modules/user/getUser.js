@@ -56,13 +56,7 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case RESET:
-      return {
-        ...state,
-        loading: false,
-        error: false,
-        loaded: false,
-        errorMessage: '',
-      };
+      return initialState;
 
     default:
       return state;
@@ -98,10 +92,16 @@ function fetchReset() {
 
 export const resetUser = () => dispatch => dispatch(fetchReset());
 
-const unauthorize = () => (dispatch) => {
-  dispatch(fetchFail('Session expired. Please sign in.'));
-  Cookies.remove(authToken);
-  browserHistory.push('/?login=1');
+export const unauthorize = (fail = false) => async (dispatch) => {
+  await Cookies.remove(authToken);
+
+  if (fail) {
+    await dispatch(fetchFail('Session expired. Please sign in.'));
+  } else {
+    await dispatch(fetchReset());
+  }
+
+  browserHistory.push('/');
 };
 
 // async actions
@@ -111,6 +111,11 @@ export const fetchUserData = pToken => async (dispatch) => {
 
   // get token
   const token = pToken || Cookies.get(authToken);
+
+  if (!token) {
+    dispatch(fetchReset());
+    return false;
+  }
 
   // save token to cookie if needed
   if (pToken) {
@@ -143,7 +148,8 @@ export const fetchUserData = pToken => async (dispatch) => {
       return true;
     } else if (statusCode === 401) {
       // auth error; token has probably expired.
-      dispatch(unauthorize());
+      // console.error('token invalid or expired');
+      dispatch(unauthorize(true));
       return false;
     }
   } catch (err) {

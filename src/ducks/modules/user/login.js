@@ -11,6 +11,7 @@ import { fetchUserData } from './getUser';
 export const START = 'px/user/LOGIN_START';
 export const SUCCESS = 'px/user/LOGIN_SUCCESS';
 export const FAIL = 'px/user/LOGIN_FAIL';
+export const RESET = 'px/user/LOGIN_RESET';
 
 // state
 export const initialState = {
@@ -50,6 +51,9 @@ export default function reducer(state = initialState, action = {}) {
         errorMessage: action.errorMessage,
       };
 
+    case RESET:
+      return initialState;
+
     default:
       return state;
   }
@@ -69,6 +73,12 @@ function loginSuccess() {
   };
 }
 
+function loginReset() {
+  return {
+    type: RESET,
+  };
+}
+
 const defaultMsg = 'Invalid username and/or password.';
 function loginFail(errorMessage = defaultMsg) {
   return {
@@ -77,9 +87,7 @@ function loginFail(errorMessage = defaultMsg) {
   };
 }
 
-export const loginReset = () => (dispatch) => {
-  dispatch(loginStart(false));
-};
+export const resetLogin = () => dispatch => dispatch(loginReset());
 
 // async actions
 export const login = credentials => async (dispatch) => {

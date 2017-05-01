@@ -1,13 +1,8 @@
 // dependencies
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import { syncHistoryWithStore, routerReducer as routing, routerMiddleware } from 'react-router-redux';
-import { responsiveStateReducer } from 'redux-responsive';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
-import { combineReducers, createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import promise from 'redux-promise';
-import { createLogger } from 'redux-logger';
 import Cookies from 'js-cookie';
 
 // components
@@ -18,30 +13,14 @@ import User from 'containers/User/User';
 import Profile from 'containers/User/Profile/Profile';
 import App from 'containers/App/App';
 
-// reducers
-import app from 'ducks';
+// redux store
+import store from 'store';
 
-const reducer = combineReducers({
-  app,
-  routing,
-  browser: responsiveStateReducer,
-});
+// helpers
+// import { isLoggedIn } from 'helpers/auth';
 
-// create store with middleware
-const logger = createLogger();
-const store = createStore(
-  reducer,
-  applyMiddleware(
-    thunk,
-    promise,
-    logger,
-    routerMiddleware(browserHistory),
-  ),
-);
-
-// store debugger
+// debugging
 if (process.env.NODE_ENV === 'development') {
-  window.store = store;
   window.cookies = Cookies;
 }
 

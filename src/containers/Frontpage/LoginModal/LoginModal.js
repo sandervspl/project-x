@@ -1,6 +1,12 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { Modal, Form, Divider } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+// actions
+import * as loginActions from 'ducks/modules/user/login';
+import * as userActions from 'ducks/modules/user/getUser';
 
 // components
 import FooterAuth from 'components/FooterAuth/FooterAuth';
@@ -12,10 +18,26 @@ import ServiceLoginButtonGroup from './components/ServiceLoginButtonGroup';
 // style
 import './LoginModal.styl';
 
+@connect(
+  state => ({
+    userLogin: state.app.user.userLogin,
+    getUser: state.app.user.getUser,
+  }),
+  dispatch => ({
+    loginActions: bindActionCreators(loginActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
+  }),
+)
 class LoginModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     setModalOpen: PropTypes.func.isRequired,
+    loginActions: PropTypes.shape({
+      resetLogin: PropTypes.func,
+    }),
+    userLogin: PropTypes.shape({
+      loaded: PropTypes.bool,
+    }),
   };
 
   state = {
@@ -27,6 +49,13 @@ class LoginModal extends Component {
       password: '',
     },
   };
+
+  componentWillUnmount() {
+    const { loaded } = this.props.userLogin;
+    const { resetLogin } = this.props.loginActions;
+
+    if (loaded) resetLogin();
+  }
 
   setEmailUsernameValidation = (valid, value) => {
     this.setState({

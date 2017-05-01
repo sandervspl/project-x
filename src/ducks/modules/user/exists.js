@@ -1,7 +1,7 @@
 // dependencies
 import fetch from 'isomorphic-fetch';
 import { isEmail } from 'validator';
-import statusOK from '../../../helpers/async';
+import { statusOK } from '../../../helpers/async';
 import { API_HOST } from '../../../config';
 
 // actions

@@ -2,7 +2,7 @@
 import fetch from 'isomorphic-fetch';
 import Cookies from 'js-cookie';
 import { browserHistory } from 'react-router';
-import statusOK from '../../../helpers/async';
+import { statusOK } from '../../../helpers/async';
 import { API_HOST, cookies } from '../../../config';
 
 // cookies
@@ -12,6 +12,7 @@ const authToken = cookies.auth.token;
 export const START = 'px/user/FETCH_START';
 export const SUCCESS = 'px/user/FETCH_SUCCESS';
 export const FAIL = 'px/user/FETCH_FAIL';
+export const RESET = 'px/user/FETCH_RESET';
 
 // state
 export const initialState = {
@@ -51,6 +52,16 @@ export default function reducer(state = initialState, action = {}) {
         error: true,
         loaded: false,
         errorMessage: action.errorMessage,
+        user: {},
+      };
+
+    case RESET:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        loaded: false,
+        errorMessage: '',
       };
 
     default:
@@ -72,12 +83,26 @@ function fetchSuccess(user) {
   };
 }
 
-function fetchFail() {
+function fetchFail(errorMessage = 'Server error.') {
   return {
     type: FAIL,
-    errorMessage: 'Server error.',
+    errorMessage,
   };
 }
+
+function fetchReset() {
+  return {
+    type: RESET,
+  };
+}
+
+export const resetUser = () => dispatch => dispatch(fetchReset());
+
+const unauthorize = () => (dispatch) => {
+  dispatch(fetchFail('Session expired. Please sign in.'));
+  Cookies.remove(authToken);
+  browserHistory.push('/?login=1');
+};
 
 // async actions
 export const fetchUserData = pToken => async (dispatch) => {
@@ -118,7 +143,8 @@ export const fetchUserData = pToken => async (dispatch) => {
       return true;
     } else if (statusCode === 401) {
       // auth error; token has probably expired.
-      browserHistory.push('/?login=1');
+      dispatch(unauthorize());
+      return false;
     }
   } catch (err) {
     // console.log(`GET DATA ERROR: ${err}`);

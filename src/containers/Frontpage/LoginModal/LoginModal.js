@@ -1,7 +1,6 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { Modal, Form, Divider } from 'semantic-ui-react';
-import { connect } from 'react-redux';
 
 // components
 import FooterAuth from 'components/FooterAuth/FooterAuth';
@@ -13,15 +12,10 @@ import ServiceLoginButtonGroup from './components/ServiceLoginButtonGroup';
 // style
 import './LoginModal.styl';
 
-@connect(state => ({ userLogin: state.app.user.userLogin }))
 class LoginModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     setModalOpen: PropTypes.func.isRequired,
-    userLogin: PropTypes.shape({
-      error: PropTypes.bool,
-      errorMessage: PropTypes.string,
-    }),
   };
 
   state = {
@@ -62,7 +56,6 @@ class LoginModal extends Component {
 
   render() {
     const { isOpen, setModalOpen } = this.props;
-    const { error, errorMessage } = this.props.userLogin;
     const { formValid, formValues } = this.state;
 
     return (
@@ -78,11 +71,7 @@ class LoginModal extends Component {
           <Modal.Description>
             <Form>
               <EmailUsernameInput setEmailUsernameValidation={this.setEmailUsernameValidation} />
-              <PasswordInput
-                setPasswordValidation={this.setPasswordValid}
-                loginFailed={error}
-                errorMsg={errorMessage}
-              />
+              <PasswordInput setPasswordValidation={this.setPasswordValid} />
               <LoginButton
                 formValid={formValid}
                 formValues={formValues}

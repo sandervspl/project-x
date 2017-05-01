@@ -1,7 +1,7 @@
 // dependencies
 import fetch from 'isomorphic-fetch';
 import { browserHistory } from 'react-router';
-import statusOK from '../../../helpers/async';
+import { statusOK } from '../../../helpers/async';
 import { API_HOST } from '../../../config';
 
 // other actions

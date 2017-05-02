@@ -18,7 +18,7 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 // helpers
-import statusOK from '../../helpers/async';
+import { statusOK } from '../../helpers/async';
 
 // test variables
 const email = 'joedoe@gmail.com';

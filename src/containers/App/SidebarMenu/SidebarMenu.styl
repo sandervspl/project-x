@@ -2,31 +2,82 @@
 
 #app
   .sidebar-inner
-    background-color $black_light
+    background-color $white
 
     .item
-      padding .75rem 1.143rem
-      background-color $black
-      border none
-      color $off_white
+      padding 1.5rem 1.143rem
+      background-color $white
+      border-top 1px solid $grey_light
+      color $black
       text-align left
 
       &::before
-        background $black_light
+        background none
 
-      &.logo-item
-        padding 2rem 0
-        text-align center
-        background-color transparent
+      &:active, &:focus
+        background $off_white
+
+      &.item-top
+        padding 2rem 1.143rem
+        width 100%
+
+        > .item-left
+          display inline-block
+          width 50%
+          height 100%
+          text-align left
+
+          .item-text-language
+            vertical-align middle
+            border-bottom 1px solid $purple_medium
+            font-weight $regular
+
+        > .item-right
+          display inline-block
+          width 50%
+          height 100%
+          text-align right
+
+          .sidebar-close-text
+            padding-right .5rem
+            font-size 1rem
+            font-weight $regular
+            vertical-align middle
+
+          i.close
+            padding-right 0
+            color $black_light
+
+      .item-text
+        font-size 1.1rem
+        font-weight $demibold
 
       i
         display inline-block
         margin 0 !important
         padding-right 2.5rem
         color $purple_medium
-        font-size 1.75rem !important
+        font-size 1.85rem !important
         vertical-align middle
 
         &.logo
           padding-right 0
           font-size 4rem !important
+
+  .pushable-overlay
+    position fixed
+    left 0
+    top 0
+    z-index 2134354
+    height 100%
+    width 100%
+    transform translate3d(0, 0, 0)
+    background rgba(0, 0, 0, 0)
+    pointer-events none
+    transition transform 500ms ease, background 500ms ease
+
+#app .ui.wide.left.sidebar
+  &.visible ~ .pushable-overlay
+    transform translate3d(300px, 0, 0)
+    background rgba(0, 0, 0, 0.65)
+    pointer-events auto

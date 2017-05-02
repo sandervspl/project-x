@@ -1,0 +1,18 @@
+@import "~style/common.styl"
+
+#app #user-page #party-buttons-container
+  .party-button
+    flex 1
+    max-width 165px
+    font-size 1.643rem !important
+
+    &:last-child
+      margin-right 0
+
+    .icon
+      margin 0
+      color $white
+      opacity 1
+
+    &.join > .icon
+      color $purple_default

@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 import _ from 'lodash';
 
-// components
-import Authorized from 'components/Authorized/Authorized';
 
 // actions
 import * as getUserActions from 'ducks/modules/user/getUser';
 
 // helpers
 import { isLoggedIn } from 'helpers/auth';
+
+// components
+import UserProfile from './UserProfile/UserProfile';
+import PartyButtonGroup from './PartyButtonGroup/PartyButtonGroup';
+import PartyListGroup from './PartyListGroup/PartyListGroup';
 
 // style
 import './Profile.styl';
@@ -25,15 +28,12 @@ class Profile extends Component {
     getUser: PropTypes.shape({
       loading: PropTypes.bool,
       error: PropTypes.bool,
-      user: PropTypes.shape({
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-        username: PropTypes.string,
-        email: PropTypes.string,
-      }),
+      user: PropTypes.shape({}),
     }),
     fetchUserData: PropTypes.func,
   };
+
+  state = {};
 
   async componentDidMount() {
     const { fetchUserData } = this.props;
@@ -51,35 +51,19 @@ class Profile extends Component {
     const { loading, error } = this.props.getUser;
 
     if (loading) {
-      return (
-        <div>
-          <h1>Profile</h1>
-          <Loader className="purple-loader" active size="massive" />
-        </div>
-      );
+      return <Loader className="purple-loader" active size="massive" />;
     }
 
     if (error) {
-      return (
-        <div>
-          <h1>Profile</h1>
-          <h3>Something went wrong.</h3>
-        </div>
-      );
+      return <h3>Something went wrong.</h3>;
     }
 
-    const { firstName, lastName, username, email } = this.props.getUser.user;
+    const { user } = this.props.getUser;
     return (
-      <section>
-        <h1>Profile</h1>
-        <Authorized>
-          <ul>
-            <li>{firstName}</li>
-            <li>{lastName}</li>
-            <li>{username}</li>
-            <li>{email}</li>
-          </ul>
-        </Authorized>
+      <section id="user-page">
+        <UserProfile user={user} />
+        <PartyButtonGroup />
+        <PartyListGroup />
       </section>
     );
   }

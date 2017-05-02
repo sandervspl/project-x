@@ -31,11 +31,17 @@ class Background extends Component {
   }
 
   componentWillMount() {
-    if (this.isMobileDevice) {
-      this.imageURI = this.setImage();
-    } else {
-      this.videoURI = this.setVideo();
-    }
+    this.videoURI = this.setVideo();
+
+    // if (!this.isMobileDevice) {
+    //   this.imageURI = this.setImage();
+    // } else {
+    //   this.videoURI = this.setVideo();
+    // }
+  }
+
+  componentDidMount() {
+    this.player.setAttribute('playsinline', '');
   }
 
   // the img element is only there so we can load an image into memory
@@ -68,32 +74,52 @@ class Background extends Component {
     return md.phone() !== null || md.tablet() !== null || md.isPhoneSized();
   };
 
+  ref = (player) => {
+    this.player = player;
+  }
+
   renderBackground = () => {
-    const showVideo = !this.isMobileDevice;
+    // const showVideo = this.isMobileDevice;
     const { hasLoaded } = this.props;
 
-    // show video on desktop
-    if (showVideo) {
-      return (
-        <video
-          preload="auto"
-          autoPlay="true"
-          loop="true"
-          type="video/mp4"
-          src={this.videoURI}
-          onCanPlayThrough={hasLoaded}
-          className="background video"
-        />
-      );
-    }
-
-    // set random background image for mobile
-    const style = { backgroundImage: `url(${this.imageURI})` };
     return (
-      <div className="background img" style={style}>
-        <img src={this.imageURI} alt="bg-loader" id="bg-loader" onLoad={this.onLoad} />
-      </div>
+      <video
+        ref={this.ref}
+        preload="auto"
+        type="video/mp4"
+        src={this.videoURI}
+        onCanPlayThrough={hasLoaded}
+        className="background video"
+        autoPlay
+        muted
+        loop
+      />
     );
+
+    // show video on desktop
+    // if (showVideo) {
+    //   return (
+    //     <video
+    //       ref={this.ref}
+    //       preload="auto"
+    //       type="video/mp4"
+    //       src={this.videoURI}
+    //       onCanPlayThrough={hasLoaded}
+    //       className="background video"
+    //       autoPlay
+    //       muted
+    //       loop
+    //     />
+    //   );
+    // }
+    //
+    // // set random background image for mobile
+    // const style = { backgroundImage: `url(${this.imageURI})` };
+    // return (
+    //   <div className="background img" style={style}>
+    //     <img src={this.imageURI} alt="bg-loader" id="bg-loader" onLoad={this.onLoad} />
+    //   </div>
+    // );
   };
 
   render() {

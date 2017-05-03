@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react';
 import './User.styl';
 
 const User = ({ children }) => (
-  <main className="page-fill">
+  <main className="page-fill flow">
     <div className="inner">
       { children }
     </div>

@@ -22,7 +22,7 @@ export const initialState = {
 };
 
 // reducer
-export default function reducer(state = initialState, action = {}) {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
     case START:
       return {
@@ -57,35 +57,26 @@ export default function reducer(state = initialState, action = {}) {
     default:
       return state;
   }
-}
+};
 
 // action creators
-function loginStart(loading = true) {
-  return {
-    type: START,
-    loading,
-  };
-}
+const loginStart = (loading = true) => ({
+  type: START,
+  loading,
+});
 
-function loginSuccess() {
-  return {
-    type: SUCCESS,
-  };
-}
+const loginSuccess = () => ({
+  type: SUCCESS,
+});
 
-function loginReset() {
-  return {
-    type: RESET,
-  };
-}
+const loginReset = () => ({
+  type: RESET,
+});
 
-const defaultMsg = 'Invalid username and/or password.';
-function loginFail(errorMessage = defaultMsg) {
-  return {
-    type: FAIL,
-    errorMessage,
-  };
-}
+const loginFail = (errorMessage = 'Invalid username and/or password.') => ({
+  type: FAIL,
+  errorMessage,
+});
 
 export const resetLogin = () => dispatch => dispatch(loginReset());
 
@@ -111,14 +102,14 @@ export const login = credentials => async (dispatch) => {
 
   // authorization
   try {
-    let response = await fetch(`${API_HOST}/auths/local`, init);
-    response = await response.json();
+    const result = await fetch(`${API_HOST}/auths/local`, init);
+    const data = await result.json();
 
     // set state to result
-    const { statusCode } = response.meta;
+    const { statusCode } = data.meta;
     dispatch(statusOK(statusCode) ? loginSuccess() : loginFail());
 
-    return response;
+    return data;
   } catch (err) {
     // console.error(`LOGIN ERROR: ${err}`);
     dispatch(loginFail('Unable to sign in at this moment.'));

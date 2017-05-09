@@ -20,7 +20,7 @@ export const initialState = {
 };
 
 // reducer
-export default function reducer(state = initialState, action = {}) {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
     case START:
       return {
@@ -56,26 +56,22 @@ export default function reducer(state = initialState, action = {}) {
     default:
       return state;
   }
-}
+};
 
 // action creators
-function fetchStart(idType) {
-  return {
-    type: START,
-    idType,
-    exists: false,
-  };
-}
+const fetchStart = idType => ({
+  type: START,
+  idType,
+  exists: false,
+});
 
-function fetchSuccess(idType) {
-  return {
-    type: SUCCESS,
-    idType,
-    exists: false,
-  };
-}
+const fetchSuccess = idType => ({
+  type: SUCCESS,
+  idType,
+  exists: false,
+});
 
-export function fetchFail(idType, errorMessage) {
+export const fetchFail = (idType, errorMessage) => {
   const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
   const msg = errorMessage || `${idTypeCap} already exists.`;
 
@@ -85,16 +81,14 @@ export function fetchFail(idType, errorMessage) {
     exists: true,
     errorMessage: msg,
   };
-}
+};
 
-export function invalidId(idType) {
-  return {
-    type: FAIL,
-    msg: '',
-    idType,
-    exists: false,
-  };
-}
+export const invalidId = idType => ({
+  type: FAIL,
+  msg: '',
+  idType,
+  exists: false,
+});
 
 // async actions
 export const checkExists = id => async (dispatch) => {
@@ -113,10 +107,10 @@ export const checkExists = id => async (dispatch) => {
 
   // request server
   try {
-    let result = await fetch(`${API_HOST}/users/exists`, init);
-    result = await result.json();
+    const result = await fetch(`${API_HOST}/users/exists`, init);
+    const data = await result.json();
 
-    const { statusCode } = result.meta;
+    const { statusCode } = data.meta;
 
     if (statusOK(statusCode)) {
       // id does not exist

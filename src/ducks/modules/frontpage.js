@@ -8,7 +8,7 @@ const initialState = {
 };
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
     case LOAD_START:
       return {
@@ -25,24 +25,18 @@ export default function reducer(state = initialState, action = {}) {
     default:
       return state;
   }
-}
+};
 
 // Action Creators
-export function load() {
-  return {
-    type: LOAD_START,
-  };
-}
+export const load = () => ({
+  type: LOAD_START,
+});
 
-export function loadSuccess() {
-  return {
-    type: LOAD_SUCCESS,
-  };
-}
+export const loadSuccess = () => ({
+  type: LOAD_SUCCESS,
+});
 
-export function loadFail() {
-  return {
-    type: LOAD_FAIL,
-    message: 'Unable to connect to server. Try again later.',
-  };
-}
+export const loadFail = () => ({
+  type: LOAD_FAIL,
+  message: 'Unable to connect to server. Try again later.',
+});

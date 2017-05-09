@@ -33,7 +33,7 @@ export const initialState = {
 const authToken = cookies.auth.token;
 
 // Reducer
-export default function reducer(state = initialState, action = {}) {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
     case START:
       return {
@@ -95,44 +95,36 @@ export default function reducer(state = initialState, action = {}) {
     default:
       return state;
   }
-}
+};
 
 // Action Creators
-function createStart() {
-  return {
-    type: START,
-  };
-}
+const createStart = () => ({
+  type: START,
+});
 
-function createSuccess() {
-  return {
-    type: SUCCESS,
-  };
-}
+const createSuccess = () => ({
+  type: SUCCESS,
+});
 
-function createFail(errorMessage = 'Unable to register at this moment.') {
-  return {
-    type: FAIL,
-    errorMessage,
-  };
-}
+const createFail = (errorMessage = 'Unable to register at this moment.') => ({
+  type: FAIL,
+  errorMessage,
+});
 
-export function setLoginFormValidation(valid) {
+export const setLoginFormValidation = (valid) => {
   if (valid) return { type: LOGIN_FORM_VALID };
   return { type: LOGIN_FORM_INVALID };
-}
+};
 
-export function setPersonalFormValidation(valid) {
+export const setPersonalFormValidation = (valid) => {
   if (valid) return { type: PERSONAL_FORM_VALID };
   return { type: PERSONAL_FORM_INVALID };
-}
+};
 
-export function toRegisterPage(pageNum) {
-  return {
-    type: TO_REGISTER_PAGE,
-    page: pageNum,
-  };
-}
+export const toRegisterPage = pageNum => ({
+  type: TO_REGISTER_PAGE,
+  page: pageNum,
+});
 
 // async actions
 export const createUser = newUser => async (dispatch) => {
@@ -150,13 +142,13 @@ export const createUser = newUser => async (dispatch) => {
   };
 
   try {
-    let result = await fetch(`${API_HOST}/users/create`, init);
-    result = await result.json();
+    const result = await fetch(`${API_HOST}/users/create`, init);
+    const data = await result.json();
 
-    const { statusCode } = result.meta;
+    const { statusCode } = data.meta;
 
     if (statusOK(statusCode)) {
-      const { token } = result.payload;
+      const { token } = data.payload;
 
       // save token to cookie
       Cookies.set(authToken, token);

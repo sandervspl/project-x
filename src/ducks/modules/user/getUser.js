@@ -24,7 +24,7 @@ export const initialState = {
 };
 
 // reducer
-export default function reducer(state = initialState, action = {}) {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
     case START:
       return {
@@ -61,34 +61,26 @@ export default function reducer(state = initialState, action = {}) {
     default:
       return state;
   }
-}
+};
 
 // action creators
-function fetchStart() {
-  return {
-    type: START,
-  };
-}
+const fetchStart = () => ({
+  type: START,
+});
 
-function fetchSuccess(user) {
-  return {
-    type: SUCCESS,
-    user,
-  };
-}
+const fetchSuccess = user => ({
+  type: SUCCESS,
+  user,
+});
 
-function fetchFail(errorMessage = 'Server error.') {
-  return {
-    type: FAIL,
-    errorMessage,
-  };
-}
+const fetchFail = (errorMessage = 'Server error.') => ({
+  type: FAIL,
+  errorMessage,
+});
 
-function fetchReset() {
-  return {
-    type: RESET,
-  };
-}
+const fetchReset = () => ({
+  type: RESET,
+});
 
 export const resetUser = () => dispatch => dispatch(fetchReset());
 
@@ -136,11 +128,11 @@ export const fetchUserData = pToken => async (dispatch) => {
 
   // fetch user data
   try {
-    let response = await fetch(`${API_HOST}/users/me`, init);
-    response = await response.json();
+    const result = await fetch(`${API_HOST}/users/me`, init);
+    const data = await result.json();
 
-    const { statusCode } = response.meta;
-    const { payload } = response;
+    const { statusCode } = data.meta;
+    const { payload } = data;
 
     if (statusOK(statusCode)) {
       // set state to success

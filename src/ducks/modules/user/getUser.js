@@ -1,5 +1,4 @@
 // dependencies
-import fetch from 'isomorphic-fetch';
 import Cookies from 'js-cookie';
 import { browserHistory } from 'react-router';
 import { statusOK } from '../../../helpers/async';

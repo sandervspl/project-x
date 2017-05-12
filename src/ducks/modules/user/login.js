@@ -1,7 +1,10 @@
 // dependencies
 import { browserHistory } from 'react-router';
-import { statusOK } from '../../../helpers/async';
-import { API_HOST } from '../../../config';
+import { statusOK } from 'helpers/async';
+import { API_HOST } from 'cfg';
+
+// route paths
+import routes from 'routes/routes';
 
 // other actions
 import { fetchUserData } from './getUser';
@@ -133,7 +136,7 @@ export const loginProcess = credentials => async (dispatch) => {
 
     if (fetchedUserData) {
       // redirect to user page
-      browserHistory.push('/user');
+      browserHistory.push(routes.user.profile);
       return true;
     }
   } catch (err) {

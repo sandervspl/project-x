@@ -1,8 +1,11 @@
 // dependencies
 import Cookies from 'js-cookie';
 import { browserHistory } from 'react-router';
-import { statusOK } from '../../../helpers/async';
-import { API_HOST, cookies } from '../../../config';
+import { statusOK } from 'helpers/async';
+import { API_HOST, cookies } from 'cfg';
+
+// route paths
+import routes from 'routes/routes';
 
 // cookies
 const authToken = cookies.auth.token;
@@ -92,7 +95,7 @@ export const unauthorize = (fail = false) => async (dispatch) => {
     await dispatch(fetchReset());
   }
 
-  browserHistory.push('/');
+  browserHistory.push(routes.home);
 };
 
 // async actions

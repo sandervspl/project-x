@@ -27,6 +27,9 @@ import { fetchUserData } from 'ducks/modules/user/getUser';
 // middleware
 import { isAuth, hasAccess } from './middleware/auth';
 
+// route paths
+import routes from './routes';
+
 // debugging
 if (process.env.NODE_ENV === 'development') {
   window.cookies = Cookies;
@@ -44,11 +47,11 @@ if (isLoggedIn()) {
 export default () => (
   <Provider store={store} key="provider">
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
-      <Route exact path="/" components={Frontpage} onEnter={isAuth} />
-      <Route path="/register/welcome" components={WelcomePage} onEnter={hasAccess} />
+      <Route exact path={routes.home} components={Frontpage} onEnter={isAuth} />
+      <Route path={routes.register.welcome} components={WelcomePage} onEnter={hasAccess} />
       <Route components={App}>
-        <Route path="/register" components={Register} onEnter={isAuth} />
-        <Route path="/user" components={User} onEnter={hasAccess}>
+        <Route path={routes.register.create} components={Register} onEnter={isAuth} />
+        <Route path={routes.user.profile} components={User} onEnter={hasAccess}>
           <IndexRoute components={Profile} />
         </Route>
       </Route>

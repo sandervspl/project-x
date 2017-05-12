@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import { browserHistory } from 'react-router';
 
+// route paths
+import routes from 'routes/routes';
+
 // style
 import './WelcomePage.styl';
 
 const GetStartedButton = () => {
   const handleClick = () => {
-    browserHistory.push('/user');
+    browserHistory.push(routes.user.profile);
   };
 
   return (

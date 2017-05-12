@@ -1,8 +1,11 @@
 // dependencies
 import { browserHistory } from 'react-router';
 import Cookies from 'js-cookie';
-import { statusOK } from '../../../helpers/async';
-import { API_HOST, cookies } from '../../../config';
+import { statusOK } from 'helpers/async';
+import { API_HOST, cookies } from 'cfg';
+
+// route paths
+import routes from 'routes/routes';
 
 // auth actions
 import { fetchUserData } from './getUser';
@@ -176,6 +179,6 @@ export const createUserProcess = newUser => async (dispatch) => {
     const fetchedUserData = await dispatch(fetchUserData(token));
 
     // redirect to user page
-    if (fetchedUserData) browserHistory.push('/register/welcome');
+    if (fetchedUserData) browserHistory.push(routes.register.welcome);
   }
 };

@@ -1,6 +1,6 @@
 @import "~style/common.styl";
 
-.button-group
+#root .button-group
   position fixed
   bottom 13%
   left 0
@@ -10,9 +10,16 @@
   color #eee
   font-size 1em
   text-align center
+
   h3
     font-size 1.25rem
     font-weight $regular
 
-  button.create-account
-      margin-right 10px
+  .create-account
+    margin-right 10px
+
+  #sign-in-btn
+    background-color rgba(255, 255, 255, 0) !important;
+
+    &:hover
+      background-color rgba(255, 255, 255, 0.25) !important;

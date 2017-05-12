@@ -1,9 +1,9 @@
 @import "./vars.styl"
 
-#app .ui
+#root .ui
   &.button
     &.basic
-      background-color $white
+      background-color $white !important
 
       &.purple
         color $purple_default !important
@@ -36,6 +36,10 @@
 
   &.purple
     background $purple_default !important
+
+    &.basic
+      background-color $white
+      color $purple_default
 
     &:disabled
       background $purple_light !important

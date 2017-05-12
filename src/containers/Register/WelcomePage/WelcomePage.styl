@@ -1,0 +1,43 @@
+@import "~style/common.styl"
+
+#root #welcome-page
+  background linear-gradient(to bottom left, #7F5F9B, #503C62)
+
+  .inner
+    display flex
+    flex-direction column
+    align-items center
+    margin-top 9.286rem
+    padding 0 1.429rem
+    width 100%
+    background-color transparent
+
+    #portrait-container
+      width 95px
+      height 95px
+      border-radius 50%
+      border 2px solid $white
+      background-color $purple_light
+
+    h1
+      margin-top .714rem
+      margin-bottom 0
+      color $white
+      font-size 3.214rem
+      font-weight $demibold
+
+    h3
+      margin 0
+      color $white
+      font-weight $regular
+      font-style italic
+
+    #get-started-btn
+      padding-right 10px
+      margin-top 8.929rem
+
+      .icon
+        position absolute
+        right 30px
+        margin 0
+        color $purple_default

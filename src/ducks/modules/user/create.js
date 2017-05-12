@@ -176,6 +176,6 @@ export const createUserProcess = newUser => async (dispatch) => {
     const fetchedUserData = await dispatch(fetchUserData(token));
 
     // redirect to user page
-    if (fetchedUserData) browserHistory.push('/user');
+    if (fetchedUserData) browserHistory.push('/register/welcome');
   }
 };

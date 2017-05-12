@@ -20,6 +20,7 @@ const ButtonGroup = ({ setModalOpen }) => (
     <Button
       basic
       inverted
+      id="sign-in-btn"
       onClick={() => setModalOpen('signin', true)}
     >
       Sign in

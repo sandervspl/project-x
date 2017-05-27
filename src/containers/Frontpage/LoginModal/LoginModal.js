@@ -1,6 +1,6 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
-import { Modal, Form, Divider } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -10,13 +10,10 @@ import * as userActions from 'ducks/modules/user/getUser';
 
 // components
 import FooterAuth from 'components/FooterAuth/FooterAuth';
-import EmailUsernameInput from './components/EmailUsernameInput';
-import PasswordInput from './components/PasswordInput';
-import LoginButton from './components/LoginButton';
-import ServiceLoginButtonGroup from './components/ServiceLoginButtonGroup';
+import LoginModalContent from './LoginModalContent/LoginModalContent';
 
 // style
-import './LoginModal.styl';
+// import './LoginModal.styl';
 
 @connect(
   state => ({
@@ -98,26 +95,15 @@ class LoginModal extends Component {
         <Modal.Header>Sign in to start your party</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <Form>
-              <EmailUsernameInput setEmailUsernameValidation={this.setEmailUsernameValidation} />
-              <PasswordInput setPasswordValidation={this.setPasswordValid} />
-              <LoginButton
-                formValid={formValid}
-                formValues={formValues}
-              />
-            </Form>
-            <p className="help-login">
-              <a href="#">{'Help, I can\'t sign in.'}</a>
-            </p>
-            <Divider horizontal>or</Divider>
-            <h4>log in with</h4>
-            <ServiceLoginButtonGroup />
+            <LoginModalContent
+              formValid={formValid}
+              formValues={formValues}
+              setEmailUsernameValidation={this.setEmailUsernameValidation}
+              setPasswordValid={this.setPasswordValid}
+            />
           </Modal.Description>
         </Modal.Content>
-        <FooterAuth
-          type="signup"
-          setModalOpen={setModalOpen}
-        />
+        <FooterAuth type="signup" setModalOpen={setModalOpen} />
       </Modal>
     );
   }

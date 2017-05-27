@@ -4,6 +4,9 @@ import React from 'react';
 // components
 import SmallServiceLoginBtn from 'components/SmallServiceLoginBtn/SmallServiceLoginBtn';
 
+// style
+import './ServiceLoginButtonGroup.styl';
+
 const ServiceLoginButtonGroup = () => {
   function generateLoginButtons() {
     const services = [
@@ -12,16 +15,11 @@ const ServiceLoginButtonGroup = () => {
       'google',
     ];
 
-    const btnArray = [];
-    services.forEach((service, index) => {
-      btnArray.push(<SmallServiceLoginBtn key={index} serviceName={service} />);
-    });
-
-    return btnArray;
+    return services.map(service => <SmallServiceLoginBtn key={service} serviceName={service} />);
   }
 
   return (
-    <div className="login-service-btns">
+    <div className="login-service-button-group">
       { generateLoginButtons() }
     </div>
   );

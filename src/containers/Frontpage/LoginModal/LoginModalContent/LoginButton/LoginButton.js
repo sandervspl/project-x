@@ -8,6 +8,9 @@ import { Button } from 'semantic-ui-react';
 import * as loginActions from 'ducks/modules/user/login';
 import * as userActions from 'ducks/modules/user/getUser';
 
+// style
+import './LoginButton.styl';
+
 @connect(
   state => ({
     userLogin: state.app.user.userLogin,

@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react';
 import './SmallServiceLoginBtn.styl';
 
 const SmallServiceLoginBtn = ({ serviceName }) => (
-  <a href="#">
+  <a href="#" className="small-login-btn-link">
     <div className={`small-login-btn ${serviceName}`}>
       <i className={`fa fa-${serviceName}`} aria-hidden="true" />
       <span>{serviceName}</span>

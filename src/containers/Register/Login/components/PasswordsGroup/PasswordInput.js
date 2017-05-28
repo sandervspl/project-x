@@ -3,18 +3,19 @@ import React, { PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 import _ from 'lodash';
 
-const PasswordInput = ({ fieldId,
-                         isValid,
-                         validatePassword,
-                         requiredLength,
-                         placeholder,
-                         name,
+const PasswordInput = ({
+  fieldId,
+  isValid,
+  validatePassword,
+  requiredLength,
+  placeholder,
+  name,
 }) => {
   const handleChange = _.debounce((e) => {
     const el = e.target;
 
     if (el) {
-      const val = el.value;
+      const val = el.value.trim();
 
       // minimum length of password
       const minLength = requiredLength || 1;

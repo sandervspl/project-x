@@ -37,7 +37,7 @@ class EmailInput extends Component {
     if (emailExists) {
       validateEmail(false);
     } else if (el) {
-      const val = el.value;
+      const val = el.value.trim();
 
       if (!isEmpty(val)) {
         validateEmail(isEmail(val));
@@ -49,7 +49,7 @@ class EmailInput extends Component {
 
   handleBlur = async (e) => {
     const { checkExists, validateEmail, invalidId } = this.props;
-    const value = e.target.value;
+    const value = e.target.value.trim();
 
     if (isEmpty(value)) return;
     if (!isEmail(value)) {

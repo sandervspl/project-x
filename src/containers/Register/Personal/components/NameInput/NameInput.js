@@ -10,7 +10,7 @@ const FirstName = ({ setValid, isValid, placeholder, name }) => {
     const el = e.target;
 
     if (el) {
-      const val = el.value;
+      const val = el.value.trim();
       setValid(val.length > 0);
     }
   }

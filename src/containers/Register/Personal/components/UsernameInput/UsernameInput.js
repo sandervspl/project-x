@@ -48,14 +48,14 @@ class Username extends Component {
     if (usernameExists) {
       validateUsername(false);
     } else if (el) {
-      const val = el.value;
+      const val = el.value.trim();
       validateUsername(val.length >= this.usernameMinLength);
     }
   }, 750);
 
   handleBlur = async (e) => {
     const { checkExists, validateUsername, invalidId } = this.props;
-    const value = e.target.value;
+    const value = e.target.value.trim();
 
     if (value.length < this.usernameMinLength) {
       invalidId('username');

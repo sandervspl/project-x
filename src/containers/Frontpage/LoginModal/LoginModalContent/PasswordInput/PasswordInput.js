@@ -13,21 +13,19 @@ import InputError from 'components/InputError/InputError';
 }))
 class PasswordInput extends Component {
   static propTypes = {
-    setPasswordValidation: PropTypes.func.isRequired,
-    userLogin: PropTypes.shape({
-      // error: PropTypes.bool,
-      // errorMessage: PropTypes.string,
-    }),
-    getUser: PropTypes.shape({
-      // error: PropTypes.bool,
-      // errorMessage: PropTypes.string,
-    }),
+    userLogin: PropTypes.shape({}),
+    getUser: PropTypes.shape({}),
   };
 
+  static contextTypes = {
+    setPasswordValid: PropTypes.func,
+  }
+
   handleChange = (e) => {
-    const value = e.target.value;
+    const value = e.target.value.trim();
     const valid = !isEmpty(value);
-    this.props.setPasswordValidation(valid, value);
+
+    this.context.setPasswordValid(valid, value);
   };
 
   render() {

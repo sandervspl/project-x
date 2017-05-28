@@ -30,7 +30,7 @@ const store = createStore(
 );
 
 // debugging
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
   window.store = store;
 }
 

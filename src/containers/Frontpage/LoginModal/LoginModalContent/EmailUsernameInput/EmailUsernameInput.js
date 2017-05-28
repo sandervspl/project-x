@@ -3,11 +3,12 @@ import React, { PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 import { isEmpty } from 'validator';
 
-const EmailUsernameInput = ({ setEmailUsernameValidation }) => {
+const EmailUsernameInput = (props, context) => {
   function onChange(e) {
-    const value = e.target.value;
+    const value = e.target.value.trim();
     const valid = !isEmpty(value);
-    setEmailUsernameValidation(valid, value);
+
+    context.setEmailUsernameValidation(valid, value);
   }
 
   return (
@@ -21,8 +22,8 @@ const EmailUsernameInput = ({ setEmailUsernameValidation }) => {
   );
 };
 
-EmailUsernameInput.propTypes = {
-  setEmailUsernameValidation: PropTypes.func.isRequired,
+EmailUsernameInput.contextTypes = {
+  setEmailUsernameValidation: PropTypes.func,
 };
 
 export default EmailUsernameInput;

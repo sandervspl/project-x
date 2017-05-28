@@ -10,12 +10,12 @@ import HelpLogin from './HelpLogin/HelpLogin';
 import ServiceLoginButtons from './ServiceLoginButtons/ServiceLoginButtons';
 
 const LoginModalContent = (
-  { formValid, formValues, setEmailUsernameValidation, setPasswordValid }) =>
+  { formValid, formValues }) =>
   (
     <div className="login-modal-content">
       <Form>
-        <EmailUsernameInput setEmailUsernameValidation={setEmailUsernameValidation} />
-        <PasswordInput setPasswordValidation={setPasswordValid} />
+        <EmailUsernameInput />
+        <PasswordInput />
         <LoginButton
           formValid={formValid}
           formValues={formValues}
@@ -29,8 +29,6 @@ const LoginModalContent = (
 LoginModalContent.propTypes = {
   formValid: PropTypes.bool,
   formValues: PropTypes.shape({}),
-  setEmailUsernameValidation: PropTypes.func,
-  setPasswordValid: PropTypes.func,
 };
 
 export default LoginModalContent;

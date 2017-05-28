@@ -37,15 +37,31 @@ class LoginModal extends Component {
     }),
   };
 
-  state = {
-    emailUsernameValid: null,
-    passwordValid: null,
-    formValid: null,
-    formValues: {
-      emailUsername: '',
-      password: '',
-    },
+  static childContextTypes = {
+    setEmailUsernameValidation: PropTypes.func,
+    setPasswordValid: PropTypes.func,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      emailUsernameValid: null,
+      passwordValid: null,
+      formValid: null,
+      formValues: {
+        emailUsername: '',
+        password: '',
+      },
+    };
+  }
+
+  getChildContext() {
+    return {
+      setEmailUsernameValidation: this.setEmailUsernameValidation,
+      setPasswordValid: this.setPasswordValid,
+    };
+  }
 
   componentWillUnmount() {
     const { loaded } = this.props.userLogin;
@@ -98,8 +114,6 @@ class LoginModal extends Component {
             <LoginModalContent
               formValid={formValid}
               formValues={formValues}
-              setEmailUsernameValidation={this.setEmailUsernameValidation}
-              setPasswordValid={this.setPasswordValid}
             />
           </Modal.Description>
         </Modal.Content>

@@ -63,6 +63,22 @@ class LoginModal extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { emailUsernameValid, passwordValid } = this.state;
+
+    if (emailUsernameValid === nextState.emailUsernameValid &&
+      passwordValid === nextState.passwordValid) {
+      return false;
+    }
+
+    return true;
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    const { emailUsernameValid, passwordValid } = nextState;
+    this.isFormValid(emailUsernameValid, passwordValid);
+  }
+
   componentWillUnmount() {
     const { loaded } = this.props.userLogin;
     const { resetLogin } = this.props.loginActions;
@@ -77,7 +93,7 @@ class LoginModal extends Component {
         ...this.state.formValues,
         emailUsername: value,
       },
-    }, this.isFormValid);
+    });
   }
 
   setPasswordValid = (valid, value) => {
@@ -87,11 +103,11 @@ class LoginModal extends Component {
         ...this.state.formValues,
         password: value,
       },
-    }, this.isFormValid);
+    });
   }
 
-  isFormValid = () => {
-    const { emailUsernameValid, passwordValid } = this.state;
+  isFormValid = (emailUsernameValid, passwordValid) => {
+    // const { emailUsernameValid, passwordValid } = this.state;
     const formValid = emailUsernameValid && passwordValid;
     this.setState({ formValid });
   }

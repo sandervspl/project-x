@@ -1,8 +1,8 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { Sidebar, Icon, Menu } from 'semantic-ui-react';
-// import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 // components
 import NavigationBar from 'components/NavigationBar/NavigationBar';
@@ -10,6 +10,9 @@ import Authorized from 'components/Authorized/Authorized';
 
 // actions
 import * as userActions from 'ducks/modules/user/getUser';
+
+// routes
+import routes from 'routes/routes';
 
 // style
 import './SidebarMenu.styl';
@@ -47,12 +50,17 @@ ItemLogOut.propTypes = {
   logout: PropTypes.func,
 };
 
-const ItemTwo = () => (
-  <Menu.Item name="home">
-    <Icon name="home" fitted className="sidebar-icon" />
-    <span className="item-text">Item two</span>
-  </Menu.Item>
+const ItemProfile = ({ onClick }) => (
+  <Link to={routes.user.profile} onClick={onClick}>
+    <Menu.Item name="home">
+      <Icon name="home" fitted className="sidebar-icon" />
+      <span className="item-text">Profile</span>
+    </Menu.Item>
+  </Link>
 );
+ItemProfile.propTypes = {
+  onClick: PropTypes.func,
+};
 
 // sidebar
 @connect(null, userActions)
@@ -62,11 +70,17 @@ class SidebarMenu extends Component {
     unauthorize: PropTypes.func,
   };
 
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
 
-  toggleOpen = () => this.setState({ open: !this.state.open });
+    this.state = {
+      open: false,
+    };
+  }
+
+  toggleOpen = () => {
+    this.setState({ open: !this.state.open });
+  };
 
   render() {
     const { children, unauthorize } = this.props;
@@ -86,10 +100,13 @@ class SidebarMenu extends Component {
             className="sidebar-inner"
           >
             <ItemTop toggleOpen={this.toggleOpen} />
+
+            <ItemProfile onClick={this.toggleOpen} />
+
             <Authorized>
               <ItemLogOut logout={unauthorize} />
             </Authorized>
-            <ItemTwo />
+
           </Sidebar>
           <Sidebar.Pusher>
             <NavigationBar toggleSidebar={this.toggleOpen} />

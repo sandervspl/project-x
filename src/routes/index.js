@@ -14,6 +14,7 @@ import User from 'containers/User/User';
 import Profile from 'containers/User/Profile/Profile';
 import App from 'containers/App/App';
 import WelcomePage from 'containers/Register/WelcomePage/WelcomePage';
+import CreateParty from 'containers/Parties/CreateParty/CreateParty';
 
 // redux store
 import store from 'store';
@@ -53,6 +54,7 @@ export default () => (
         <Route path={routes.register.create} components={Register} onEnter={isAuth} />
         <Route path={routes.user.profile} components={User} onEnter={hasAccess}>
           <IndexRoute components={Profile} />
+          <Route path={routes.party.create} components={CreateParty} onEnter={hasAccess} />
         </Route>
       </Route>
       <Route path="*" components={Error404} />

@@ -1,41 +1,34 @@
 // dependencies
-import React, { Component, PropTypes } from 'react';
+import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 // actions
 import * as getUserActions from 'ducks/modules/user/getUser';
 
-@connect(
-  state => ({ getUser: state.app.user.getUser }),
-  getUserActions,
-)
-class Authorized extends Component {
-  static propTypes = {
-    children: PropTypes.element,
-    getUser: PropTypes.shape({
-      loaded: PropTypes.bool,
-      user: PropTypes.shape({}),
-    }),
-  };
+const Authorized = ({ children, getUser }) => {
+  const { loaded, user } = getUser;
+  const authorized = loaded && !_.isEmpty(user);
 
-  state = {};
-
-  render() {
-    const { children } = this.props;
-    const { loaded, user } = this.props.getUser;
-    const authorized = loaded && !_.isEmpty(user);
-
-    if (authorized) {
-      return (
-        <div>
-          { children }
-        </div>
-      );
-    }
-
+  if (!authorized) {
     return null;
   }
+
+  return children;
+};
+
+Authorized.propTypes = {
+  children: PropTypes.element,
+  getUser: PropTypes.shape({
+    loaded: PropTypes.bool,
+    user: PropTypes.shape({}),
+  }),
+};
+
+function mapStateToProps(state) {
+  return {
+    getUser: state.app.user.getUser,
+  };
 }
 
-export default Authorized;
+export default connect(mapStateToProps, getUserActions)(Authorized);

@@ -57,6 +57,7 @@ class Profile extends Component {
     }
 
     const { user } = this.props.getUser;
+
     return (
       <section id="user-page">
         <UserProfile user={user} />

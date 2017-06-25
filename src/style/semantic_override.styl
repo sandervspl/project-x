@@ -93,11 +93,21 @@
     font-size .857rem
 
   &.form
-    .field
-      margin 1rem 0 0
+    textarea
+      resize none
 
-    .button
-      margin 1rem 0 0
+      &:not([rows])
+        min-height 0
+        height 100%
+
+    .field
+      margin .5rem 0 0
+
+      .ui.input
+        height 100%
+
+      .button
+        margin 1rem 0 0
 
   &.label
     margin .357rem 0 0

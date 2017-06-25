@@ -7,6 +7,9 @@ const routes = {
     create: '/register',
     welcome: '/register/welcome',
   },
+  party: {
+    create: '/party/create',
+  },
 };
 
 export default routes;

@@ -9,7 +9,7 @@ import './Username.styl';
 
 const Username = ({ firstName, lastName }) => (
   <div id="profile-username-container">
-    <h3 className="username">{firstName} {lastName}</h3>
+    <h3 className="inline username">{firstName} {lastName}</h3>
     <Settings />
   </div>
 );

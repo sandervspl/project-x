@@ -7,13 +7,13 @@ import { Button } from 'semantic-ui-react';
 // style
 import './ButtonGroup.styl';
 
-const ButtonGroup = ({ setModalOpen }) => (
+const ButtonGroup = ({ toggleModal }) => (
   <div className="button-group">
     <h3>Sign in to continue</h3>
     <Button
       color="purple"
       className="create-account"
-      onClick={() => setModalOpen('signup', true)}
+      onClick={() => toggleModal('signup', true)}
     >
       Create account
     </Button>
@@ -21,7 +21,7 @@ const ButtonGroup = ({ setModalOpen }) => (
       basic
       inverted
       id="sign-in-btn"
-      onClick={() => setModalOpen('signin', true)}
+      onClick={() => toggleModal('signin', true)}
     >
       Sign in
     </Button>
@@ -29,7 +29,7 @@ const ButtonGroup = ({ setModalOpen }) => (
 );
 
 ButtonGroup.propTypes = {
-  setModalOpen: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
 
 export default ButtonGroup;

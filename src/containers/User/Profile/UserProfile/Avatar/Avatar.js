@@ -1,5 +1,5 @@
 // dependencies
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 // actions
@@ -8,22 +8,16 @@ import * as getUserActions from 'ducks/modules/user/getUser';
 // style
 import './Avatar.styl';
 
-@connect(
-  state => ({ getUser: state.app.user.getUser }),
-  getUserActions,
-)
-class Avatar extends Component {
-  static propTypes = {};
+const Avatar = () => (
+  <div className="profile-avatar-container">
+    <img src="" alt="user avatar" />
+  </div>
+);
 
-  state = {};
-
-  render() {
-    return (
-      <div className="profile-avatar-container">
-        <img src="" alt="user avatar" />
-      </div>
-    );
-  }
+function mapStateToProps(state) {
+  return {
+    getUser: state.app.user.getUser,
+  };
 }
 
-export default Avatar;
+export default connect(mapStateToProps, getUserActions)(Avatar);

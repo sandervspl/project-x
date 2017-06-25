@@ -7,6 +7,7 @@ import { API_HOST } from '../../../config';
 export const START = 'px/user/EXISTS_START';
 export const SUCCESS = 'px/user/EXISTS_SUCCESS';
 export const FAIL = 'px/user/EXISTS_FAIL';
+export const RESET = 'px/user/EXISTS_RESET';
 
 // state
 export const initialState = {
@@ -41,7 +42,7 @@ export default (state = initialState, action = {}) => {
         [`${action.idType}Exists`]: action.exists,
       };
 
-    case FAIL: {
+    case FAIL:
       return {
         ...state,
         loading: false,
@@ -50,7 +51,9 @@ export default (state = initialState, action = {}) => {
         errorMessage: action.errorMessage,
         [`${action.idType}Exists`]: action.exists,
       };
-    }
+
+    case RESET:
+      return initialState;
 
     default:
       return state;
@@ -87,6 +90,10 @@ export const invalidId = idType => ({
   msg: '',
   idType,
   exists: false,
+});
+
+export const resetExists = () => ({
+  type: RESET,
 });
 
 // async actions

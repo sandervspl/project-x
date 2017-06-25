@@ -42,7 +42,7 @@ class Frontpage extends Component {
     }
   }
 
-  setModalOpen = (modal, state) => {
+  toggleModal = (modal, state) => {
     let key = '';
 
     switch (modal) {
@@ -67,19 +67,21 @@ class Frontpage extends Component {
   };
 
   render() {
+    const { loginModalOpen, registerModalOpen, loaded } = this.state;
+
     return (
       <main className="page-fill">
-        <FullscreenLoader loaded={this.state.loaded} />
+        <FullscreenLoader loaded={loaded} />
         <Background hasLoaded={this.hasLoaded} />
         <Title />
-        <ButtonGroup setModalOpen={this.setModalOpen} />
+        <ButtonGroup toggleModal={this.toggleModal} />
         <LoginModal
-          isOpen={this.state.loginModalOpen}
-          setModalOpen={this.setModalOpen}
+          isOpen={loginModalOpen}
+          toggleModal={this.toggleModal}
         />
         <RegisterModal
-          isOpen={this.state.registerModalOpen}
-          setModalOpen={this.setModalOpen}
+          isOpen={registerModalOpen}
+          toggleModal={this.toggleModal}
         />
       </main>
     );

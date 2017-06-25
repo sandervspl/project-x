@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 import _ from 'lodash';
 
-
 // actions
 import * as getUserActions from 'ducks/modules/user/getUser';
 
@@ -29,11 +28,10 @@ class Profile extends Component {
       loading: PropTypes.bool,
       error: PropTypes.bool,
       user: PropTypes.shape({}),
+      errorMessage: PropTypes.string,
     }),
     fetchUserData: PropTypes.func,
   };
-
-  state = {};
 
   async componentDidMount() {
     const { fetchUserData } = this.props;
@@ -48,14 +46,14 @@ class Profile extends Component {
   }
 
   render() {
-    const { loading, error } = this.props.getUser;
+    const { loading, error, errorMessage } = this.props.getUser;
 
     if (loading) {
       return <Loader className="purple-loader" active size="massive" />;
     }
 
     if (error) {
-      return <h3>Something went wrong.</h3>;
+      return <h3> { errorMessage } </h3>;
     }
 
     const { user } = this.props.getUser;

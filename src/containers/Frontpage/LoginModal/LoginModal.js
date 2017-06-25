@@ -1,5 +1,5 @@
 // dependencies
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -25,10 +25,10 @@ import LoginModalContent from './LoginModalContent/LoginModalContent';
     userActions: bindActionCreators(userActions, dispatch),
   }),
 )
-class LoginModal extends Component {
+class LoginModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    setModalOpen: PropTypes.func.isRequired,
+    toggleModal: PropTypes.func.isRequired,
     loginActions: PropTypes.shape({
       resetLogin: PropTypes.func,
     }),
@@ -61,17 +61,6 @@ class LoginModal extends Component {
       setEmailUsernameValidation: this.setEmailUsernameValidation,
       setPasswordValid: this.setPasswordValid,
     };
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    const { emailUsernameValid, passwordValid } = this.state;
-
-    if (emailUsernameValid === nextState.emailUsernameValid &&
-      passwordValid === nextState.passwordValid) {
-      return false;
-    }
-
-    return true;
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -113,14 +102,14 @@ class LoginModal extends Component {
   }
 
   render() {
-    const { isOpen, setModalOpen } = this.props;
+    const { isOpen, toggleModal } = this.props;
     const { formValid, formValues } = this.state;
 
     return (
       <Modal
         size="small"
         open={isOpen}
-        onClose={() => setModalOpen('signin', false)}
+        onClose={() => toggleModal('signin', false)}
         closeIcon="close"
         className="px-modal login-modal"
       >
@@ -133,7 +122,7 @@ class LoginModal extends Component {
             />
           </Modal.Description>
         </Modal.Content>
-        <FooterAuth type="signup" setModalOpen={setModalOpen} />
+        <FooterAuth type="signup" setModalOpen={toggleModal} />
       </Modal>
     );
   }

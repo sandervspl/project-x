@@ -1,9 +1,11 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 // actions
 import * as createActions from 'ducks/modules/user/create';
+import * as existsActions from 'ducks/modules/user/exists';
 
 // components
 import FooterAuth from 'components/FooterAuth/FooterAuth';
@@ -13,34 +15,37 @@ import PersonalForm from './Personal/Personal';
 // style
 import './Register.styl';
 
-
-@connect(
-  state => ({ create: state.app.user.userCreate }),
-  createActions,
-)
 class Register extends Component {
   static propTypes = {
-    createUserProcess: PropTypes.func,
-    toRegisterPage: PropTypes.func,
+    createActions: PropTypes.shape({
+      createUserProcess: PropTypes.func,
+      toRegisterPage: PropTypes.func,
+    }),
     create: PropTypes.shape({
       loginFormValid: PropTypes.bool,
       personalFormValid: PropTypes.bool,
       page: PropTypes.number,
     }),
+    existsActions: PropTypes.shape({
+      resetExists: PropTypes.func,
+    }),
   };
 
   componentWillUnmount() {
-    const { toRegisterPage } = this.props;
+    const { toRegisterPage } = this.props.createActions;
+    const { resetExists } = this.props.existsActions;
     const { page } = this.props.create;
 
     if (page !== 1) toRegisterPage(1);
+
+    resetExists();
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
     const { loginFormValid, personalFormValid } = this.props.create;
-    const { createUserProcess } = this.props;
+    const { createUserProcess } = this.props.createActions;
 
     // only allow user creation if form is completely valid
     if (!loginFormValid || !personalFormValid) return;
@@ -81,4 +86,17 @@ class Register extends Component {
   }
 }
 
-export default Register;
+function mapStateToProps(state) {
+  return {
+    create: state.app.user.userCreate,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    createActions: bindActionCreators(createActions, dispatch),
+    existsActions: bindActionCreators(existsActions, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

@@ -1,6 +1,11 @@
 // dependencies
-import React, { PureComponent } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { isEmpty } from 'validator';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+// actions
+import * as createPartyActions from 'ducks/modules/party/createParty';
 
 // components
 import PageSection from 'components/PageSection/PageSection';
@@ -14,6 +19,15 @@ import PartyBannerImage from './PartyBannerImage/PartyBannerImage';
 // import './Create.styl';
 
 class CreateParty extends PureComponent {
+  static propTypes = {
+    createParty: PropTypes.shape({
+      loading: PropTypes.bool,
+    }),
+    createPartyActions: PropTypes.shape({
+      createPartyProcess: PropTypes.func,
+    }),
+  }
+
   constructor(props) {
     super(props);
 
@@ -67,12 +81,18 @@ class CreateParty extends PureComponent {
     });
   };
 
-  removeAttendant = () => {
+  removeAttendant = () => {};
 
-  };
+  clickHandler = () => {
+    const { partyName, partyDescription } = this.state;
+    const { createPartyProcess } = this.props.createPartyActions;
+
+    createPartyProcess(partyName, partyDescription);
+  }
 
   render() {
     const { partyCode, rules, allowCreate } = this.state;
+    const { loading } = this.props.createParty;
 
     return (
       <div>
@@ -104,6 +124,8 @@ class CreateParty extends PureComponent {
             textAlign="center"
             fontSize="big"
             disabled={!allowCreate}
+            loading={loading}
+            onClick={this.clickHandler}
           >
             CREATE PARTY
           </Button>
@@ -113,4 +135,16 @@ class CreateParty extends PureComponent {
   }
 }
 
-export default CreateParty;
+function mapStateToProps(state) {
+  return {
+    createParty: state.app.party.createParty,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    createPartyActions: bindActionCreators(createPartyActions, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateParty);

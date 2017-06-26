@@ -42,8 +42,7 @@ function withFileUpload(WrappedComponent) {
 
     render() {
       return (
-        <
-          WrappedComponent
+        <WrappedComponent
           {...this.props}
           {...this.state}
           handleImageChange={this.handleImageChange}

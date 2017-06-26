@@ -10,7 +10,11 @@
   background-color $white
   box-shadow none
   border none
-  transition width .3s ease-in-out, border-radius .3s ease-in-out
+  transition width .15s ease-in-out, border-radius .15s ease-in-out
+
+  &:focus,
+  &:active
+    outline none
 
   &:disabled
     color $grey
@@ -56,5 +60,6 @@
     text-align center
 
   &.px-btn--loading
-    width 45px
+    width 35px
+    height 35px
     border-radius 50%

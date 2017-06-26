@@ -48,9 +48,14 @@ class CreateParty extends PureComponent {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (!nextState.allowCreate && !isEmpty(nextState.partyName)) {
+    if (!nextState.allowCreate &&
+      !isEmpty(nextState.partyName) &&
+      !isEmpty(nextState.partyDescription)
+    ) {
       this.setState({ allowCreate: true });
-    } else if (nextState.allowCreate && isEmpty(nextState.partyName)) {
+    } else if (nextState.allowCreate &&
+      (isEmpty(nextState.partyName) || isEmpty(nextState.partyDescription))
+    ) {
       this.setState({ allowCreate: false });
     }
   }

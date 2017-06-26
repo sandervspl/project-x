@@ -23,7 +23,7 @@ const Button = ({
 }) => {
   const renderContent = () => {
     if (loading) {
-      return <Loader active inverted />;
+      return <Loader className="purple-loader" size="big" active />;
     }
 
     if (icon) {

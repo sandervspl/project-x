@@ -1,8 +1,13 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
+// import { Button } from 'semantic-ui-react';
 
+// components
+import Button from 'components/Button/Button';
+import PageSection from 'components/PageSection/PageSection';
+
+// actions
 import * as createActions from 'ducks/modules/user/create';
 
 @connect(
@@ -31,10 +36,10 @@ class NextButton extends Component {
   }
 
   onClick = (e) => {
+    e.preventDefault();
+
     const { toRegisterPage } = this.props;
     const { loginFormValid } = this.props.create;
-
-    e.preventDefault();
 
     if (loginFormValid) toRegisterPage(2);
   };
@@ -43,16 +48,16 @@ class NextButton extends Component {
     const { enabled } = this.state;
 
     return (
-      <Button
-        color="purple"
-        className="big-btn"
-        id="next-btn"
-        onClick={this.onClick}
-        fluid
-        disabled={!enabled}
-      >
-        Next
-      </Button>
+      <PageSection>
+        <Button
+          color="purple"
+          onClick={this.onClick}
+          disabled={!enabled}
+          fontSize="big"
+        >
+          NEXT
+        </Button>
+      </PageSection>
     );
   }
 }

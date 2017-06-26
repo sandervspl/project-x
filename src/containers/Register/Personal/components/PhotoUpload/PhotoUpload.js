@@ -1,46 +1,18 @@
 // dependencies
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 import { Form, Icon, Loader } from 'semantic-ui-react';
 import { isEmpty } from 'validator';
+
+// hoc
+import withFileUpload from 'hoc/withFileUpload';
 
 // style
 import './PhotoUpload.styl';
 
-class PhotoUpload extends Component {
-  state = {
-    loading: false,
-    file: '',
-    imagePreviewUrl: '',
-  };
-
-  handleImageChange = (e) => {
-    e.preventDefault();
-
-    const reader = new FileReader();
-    const file = e.target.files[0];
-
-    reader.onloadstart = () => {
-      this.setState({
-        loading: true,
-        file: '',
-        imagePreviewUrl: '',
-      });
-    };
-
-    reader.onloadend = () => {
-      this.setState({
-        loading: false,
-        file,
-        imagePreviewUrl: reader.result,
-      });
-    };
-
-    reader.readAsDataURL(file);
-  };
-
-  renderPreviewImage = () => {
-    const { imagePreviewUrl, loading } = this.state;
-
+// FIXME: disable until we can use FILE prop
+// eslint-disable-next-line
+const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange }) => {
+  const renderPreviewImage = () => {
     if (isEmpty(imagePreviewUrl)) {
       if (loading) {
         return (
@@ -71,23 +43,27 @@ class PhotoUpload extends Component {
     return <div className="upload-photo-container" style={style} />;
   };
 
-  render() {
-    const { loading } = this.state;
-    return (
-      <Form.Field className="photo-upload">
-        <label htmlFor="file-upload" className={`custom-file-upload ${loading && 'loading'}`}>
-          { this.renderPreviewImage() }
-        </label>
-        <input
-          id="file-upload"
-          type="file"
-          onChange={this.handleImageChange}
-          disabled={loading}
-          name="avatar"
-        />
-      </Form.Field>
-    );
-  }
-}
+  return (
+    <Form.Field className="photo-upload">
+      <label htmlFor="file-upload" className={`custom-file-upload ${loading ? 'loading' : ''}`}>
+        { renderPreviewImage() }
+      </label>
+      <input
+        id="file-upload"
+        type="file"
+        onChange={handleImageChange}
+        disabled={loading}
+        name="avatar"
+      />
+    </Form.Field>
+  );
+};
 
-export default PhotoUpload;
+PhotoUpload.propTypes = {
+  loading: PropTypes.bool,
+  file: PropTypes.string,
+  imagePreviewUrl: PropTypes.string,
+  handleImageChange: PropTypes.func,
+};
+
+export default withFileUpload(PhotoUpload);

@@ -8,6 +8,7 @@ import Button from 'components/Button/Button';
 import PartyInformation from './PartyInformation/PartyInformation';
 import PartyRules from './PartyRules/PartyRules';
 import Attendants from './Attendants/Attendants';
+import PartyBannerImage from './PartyBannerImage/PartyBannerImage';
 
 // style
 // import './Create.styl';
@@ -20,6 +21,7 @@ class CreateParty extends PureComponent {
       partyName: '',
       partyCode: '42069',
       partyDescription: '',
+      partyBannerImage: '',
       attendants: [],
       rules: {
         useHostDevice: false,
@@ -74,7 +76,9 @@ class CreateParty extends PureComponent {
 
     return (
       <div>
-        <PageSection>
+        <PartyBannerImage />
+
+        <PageSection customMargin="7.5rem 0 0">
           <PartyInformation
             setPartyName={this.setPartyName}
             setPartyDescription={this.setPartyDescription}

@@ -2,6 +2,7 @@
 import React, { PropTypes } from 'react';
 
 // components
+import { Loader } from 'semantic-ui-react';
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 
 // style
@@ -17,15 +18,32 @@ const Button = ({
   textAlign,
   fontSize,
   disabled,
+  loading,
+  onClick,
 }) => {
+  const renderContent = () => {
+    if (loading) {
+      return <Loader active inverted />;
+    }
+
+    if (icon) {
+      return (
+        <TextWithIcon icon={icon} iconSize={iconSize} iconColor={iconColor}>
+          { children }
+        </TextWithIcon>
+      );
+    }
+
+    return children;
+  };
+
   let className = `px-btn px-btn--${color} px-btn__fs--${fontSize} px-btn__ta--${textAlign}`;
   if (inverted) className += ' px-btn--inverted';
+  if (loading) className += ' px-btn--loading';
 
   return (
-    <button className={className} disabled={disabled}>
-      <TextWithIcon icon={icon} iconSize={iconSize} iconColor={iconColor}>
-        { children }
-      </TextWithIcon>
+    <button className={className} disabled={disabled} onClick={onClick}>
+      { renderContent() }
     </button>
   );
 };
@@ -40,6 +58,8 @@ Button.propTypes = {
   fontSize: PropTypes.oneOf(['small', 'normal', 'big']),
   textAlign: PropTypes.oneOf(['left', 'center', 'right']),
   disabled: PropTypes.bool,
+  loading: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
@@ -50,6 +70,8 @@ Button.defaultProps = {
   fontSize: 'small',
   textAlign: 'center',
   disabled: false,
+  loading: false,
+  onClick: null,
 };
 
 export default Button;

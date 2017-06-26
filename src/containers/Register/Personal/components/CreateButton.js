@@ -1,7 +1,11 @@
+/* eslint-disable */
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
+
+// components
+import Button from 'components/Button/Button';
+import PageSection from 'components/PageSection/PageSection';
 
 @connect(state => ({ create: state.app.user.userCreate }))
 class CreateButton extends Component {
@@ -53,17 +57,17 @@ class CreateButton extends Component {
     const { loaded } = this.props.create;
 
     return (
-      <Button
-        className="big-btn"
-        id="create-btn"
-        onClick={this.handleClick}
-        fluid
-        color="purple"
-        disabled={!enabled || loaded}
-        loading={loading}
-      >
-        Create
-      </Button>
+      <PageSection>
+        <Button
+          onClick={this.handleClick}
+          color="purple"
+          disabled={!enabled || loaded}
+          loading={loading}
+          fontSize="big"
+        >
+          CREATE
+        </Button>
+      </PageSection>
     );
   }
 }

@@ -11,7 +11,6 @@ import EmailInput from './components/EmailInput/EmailInput';
 import PasswordsGroup from './components/PasswordsGroup/PasswordsGroup';
 import NextButton from './components/NextButton';
 
-
 @connect(
   state => ({ create: state.app.user.userCreate }),
   createActions,
@@ -25,24 +24,32 @@ class Login extends Component {
     }),
   };
 
-  state = {
-    emailValid: null,
-    passwordsValid: null,
-  };
+  constructor(props) {
+    super(props);
 
-  validateEmail = emailValid => this.setState({ emailValid }, this.isFormValid);
+    this.state = {
+      emailValid: null,
+      passwordsValid: null,
+    };
+  }
 
-  validatePasswords = passwordsValid => this.setState({ passwordsValid }, this.isFormValid);
-
-  isFormValid = () => {
-    const { emailValid, passwordsValid } = this.state;
+  componentDidUpdate() {
     const { setLoginFormValidation } = this.props;
     const { loginFormValid } = this.props.create;
-    const isValid = emailValid && passwordsValid;
 
-    if (loginFormValid !== isValid) {
-      setLoginFormValidation(isValid);
+    if (this.state.emailValid && this.state.passwordsValid && !loginFormValid) {
+      setLoginFormValidation(true);
+    } else if ((!this.state.emailValid || !this.state.passwordsValid) && loginFormValid) {
+      setLoginFormValidation(false);
     }
+  }
+
+  validateEmail = (emailValid) => {
+    this.setState({ emailValid });
+  };
+
+  validatePasswords = (passwordsValid) => {
+    this.setState({ passwordsValid });
   };
 
   render() {

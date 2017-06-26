@@ -1,0 +1,46 @@
+@import "~style/common.styl"
+
+.party-banner-image-container
+  display flex
+  justify-content center
+  align-items center
+  position absolute
+  top 50px
+  left 0
+  width 100%
+  height 110px
+  background rgba(255,255,255,1)
+  background linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(217,217,217,1) 100%)
+  background-size cover
+
+  input[type="file"]
+    display none
+
+  .custom-file-upload
+    position relative
+    display inline-block
+    padding 1.5rem 1rem
+    border-radius 50%
+    text-align center
+    overflow hidden
+    cursor pointer
+
+    .upload-image-container
+      display flex
+      justify-content center
+      align-items center
+      width 38px
+      height 38px
+      background-color $purple_medium
+      border-radius 50%
+
+      .px-icon
+        margin 0
+
+  .pbi__icon
+    position absolute
+    color rgba(0, 0, 0, 0.07)
+    font-size 7rem
+
+  .pbi--dim
+    opacity .75

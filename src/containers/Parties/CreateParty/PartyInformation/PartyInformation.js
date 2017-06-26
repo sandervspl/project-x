@@ -11,7 +11,7 @@ import PartyCodeDisplay from './PartyCodeDisplay/PartyCodeDisplay';
 // import './PartyInformation.styl';
 
 const PartyInformation = ({ setPartyName, setPartyDescription, partyCode }) => (
-  <div>
+  <div className="full-width">
     <Header icon="music" iconColor="purple-medium">Party information</Header>
     <Form className="party-information">
       <FormInput

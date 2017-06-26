@@ -9,7 +9,7 @@ import Button from 'components/Button/Button';
 // import './Attendants.styl';
 
 const Attendants = () => (
-  <div>
+  <div className="full-width">
     <Header icon="group" iconColor="purple-medium">Attendants</Header>
 
     <Button

@@ -101,7 +101,9 @@ class SidebarMenu extends Component {
           >
             <ItemTop toggleOpen={this.toggleOpen} />
 
-            <ItemProfile onClick={this.toggleOpen} />
+            <Authorized>
+              <ItemProfile onClick={this.toggleOpen} />
+            </Authorized>
 
             <Authorized>
               <ItemLogOut logout={unauthorize} />

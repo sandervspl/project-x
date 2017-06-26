@@ -64,13 +64,10 @@ h4
   font-size 1rem
   font-weight $medium
 
-input
-  font-size 1rem !important
-  padding .7857rem .7143rem !important
-
 // iOS will zoom in on input fields if font size is not 16px or bigger
-select, textarea, input
+select, input, textarea
   font-size 16px !important
+  padding .7857rem .7143rem !important
 
 #root
   width 100%
@@ -88,8 +85,8 @@ select, textarea, input
     overflow auto
 
   .inner
-    padding 5.714rem 1.429rem 0
-    height 100%
+    padding 5.714rem 1.429rem 5rem
+    min-height 100%
     background-color $white
 
 .small-text

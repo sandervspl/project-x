@@ -42,11 +42,11 @@ TextWithIcon.propTypes = {
 
 TextWithIcon.defaultProps = {
   containerClassName: 'textwithicon-container',
+  textClassName: 'textwithicon-text',
   icon: 'music',
   iconColor: 'black',
-  textClassName: 'textwithicon-text',
   iconPosition: 'left',
-  iconSize: 'large',
+  iconSize: 'big',
 };
 
 export default TextWithIcon;

@@ -1,6 +1,9 @@
 // dependencies
 import React, { PropTypes } from 'react';
 
+// components
+// import PartyListItem from './PartyListItem/PartyListItem';
+
 // style
 import './Parties.styl';
 

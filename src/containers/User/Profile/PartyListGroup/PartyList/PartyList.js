@@ -13,7 +13,7 @@ const PartyList = ({ type }) => {
 
   return (
     <div className="party-list-block">
-      <Header icon={icon} href="#" hrefText="Show all">{ type }</Header>
+      <Header icon={icon} iconColor="purple-medium" href="#" hrefText="Show all">{ type }</Header>
       <Parties amount={3} type={type} />
     </div>
   );

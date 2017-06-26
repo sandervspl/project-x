@@ -7,13 +7,6 @@ import OptionWithSwitch from 'components/OptionWithSwitch/OptionWithSwitch';
 // style
 // import './RulesList.styl';
 
-// rules: {
-//   useHostDevice: false,
-//     allowDuplicateSongs: false,
-//     allowExplicitSongs: false,
-//     approveSongs: false,
-// },
-
 const RulesList = ({ defaultRuleValues, setRuleValue }) => (
   <div>
     <OptionWithSwitch

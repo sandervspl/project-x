@@ -10,7 +10,7 @@ import RulesList from './RulesList/RulesList';
 
 const PartyRules = ({ defaultRuleValues, setRuleValue }) => (
   <div id="party-rules-container">
-    <Header icon="shield">Rules</Header>
+    <Header icon="shield" iconColor="purple-medium">Rules</Header>
     <RulesList defaultRuleValues={defaultRuleValues} setRuleValue={setRuleValue} />
   </div>
 );

@@ -1,8 +1,10 @@
 // dependencies
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { isEmpty } from 'validator';
 
 // components
 import PageSection from 'components/PageSection/PageSection';
+import Button from 'components/Button/Button';
 import PartyInformation from './PartyInformation/PartyInformation';
 import PartyRules from './PartyRules/PartyRules';
 import Attendants from './Attendants/Attendants';
@@ -10,7 +12,7 @@ import Attendants from './Attendants/Attendants';
 // style
 // import './Create.styl';
 
-class CreateParty extends Component {
+class CreateParty extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -25,15 +27,24 @@ class CreateParty extends Component {
         allowExplicitSongs: false,
         approveSongs: false,
       },
+      allowCreate: false,
     };
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (!nextState.allowCreate && !isEmpty(nextState.partyName)) {
+      this.setState({ allowCreate: true });
+    } else if (nextState.allowCreate && isEmpty(nextState.partyName)) {
+      this.setState({ allowCreate: false });
+    }
+  }
+
   setPartyName = (partyName) => {
-    this.setState({ partyName });
+    this.setState({ partyName: partyName.trim() });
   };
 
   setPartyDescription = (partyDescription) => {
-    this.setState({ partyDescription });
+    this.setState({ partyDescription: partyDescription.trim() });
   };
 
   setRuleValue = (ruleTag, value) => {
@@ -59,7 +70,7 @@ class CreateParty extends Component {
   };
 
   render() {
-    const { partyCode, rules } = this.state;
+    const { partyCode, rules, allowCreate } = this.state;
 
     return (
       <div>
@@ -74,7 +85,24 @@ class CreateParty extends Component {
           <PartyRules setRuleValue={this.setRuleValue} defaultRuleValues={rules} />
         </PageSection>
         <PageSection>
-          <Attendants addAttendant={this.addAttendant} removeAttendant={this.removeAttendant} />
+          <Attendants
+            addAttendant={this.addAttendant}
+            removeAttendant={this.removeAttendant}
+          />
+        </PageSection>
+
+        <PageSection>
+          <Button
+            color="purple"
+            icon="plus"
+            iconColor="white"
+            iconSize="big"
+            textAlign="center"
+            fontSize="big"
+            disabled={!allowCreate}
+          >
+            CREATE PARTY
+          </Button>
         </PageSection>
       </div>
     );

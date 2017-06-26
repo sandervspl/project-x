@@ -1,0 +1,54 @@
+@import "~style/common.styl"
+
+.px-btn
+  padding 1rem .714rem
+  width 100%
+  height 45px
+  color $black
+  border-radius 3px
+  background-color $white
+  box-shadow none
+  border none
+
+  &:disabled
+    color $grey
+
+  &.px-btn--purple
+    color $white
+    background-color $purple_default
+
+    &:disabled
+      background-color $purple_light
+
+    > .icon
+      color $white
+
+    &.px-btn--inverted
+      background-color $white
+      border 1px solid $purple_default
+      color $purple_default
+
+      &:disabled
+        border-color 1px solid $purple_light
+        color $purple_light
+
+      > .icon
+        color $purple_medium
+
+  &.px-btn__fs--small
+    font-size .929rem
+
+  &.px-btn__fs--normal
+    font-size 1rem
+
+  &.px-btn__fs--big
+    font-size 1.3rem
+
+  &.px-btn__ta--left
+    text-align left
+
+  &.px-btn__ta--right
+    text-align right
+
+  &.px-btn__ta--center
+    text-align center

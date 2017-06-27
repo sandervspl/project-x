@@ -73,7 +73,7 @@ const fetchSuccess = idType => ({
   exists: false,
 });
 
-export const fetchFail = (idType, errorMessage) => {
+export const fetchFail = (idType, errorMessage = 'Unable to connect to server') => {
   const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
   const msg = errorMessage || `${idTypeCap} already exists.`;
 
@@ -125,8 +125,8 @@ export const checkExists = id => async (dispatch) => {
     }
   } catch (err) {
     // console.log(`EXISTS ERROR: ${err}`);
-    dispatch(fetchFail(idType, 'Server error.'));
-    return true;
+    // dispatch(fetchFail(idType));
+    // return true;
   }
 
   // id exists

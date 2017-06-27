@@ -75,7 +75,7 @@ const fetchSuccess = user => ({
   user,
 });
 
-const fetchFail = (errorMessage = 'Server error.') => ({
+const fetchFail = (errorMessage = 'Unable to connect to server.') => ({
   type: FAIL,
   errorMessage,
 });

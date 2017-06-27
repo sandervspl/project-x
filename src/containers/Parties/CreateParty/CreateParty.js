@@ -10,10 +10,11 @@ import * as createPartyActions from 'ducks/modules/party/createParty';
 // components
 import PageSection from 'components/PageSection/PageSection';
 import Button from 'components/Button/Button';
+import InputError from 'components/InputError/InputError';
+import PartyBannerImage from './PartyBannerImage/PartyBannerImage';
 import PartyInformation from './PartyInformation/PartyInformation';
 import PartyRules from './PartyRules/PartyRules';
 import Attendants from './Attendants/Attendants';
-import PartyBannerImage from './PartyBannerImage/PartyBannerImage';
 
 // style
 // import './Create.styl';
@@ -22,9 +23,12 @@ class CreateParty extends PureComponent {
   static propTypes = {
     createParty: PropTypes.shape({
       loading: PropTypes.bool,
+      error: PropTypes.bool,
+      errorMessage: PropTypes.string,
     }),
     createPartyActions: PropTypes.shape({
       createPartyProcess: PropTypes.func,
+      resetCreateParty: PropTypes.func,
     }),
   }
 
@@ -58,6 +62,10 @@ class CreateParty extends PureComponent {
     ) {
       this.setState({ allowCreate: false });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.createPartyActions.resetCreateParty();
   }
 
   setPartyName = (partyName) => {
@@ -97,7 +105,7 @@ class CreateParty extends PureComponent {
 
   render() {
     const { partyCode, rules, allowCreate } = this.state;
-    const { loading } = this.props.createParty;
+    const { loading, error, errorMessage } = this.props.createParty;
 
     return (
       <div>
@@ -110,9 +118,11 @@ class CreateParty extends PureComponent {
             partyCode={partyCode}
           />
         </PageSection>
+
         <PageSection>
           <PartyRules setRuleValue={this.setRuleValue} defaultRuleValues={rules} />
         </PageSection>
+
         <PageSection>
           <Attendants
             addAttendant={this.addAttendant}
@@ -121,6 +131,7 @@ class CreateParty extends PureComponent {
         </PageSection>
 
         <PageSection>
+          { error && <InputError block> { errorMessage } </InputError> }
           <Button
             color="purple"
             icon="plus"

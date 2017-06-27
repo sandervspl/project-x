@@ -18,6 +18,7 @@ const authToken = cookies.auth.token;
 export const START = 'px/createParty/START';
 export const SUCCESS = 'px/createParty/SUCCESS';
 export const FAIL = 'px/createParty/FAIL';
+export const RESET = 'px/createParty/RESET';
 
 
 // state
@@ -60,6 +61,9 @@ export default (state = initialState, action = {}) => {
         errorMessage: action.errorMessage,
       };
 
+    case RESET:
+      return initialState;
+
     default:
       return state;
   }
@@ -79,6 +83,14 @@ const createFail = (errorMessage = 'Unable to connect to server.') => ({
   type: FAIL,
   errorMessage,
 });
+
+const reset = () => ({
+  type: RESET,
+});
+
+export const resetCreateParty = () => (dispatch) => {
+  dispatch(reset());
+};
 
 // async actions
 const createParty = (title, description) => async (dispatch) => {

@@ -1,5 +1,6 @@
 // dependencies
-import React, {} from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 // components
 import PartyList from './PartyList/PartyList';
@@ -7,13 +8,23 @@ import PartyList from './PartyList/PartyList';
 // style
 import './PartyListGroup.styl';
 
-const PartyListGroup = () => (
+const PartyListGroup = ({ userParties }) => (
   <section id="party-list-container">
-    <PartyList type="hosted" />
+    <PartyList type="hosted" parties={userParties.parties} />
     <PartyList type="attended" />
   </section>
 );
 
-PartyListGroup.propTypes = {};
+PartyListGroup.propTypes = {
+  userParties: PropTypes.shape({
+    // parties: PropTypes.arrayOf({}),
+  }),
+};
 
-export default PartyListGroup;
+function mapStateToProps(state) {
+  return {
+    userParties: state.app.party.userParties,
+  };
+}
+
+export default connect(mapStateToProps, null)(PartyListGroup);

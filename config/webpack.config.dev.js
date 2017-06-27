@@ -77,6 +77,7 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     extensions: ['.js', '.json', '.jsx', '.styl', ''],
     alias: {
+      api: path.resolve(__dirname, '../src/api'),
       cfg: path.resolve(__dirname, '../src/config'),
       ducks: path.resolve(__dirname, '../src/ducks'),
       components: path.resolve(__dirname, '../src/components'),

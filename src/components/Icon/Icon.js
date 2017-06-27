@@ -13,7 +13,7 @@ const PxIcon = ({ name, color, size, className, disabled }) => (
 
 PxIcon.propTypes = {
   name: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(['purple', 'purple-medium', 'purple-light', 'black', 'white']),
+  color: PropTypes.oneOf(['purple', 'purple-medium', 'purple-light', 'black', 'white', 'grey-medium']),
   size: PropTypes.oneOf(['small', 'normal', 'big']),
   className: PropTypes.string,
   disabled: PropTypes.bool,

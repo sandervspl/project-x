@@ -12,6 +12,7 @@ const Button = ({
   children,
   color,
   inverted,
+  transparent,
   icon,
   iconSize,
   iconColor,
@@ -20,6 +21,7 @@ const Button = ({
   disabled,
   loading,
   onClick,
+  className,
 }) => {
   const renderContent = () => {
     if (loading) {
@@ -37,12 +39,13 @@ const Button = ({
     return children;
   };
 
-  let className = `px-btn px-btn--${color} px-btn__fs--${fontSize} px-btn__ta--${textAlign}`;
-  if (inverted) className += ' px-btn--inverted';
-  if (loading) className += ' px-btn--loading';
+  let classname = `px-btn px-btn--${color} px-btn__fs--${fontSize} px-btn__ta--${textAlign} ${className}`;
+  if (inverted) classname += ' px-btn--inverted';
+  if (loading) classname += ' px-btn--loading';
+  if (transparent) classname += ' px-btn--transparent';
 
   return (
-    <button className={className} disabled={disabled} onClick={onClick}>
+    <button className={classname} disabled={disabled} onClick={onClick}>
       { renderContent() }
     </button>
   );
@@ -52,6 +55,7 @@ Button.propTypes = {
   children: PropTypes.string,
   color: PropTypes.oneOf(['black', 'purple']),
   inverted: PropTypes.bool,
+  transparent: PropTypes.bool,
   icon: PropTypes.string,
   iconSize: PropTypes.string,
   iconColor: PropTypes.string,
@@ -60,11 +64,13 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
   onClick: PropTypes.func,
+  className: PropTypes.string,
 };
 
 Button.defaultProps = {
   color: 'black',
   inverted: false,
+  transparent: false,
   icon: null,
   iconSize: 'normal',
   fontSize: 'small',

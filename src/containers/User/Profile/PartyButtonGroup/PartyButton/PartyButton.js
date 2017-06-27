@@ -1,7 +1,10 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router';
+
+// components
+import Button from 'components/Button/Button';
+import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 
 // routes
 import routes from 'routes/routes';
@@ -13,17 +16,15 @@ const PartyButton = ({ type }) => (
   type === 'create'
     ? (
       <Link to={routes.party.create} className="party-button-link">
-        <Button className="btn purple party-button create">
-          <Icon name="plus" />
-          Party
+        <Button className="party-button" color="purple">
+          <TextWithIcon icon="plus" iconColor="white">PARTY</TextWithIcon>
         </Button>
       </Link>
     )
     : (
       <Link to={routes.party.join} className="party-button-link">
-        <Button className="btn purple party-button join" basic>
-          <Icon name="chevron circle right" />
-          Join
+        <Button className="party-button" color="purple" inverted>
+          <TextWithIcon icon="chevron-circle-right" iconColor="purple">JOIN</TextWithIcon>
         </Button>
       </Link>
     )

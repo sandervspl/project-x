@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react';
 
 // components
-import { Button } from 'semantic-ui-react';
+import Button from 'components/Button/Button';
 
 // style
 import './ButtonGroup.styl';
@@ -10,21 +10,24 @@ import './ButtonGroup.styl';
 const ButtonGroup = ({ toggleModal }) => (
   <div className="button-group">
     <h3>Sign in to continue</h3>
-    <Button
-      color="purple"
-      className="create-account"
-      onClick={() => toggleModal('signup', true)}
-    >
-      Create account
-    </Button>
-    <Button
-      basic
-      inverted
-      id="sign-in-btn"
-      onClick={() => toggleModal('signin', true)}
-    >
-      Sign in
-    </Button>
+    <div className="button-group-inner">
+      <Button
+        color="purple"
+        className="create-account-btn"
+        onClick={() => toggleModal('signup', true)}
+      >
+        CREATE ACCOUNT
+      </Button>
+      <Button
+        inverted
+        transparent
+        color="white"
+        className="login-btn"
+        onClick={() => toggleModal('signin', true)}
+      >
+        SIGN IN
+      </Button>
+    </div>
   </div>
 );
 

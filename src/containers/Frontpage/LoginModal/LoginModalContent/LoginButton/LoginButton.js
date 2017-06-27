@@ -2,14 +2,18 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button } from 'semantic-ui-react';
+// import { Button } from 'semantic-ui-react';
+
+// components
+import Button from 'components/Button/Button';
+import PageSection from 'components/PageSection/PageSection';
 
 // actions
 import * as loginActions from 'ducks/modules/user/login';
 import * as userActions from 'ducks/modules/user/getUser';
 
 // style
-import './LoginButton.styl';
+// import './LoginButton.styl';
 
 @connect(
   state => ({
@@ -47,17 +51,17 @@ class LoginButton extends Component {
     const { loading, loaded } = this.props.userLogin;
 
     return (
-      <Button
-        color="purple"
-        className="signin-btn big-btn"
-        id="px-signin-btn"
-        onClick={this.handleClick}
-        fluid
-        disabled={!formValid || loading || loaded}
-        loading={loading}
-      >
-        Sign in
-      </Button>
+      <PageSection customMargin="1.5rem 0">
+        <Button
+          color="purple"
+          onClick={this.handleClick}
+          fontsize="big"
+          disabled={!formValid || loading || loaded}
+          loading={loading || loaded}
+        >
+          SIGN IN
+        </Button>
+      </PageSection>
     );
   }
 }

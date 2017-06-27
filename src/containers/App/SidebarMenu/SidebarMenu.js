@@ -1,12 +1,13 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
-import { Sidebar, Icon, Menu } from 'semantic-ui-react';
+import { Sidebar, Menu } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 // components
 import NavigationBar from 'components/NavigationBar/NavigationBar';
 import Authorized from 'components/Authorized/Authorized';
+import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 
 // actions
 import * as userActions from 'ducks/modules/user/getUser';
@@ -24,8 +25,13 @@ const ItemTop = ({ toggleOpen }) => (
       <a href="#" className="item-text-language">ENGLISH</a>
     </div>
     <div className="item-right" onClick={toggleOpen}>
-      <span className="item-text sidebar-close-text">CLOSE</span>
-      <Icon name="close" fitted />
+      <TextWithIcon
+        icon="close"
+        iconColor="black"
+        iconPosition="right"
+      >
+        <span className="close">CLOSE</span>
+      </TextWithIcon>
     </div>
   </Menu.Item>
 );
@@ -41,8 +47,7 @@ const ItemLogOut = ({ logout }) => {
 
   return (
     <Menu.Item name="logout" onClick={handleClick}>
-      <Icon name="shutdown" fitted className="sidebar-icon" />
-      <span className="item-text">Logout</span>
+      <TextWithIcon icon="sign-out" iconColor="purple">Logout</TextWithIcon>
     </Menu.Item>
   );
 };
@@ -53,8 +58,7 @@ ItemLogOut.propTypes = {
 const ItemProfile = ({ onClick }) => (
   <Link to={routes.user.profile} onClick={onClick}>
     <Menu.Item name="home">
-      <Icon name="home" fitted className="sidebar-icon" />
-      <span className="item-text">Profile</span>
+      <TextWithIcon icon="home" iconColor="purple">Profile</TextWithIcon>
     </Menu.Item>
   </Link>
 );

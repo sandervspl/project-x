@@ -1,7 +1,6 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Loader } from 'semantic-ui-react';
 import _ from 'lodash';
 
 // actions
@@ -11,6 +10,7 @@ import * as getUserActions from 'ducks/modules/user/getUser';
 import { isLoggedIn } from 'helpers/auth';
 
 // components
+import Loader from 'components/Loader/Loader';
 import UserProfile from './UserProfile/UserProfile';
 import PartyButtonGroup from './PartyButtonGroup/PartyButtonGroup';
 import PartyListGroup from './PartyListGroup/PartyListGroup';
@@ -49,7 +49,7 @@ class Profile extends Component {
     const { loading, error, errorMessage } = this.props.getUser;
 
     if (loading) {
-      return <Loader className="purple-loader" active size="massive" />;
+      return <Loader color="purple" size="massive" active />;
     }
 
     if (error) {

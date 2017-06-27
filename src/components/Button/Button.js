@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react';
 
 // components
-import { Loader } from 'semantic-ui-react';
+import Loader from 'components/Loader/Loader';
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 
 // style
@@ -23,7 +23,7 @@ const Button = ({
 }) => {
   const renderContent = () => {
     if (loading) {
-      return <Loader className="purple-loader" size="big" active />;
+      return <Loader color="purple" size="big" active />;
     }
 
     if (icon) {

@@ -1,17 +1,20 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { Loader as LoaderSemantic } from 'semantic-ui-react';
+
+// components
+import Loader from 'components/Loader/Loader';
 
 // style
 import './FullscreenLoader.styl';
 
-const Loader = ({ loaded }) => {
+const Fullscreenloader = ({ loaded }) => {
   const cls = loaded ? 'page-fill full-page-loader loaded' : 'page-fill full-page-loader';
 
   return (
     <div className={cls}>
-      <LoaderSemantic
-        className="page-loader purple-loader"
+      <Loader
+        className="page-loader"
+        color="purple"
         size="massive"
         inline
         active
@@ -21,8 +24,8 @@ const Loader = ({ loaded }) => {
   );
 };
 
-Loader.propTypes = {
+Fullscreenloader.propTypes = {
   loaded: PropTypes.bool.isRequired,
 };
 
-export default Loader;
+export default Fullscreenloader;

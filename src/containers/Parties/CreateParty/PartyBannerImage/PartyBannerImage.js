@@ -1,9 +1,9 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { Loader } from 'semantic-ui-react';
 import { isEmpty } from 'validator';
 
 // components
+import Loader from 'components/Loader/Loader';
 import Icon from 'components/Icon/Icon';
 
 // hoc
@@ -31,7 +31,7 @@ const PartyBannerImage = ({ loading, file, imagePreviewUrl, handleImageChange })
           {
             loading &&
             <Loader
-              className="purple-loader"
+              color="purple"
               size="big"
               active
             />

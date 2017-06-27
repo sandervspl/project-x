@@ -52,7 +52,8 @@ const Button = ({
 };
 
 Button.propTypes = {
-  children: PropTypes.string,
+  // eslint-disable-next-line
+  children: PropTypes.any,
   color: PropTypes.oneOf(['black', 'purple']),
   inverted: PropTypes.bool,
   transparent: PropTypes.bool,

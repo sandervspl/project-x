@@ -8,13 +8,13 @@ import Parties from './Parties/Parties';
 // style
 import './PartyList.styl';
 
-const PartyList = ({ type, parties }) => {
+const PartyList = ({ type, parties, loading }) => {
   const icon = type === 'hosted' ? 'home' : 'ticket';
 
   return (
     <div className="party-list-block">
       <Header icon={icon} iconColor="purple-medium" href="#" hrefText="Show all">{ type }</Header>
-      <Parties parties={parties} type={type} />
+      <Parties parties={parties} type={type} loading={loading} />
     </div>
   );
 };
@@ -22,6 +22,7 @@ const PartyList = ({ type, parties }) => {
 PartyList.propTypes = {
   type: PropTypes.oneOf(['hosted', 'attended']).isRequired,
   parties: PropTypes.arrayOf(PropTypes.shape({})),
+  loading: PropTypes.bool,
 };
 
 PartyList.defaultProps = {

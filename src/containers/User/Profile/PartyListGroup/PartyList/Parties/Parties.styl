@@ -1,7 +1,13 @@
 @import "~style/common.styl"
 
 #app #user-page #party-list-container .party-list
+  display flex
+  justify-content center
+  flex-direction column
   margin-top .357rem
+
+  &.flex-center
+    align-items center
 
   .no-parties-text
     color $grey

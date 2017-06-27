@@ -28,6 +28,7 @@ Loader.defaultProps = {
   color: 'grey',
   size: 'big',
   inline: false,
+  className: '',
 };
 
 export default Loader;

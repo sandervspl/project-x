@@ -10,8 +10,8 @@ import './PartyListGroup.styl';
 
 const PartyListGroup = ({ userParties }) => (
   <section id="party-list-container">
-    <PartyList type="hosted" parties={userParties.parties} />
-    <PartyList type="attended" />
+    <PartyList type="hosted" parties={userParties.parties} loading={userParties.loading} />
+    <PartyList type="attended" loading={userParties.loading} />
   </section>
 );
 

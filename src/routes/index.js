@@ -15,6 +15,7 @@ import Profile from 'containers/User/Profile/Profile';
 import App from 'containers/App/App';
 import WelcomePage from 'containers/Register/WelcomePage/WelcomePage';
 import CreateParty from 'containers/Parties/CreateParty/CreateParty';
+import Party from 'containers/Parties/Party/Party';
 
 // redux store
 import store from 'store';
@@ -55,6 +56,8 @@ export default () => (
         <Route path={routes.user.profile} components={User} onEnter={hasAccess}>
           <IndexRoute components={Profile} />
           <Route path={routes.party.create} components={CreateParty} onEnter={hasAccess} />
+          {/*TODO: onEnter={check if invited etc. (see notes)}*/}
+          <Route path={routes.party.party} components={Party} />
         </Route>
       </Route>
       <Route path="*" components={Error404} />

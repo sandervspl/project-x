@@ -2,6 +2,9 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+// routes
+import routes from 'routes/routes';
+
 // components
 import Icon from 'components/Icon/Icon';
 import ServiceType from './ServiceType/ServiceType';
@@ -11,18 +14,24 @@ import PartyScore from './PartyScore/PartyScore';
 // style
 import './PartyListItem.styl';
 
-const PartyListItem = ({ party }) => (
-  <Link to="#">
-    <div className="party-list-item-container">
-      <ServiceType serviceType={party.service} />
-      <PartyInfo name={party.title} date={party.startDate} />
-      <PartyScore score={party.score} />
-      <div className="icon-container">
-        <Icon name="chevron-right" color="grey-medium" />
+const PartyListItem = ({ party }) => {
+  // create url
+  const route = routes.party.party;
+  const url = route.slice(0, route.indexOf(':')) + party.id;
+
+  return (
+    <Link to={url}>
+      <div className="party-list-item-container">
+        <ServiceType serviceType={party.service} />
+        <PartyInfo name={party.title} date={party.startDate} />
+        <PartyScore score={party.score} />
+        <div className="icon-container">
+          <Icon name="chevron-right" color="grey-medium" />
+        </div>
       </div>
-    </div>
-  </Link>
-);
+    </Link>
+  );
+};
 
 PartyListItem.propTypes = {
   party: PropTypes.shape({

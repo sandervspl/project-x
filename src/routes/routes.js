@@ -9,6 +9,7 @@ const routes = {
   },
   party: {
     create: '/party/create',
+    party: '/party/:id',
   },
 };
 

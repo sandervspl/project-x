@@ -83,6 +83,7 @@ module.exports = {
     extensions: ['.js', '.json', '.jsx', ''],
     alias: {
       api: path.resolve(__dirname, '../src/api'),
+      assets: path.resolve(__dirname, '../src/assets'),
       cfg: path.resolve(__dirname, '../src/config'),
       ducks: path.resolve(__dirname, '../src/ducks'),
       components: path.resolve(__dirname, '../src/components'),

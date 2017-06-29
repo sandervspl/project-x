@@ -2,16 +2,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+// assets
+import defaultImg from 'assets/images/avatar_default.png';
+
 // actions
 import * as getUserActions from 'ducks/modules/user/getUser';
 
 // style
 import './Avatar.styl';
 
+// TODO: Fix img src
 const Avatar = () => (
-  <div className="profile-avatar-container">
-    <img src="" alt="user avatar" />
-  </div>
+  <div className="profile-avatar-container" style={{ backgroundImage: `url(${defaultImg})` }} />
 );
 
 function mapStateToProps(state) {

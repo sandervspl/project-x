@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import { browserHistory } from 'react-router';
 
+// assets
+import defaultImg from 'assets/images/avatar_default.png';
+
 // route paths
 import routes from 'routes/routes';
 
@@ -30,10 +33,11 @@ const GetStartedButton = () => {
   );
 };
 
+// TODO: fix avatar img src
 const WelcomePage = ({ user }) => (
   <div id="welcome-page" className="page-fill">
     <div className="inner">
-      <div id="portrait-container" />
+      <div id="portrait-container" style={{ backgroundImage: `url(${defaultImg})` }} />
       <h1>Welcome</h1>
       <h3>{user.username}</h3>
       <GetStartedButton />

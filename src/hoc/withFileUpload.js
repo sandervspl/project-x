@@ -10,7 +10,7 @@ function withFileUpload(WrappedComponent) {
 
       this.state = {
         loading: false,
-        file: '',
+        file: {},
         imagePreviewUrl: '',
       };
     }
@@ -24,7 +24,7 @@ function withFileUpload(WrappedComponent) {
       reader.onloadstart = () => {
         this.setState({
           loading: true,
-          file: '',
+          file: {},
           imagePreviewUrl: '',
         });
       };

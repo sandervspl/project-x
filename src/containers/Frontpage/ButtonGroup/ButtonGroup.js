@@ -14,6 +14,7 @@ const ButtonGroup = ({ toggleModal }) => (
       <Button
         color="purple"
         className="create-account-btn"
+        fontSize="normal"
         onClick={() => toggleModal('signup', true)}
       >
         CREATE ACCOUNT
@@ -23,6 +24,7 @@ const ButtonGroup = ({ toggleModal }) => (
         transparent
         color="white"
         className="login-btn"
+        fontSize="normal"
         onClick={() => toggleModal('signin', true)}
       >
         SIGN IN

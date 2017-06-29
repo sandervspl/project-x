@@ -53,7 +53,7 @@ const PartyBannerImage = ({ loading, file, imagePreviewUrl, handleImageChange })
 
 PartyBannerImage.propTypes = {
   loading: PropTypes.bool,
-  file: PropTypes.string,
+  file: PropTypes.shape({}),
   imagePreviewUrl: PropTypes.string,
   handleImageChange: PropTypes.func,
 };

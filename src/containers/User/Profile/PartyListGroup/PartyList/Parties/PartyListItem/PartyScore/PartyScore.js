@@ -6,7 +6,7 @@ import './PartyScore.styl';
 
 const PartyScore = ({ score }) => (
   <div className="party-score-container">
-    <span className="party-score">+ { score }</span>
+    <span className="party-score">+{ score }</span>
   </div>
 );
 

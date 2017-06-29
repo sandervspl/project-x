@@ -1,8 +1,11 @@
 // dependencies
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
 import { browserHistory } from 'react-router';
+
+// components
+import Button from 'components/Button/Button';
+import Icon from 'components/Icon/Icon';
 
 // assets
 import defaultImg from 'assets/images/avatar_default.png';
@@ -20,15 +23,14 @@ const GetStartedButton = () => {
 
   return (
     <Button
-      className="big-btn"
-      id="get-started-btn"
-      fluid
-      color="purple"
-      basic
+      className="get-started-btn"
+      color="white"
+      fontSize="big"
+      fontColor="purple"
       onClick={handleClick}
     >
-      Get started
-      <Icon name="chevron right" />
+      GET STARTED
+      <Icon name="chevron-right" size="big" color="purple" className="get-started-icon" />
     </Button>
   );
 };

@@ -18,6 +18,7 @@ const Button = ({
   iconColor,
   textAlign,
   fontSize,
+  fontColor,
   disabled,
   loading,
   onClick,
@@ -43,6 +44,7 @@ const Button = ({
   if (inverted) classname += ' px-btn--inverted';
   if (loading) classname += ' px-btn--loading';
   if (transparent) classname += ' px-btn--transparent';
+  if (fontColor) classname += ` px-btn__fc--${fontColor}`;
 
   return (
     <button className={classname} disabled={disabled} onClick={onClick}>
@@ -61,6 +63,7 @@ Button.propTypes = {
   iconSize: PropTypes.string,
   iconColor: PropTypes.string,
   fontSize: PropTypes.oneOf(['small', 'normal', 'big']),
+  fontColor: PropTypes.oneOf(['black', 'purple', 'white']),
   textAlign: PropTypes.oneOf(['left', 'center', 'right']),
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -75,6 +78,7 @@ Button.defaultProps = {
   icon: null,
   iconSize: 'normal',
   fontSize: 'small',
+  fontColor: null,
   textAlign: 'center',
   disabled: false,
   loading: false,

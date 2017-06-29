@@ -19,7 +19,7 @@ const TextWithIcon = ({
   const iconComponent = <Icon name={icon} color={iconColor} className="twi-icon" size={iconSize} />;
 
   return (
-    <span className={`twi-basic ${containerClassName}`}>
+    <span className={`${containerClassName}`}>
       { iconPosition === 'left' && iconComponent }
 
       <span className={`twi-text ${textClassName}`}>{ children }</span>
@@ -41,8 +41,8 @@ TextWithIcon.propTypes = {
 };
 
 TextWithIcon.defaultProps = {
-  containerClassName: 'textwithicon-container',
-  textClassName: 'textwithicon-text',
+  containerClassName: '',
+  textClassName: '',
   icon: 'music',
   iconColor: 'black',
   iconPosition: 'left',

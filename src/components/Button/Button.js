@@ -79,6 +79,7 @@ Button.defaultProps = {
   disabled: false,
   loading: false,
   onClick: null,
+  className: '',
 };
 
 export default Button;

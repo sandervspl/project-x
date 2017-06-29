@@ -1,6 +1,6 @@
 @import "~style/common.styl";
 
-#root .button-group
+.button-group
   position fixed
   bottom 13%
   left 0
@@ -16,12 +16,13 @@
     font-weight $regular
 
   .create-account-btn
+    flex 1 1 60%
     margin-right 10px
     width 200px
     max-width 200px
 
   .login-btn
-    flex 1
+    flex 1 1 40%
     max-width 150px
 
   .button-group-inner
@@ -30,3 +31,7 @@
     justify-content center
     flex-direction row
     padding 0 3rem
+
+@media only screen and (max-width 360px)
+  .button-group .button-group-inner
+    padding 0 1rem

@@ -15,15 +15,15 @@ import './PartyButton.styl';
 const PartyButton = ({ type }) => (
   type === 'create'
     ? (
-      <Link to={routes.party.create} className="party-button-link">
-        <Button className="party-button" color="purple">
+      <Link to={routes.party.create} className="party-button-link create-btn">
+        <Button className="party-button" fontSize="big" color="purple">
           <TextWithIcon icon="plus" iconColor="white">PARTY</TextWithIcon>
         </Button>
       </Link>
     )
     : (
-      <Link to={routes.party.join} className="party-button-link">
-        <Button className="party-button" color="purple" inverted>
+      <Link to={routes.party.join} className="party-button-link join-btn">
+        <Button className="party-button" fontSize="big" color="purple" inverted>
           <TextWithIcon icon="chevron-circle-right" iconColor="purple">JOIN</TextWithIcon>
         </Button>
       </Link>

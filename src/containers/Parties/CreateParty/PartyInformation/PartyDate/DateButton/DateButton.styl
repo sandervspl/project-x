@@ -1,0 +1,43 @@
+@import "~style/common.styl"
+
+.date-btn,
+.time-btn
+  justify-content space-between
+  align-items center
+  padding .286rem .714rem
+  height 40px
+
+.date-btn
+  flex 0 0 60%
+
+  &.date-updated
+    animation dateUpdated 1s ease-in-out
+
+.bsi__container
+  display flex
+  flex-direction column
+  justify-content center
+  align-items flex-start
+  flex 0 0 60%
+  line-height 1.1rem
+
+.day-text
+  display block
+  color $black_light
+  font-size .714rem
+  font-weight $regular
+
+.date-text
+  display block
+  color $purple_default
+  font-size 1rem
+  font-weight $demibold
+
+
+
+@keyframes dateUpdated
+  0%, 100%
+    background-color $white
+
+  33%
+    background-color $purple_light

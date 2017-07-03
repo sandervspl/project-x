@@ -4,9 +4,10 @@ import React, { PropTypes } from 'react';
 // style
 import './PageSection.styl';
 
-const PageSection = ({ children, customMargin, row }) => {
+const PageSection = ({ children, customMargin, row, spaced }) => {
   let className = 'page-section';
   if (row) className += ' page-section--row';
+  if (spaced) className += ' page-section--spaced';
 
   return (
     <div
@@ -23,10 +24,12 @@ PageSection.propTypes = {
   children: PropTypes.any,
   customMargin: PropTypes.string,
   row: PropTypes.bool,
+  spaced: PropTypes.bool,
 };
 
 PageSection.defaultProps = {
   row: false,
+  spaced: false,
 };
 
 export default PageSection;

@@ -16,7 +16,7 @@ class Party extends Component {
 
   render() {
     return (
-      <div />
+      <h3>ID: { this.props.params.id }</h3>
     );
   }
 }

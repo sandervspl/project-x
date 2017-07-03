@@ -4,12 +4,18 @@ import React, { PropTypes } from 'react';
 // style
 import './Icon.styl';
 
-const PxIcon = ({ name, color, size, className, disabled }) => (
-  <i
-    className={`fa fa-${name} px-icon px-icon--${color} px-icon--${size}
-     ${disabled ? 'px-icon--disabled' : ''} ${className}`} aria-hidden="true"
-  />
-);
+const PxIcon = ({ name, color, size, className, disabled, noSpacing }) => {
+  let classname = className;
+  if (disabled) classname += ' px-icon--disabled';
+  if (noSpacing) classname += ' px-icon--no-spacing';
+
+  return (
+    <i
+      className={`fa fa-${name} px-icon px-icon--${color} px-icon--${size} ${classname}`}
+      aria-hidden="true"
+    />
+  );
+};
 
 PxIcon.propTypes = {
   name: PropTypes.string.isRequired,
@@ -17,6 +23,7 @@ PxIcon.propTypes = {
   size: PropTypes.oneOf(['small', 'normal', 'big']),
   className: PropTypes.string,
   disabled: PropTypes.bool,
+  noSpacing: PropTypes.bool,
 };
 
 PxIcon.defaultProps = {
@@ -24,6 +31,7 @@ PxIcon.defaultProps = {
   size: 'normal',
   className: '',
   disabled: false,
+  noSpacing: false,
 };
 
 export default PxIcon;

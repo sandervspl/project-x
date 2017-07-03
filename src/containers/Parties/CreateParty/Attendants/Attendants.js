@@ -14,7 +14,8 @@ const Attendants = () => (
 
     <Button
       color="purple"
-      inverted icon="user-plus"
+      inverted
+      icon="user-plus"
       iconColor="purple-medium"
       textAlign="left"
     >

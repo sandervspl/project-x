@@ -6,13 +6,23 @@ import { Form } from 'semantic-ui-react';
 import Header from 'components/Header/Header';
 import FormInput from 'components/FormInput/FormInput';
 import PartyCodeDisplay from './PartyCodeDisplay/PartyCodeDisplay';
+import PartyDate from './PartyDate/PartyDate';
 
 // style
-// import './PartyInformation.styl';
+import './PartyInformation.styl';
 
-const PartyInformation = ({ setPartyName, setPartyDescription, partyCode }) => (
+const PartyInformation = ({
+  setPartyName,
+  setPartyDescription,
+  partyCode,
+  onClick,
+  date,
+  time,
+  setTime,
+}) => (
   <div className="full-width">
     <Header icon="music" iconColor="purple-medium">Party information</Header>
+
     <Form className="party-information">
       <FormInput
         type="text"
@@ -30,14 +40,22 @@ const PartyInformation = ({ setPartyName, setPartyDescription, partyCode }) => (
         smallMarginTop
         onChange={setPartyDescription}
       />
+
+      <PartyDate date={date.start} time={time.start} setTime={setTime} onClick={onClick} type="start" />
+      <PartyDate date={date.end} time={time.end} setTime={setTime} onClick={onClick} type="end" />
     </Form>
   </div>
 );
+
 
 PartyInformation.propTypes = {
   setPartyName: PropTypes.func,
   setPartyDescription: PropTypes.func,
   partyCode: PropTypes.string,
+  onClick: PropTypes.func,
+  date: PropTypes.shape({}),
+  time: PropTypes.shape({}),
+  setTime: PropTypes.func,
 };
 
 export default PartyInformation;

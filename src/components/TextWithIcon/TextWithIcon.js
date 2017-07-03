@@ -19,13 +19,13 @@ const TextWithIcon = ({
   const iconComponent = <Icon name={icon} color={iconColor} className="twi-icon" size={iconSize} />;
 
   return (
-    <span className={`${containerClassName}`}>
+    <div className={`${containerClassName}`}>
       { iconPosition === 'left' && iconComponent }
 
       <span className={`twi-text ${textClassName}`}>{ children }</span>
 
       { iconPosition === 'right' && iconComponent }
-    </span>
+    </div>
   );
 };
 

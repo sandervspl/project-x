@@ -1,35 +1,82 @@
-/* eslint-disable */
 // dependencies
-import React, { PropTypes } from 'react';
-import dateFormat from 'dateformat';
+import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
 
 // components
-import ButtonSideIcon from 'components/ButtonSideIcon/ButtonSideIcon';
+import TimePicker from 'rc-time-picker';
 
 // style
+import 'rc-time-picker/assets/index.css';
 import './TimeButton.styl';
 
-const TimeButton = ({ date, time, setTime }) => (
-  <ButtonSideIcon
-    color="purple-light"
-    fontColor="purple"
-    inverted
-    iconLeft="clock-o"
-    iconColorLeft="purple"
-    iconRight="chevron-right"
-    iconColorRight="purple-light"
-    className="time-btn"
-    // onClick={onClick}
-  >
-    {/* <span className="time-text">{ dateFormat(date, 'shortTime') }</span> */}
-    <span className="time-text">{ time }</span>
-  </ButtonSideIcon>
-);
+class TimeButton extends Component {
+  static propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
+    setTime: PropTypes.func,
+    type: PropTypes.string,
+  };
 
-TimeButton.propTypes = {
-  date: PropTypes.instanceOf(Date).isRequired,
-  time: PropTypes.string,
-  setTime: PropTypes.func,
-};
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+    };
+  }
+
+  onChange = (val) => {
+    const { type, setTime } = this.props;
+
+    // selected date from Moment object has underscore dangle
+    // eslint-disable-next-line
+    setTime(type, val._d);
+  };
+
+  onOpen = () => {
+    this.setState({
+      open: true,
+    });
+  };
+
+  onClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+
+  // OK Button for TimePicker
+  OkButton = () => (
+    <div className="ok-button" onClick={this.onClose}> OK </div>
+  );
+
+  render() {
+    const { date } = this.props;
+    const { open } = this.state;
+
+    let overlayVisible = '';
+    if (open) {
+      overlayVisible = 'overlay-visible';
+    }
+
+    return (
+      <div className="time-btn-container">
+        <div className={`time-picker__overlay ${overlayVisible}`} />
+        <TimePicker
+          showSecond={false}
+          defaultValue={moment(date)}
+          value={moment(date)}
+          className="time-btn time-picker"
+          onChange={this.onChange}
+          format="hh:mm a"
+          addon={this.OkButton}
+          open={open}
+          onOpen={this.onOpen}
+          onClose={this.onClose}
+          use12Hours
+        />
+      </div>
+    );
+  }
+}
 
 export default TimeButton;

@@ -4,7 +4,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { isEmpty } from 'validator';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import dateFormat from 'dateformat';
+import moment from 'moment';
 
 // actions
 import * as createPartyActions from 'ducks/modules/party/createParty';
@@ -48,10 +48,6 @@ class CreateParty extends PureComponent {
       date: {
         start: today,
         end: today,
-      },
-      time: {
-        start: dateFormat(today, 'shortTime'),
-        end: dateFormat(today, 'shortTime'),
       },
       attendants: [],
       rules: {
@@ -121,47 +117,36 @@ class CreateParty extends PureComponent {
     createPartyProcess(partyName, partyDescription);
   };
 
-  setDateSelectMode = (e, dateSelectMode) => {
-    e.preventDefault();
-
+  setDateSelectMode = (dateSelectMode) => {
     this.setState({
       calendarActive: true,
       dateSelectMode,
     });
   };
 
-  selectStartDate = (date) => {
+  setDate = (date) => {
+    const { dateSelectMode } = this.state;
+
+    // Save current time when changing date or else it defaults to 12:00 AM
+    const tt = moment(this.state.date[dateSelectMode]).format('HH:mm:ss');
+    const dd = moment(date).format('YYYY-MM-DD');
+
+    const newDate = moment(`${dd} ${tt}`, moment.ISO_8601).format();
+
     this.setState({
       calendarActive: false,
       date: {
         ...this.state.date,
-        start: date,
+        [dateSelectMode]: new Date(newDate),
       },
     });
   };
 
-  selectEndDate = (date) => {
-    this.setState({
-      calendarActive: false,
-      date: {
-        ...this.state.date,
-        end: date,
-      },
-    });
-  };
-
-  setTime = (type, time) => {
-    const date = dateFormat(this.state.date[type], 'isoDate');
-    const dateWithTime = `${date} ${time}`;
-
+  setTime = (type, date) => {
     this.setState({
       date: {
         ...this.state.date,
-        [type]: dateWithTime,
-      },
-      time: {
-        ...this.state.time,
-        [type]: time,
+        [type]: date,
       },
     });
   };
@@ -173,7 +158,8 @@ class CreateParty extends PureComponent {
     return (
       <div>
         { calendarActive && <CalendarFullscreen
-          onSelect={dateSelectMode === 'start' ? this.selectStartDate : this.selectEndDate}
+          type={dateSelectMode}
+          onSelect={this.setDate}
           selected={dateSelectMode === 'start' ? date.start : date.end}
         /> }
 

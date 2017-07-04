@@ -17,7 +17,6 @@ const PartyInformation = ({
   partyCode,
   onClick,
   date,
-  time,
   setTime,
 }) => (
   <div className="full-width">
@@ -41,8 +40,8 @@ const PartyInformation = ({
         onChange={setPartyDescription}
       />
 
-      <PartyDate date={date.start} time={time.start} setTime={setTime} onClick={onClick} type="start" />
-      <PartyDate date={date.end} time={time.end} setTime={setTime} onClick={onClick} type="end" />
+      <PartyDate date={date.start} setTime={setTime} onClick={onClick} type="start" />
+      <PartyDate date={date.end} setTime={setTime} onClick={onClick} type="end" />
     </Form>
   </div>
 );
@@ -54,7 +53,6 @@ PartyInformation.propTypes = {
   partyCode: PropTypes.string,
   onClick: PropTypes.func,
   date: PropTypes.shape({}),
-  time: PropTypes.shape({}),
   setTime: PropTypes.func,
 };
 

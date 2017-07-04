@@ -25,29 +25,44 @@ const ButtonSideIcon = ({
   loading,
   onClick,
   className,
-}) => (
-  <Button
-    textAlign="center"
-    flex
-    color={color}
-    inverted={inverted}
-    transparent={transparent}
-    disabled={disabled}
-    fontSize={fontSize}
-    fontColor={fontColor}
-    loading={loading}
-    onClick={onClick}
-    className={className}
-  >
-    { iconLeft && <div style={{ flex: `0 0 ${iconContainerWidth ? `${iconContainerWidth}%` : '10%'}` }}>
-      <Icon name={iconLeft} color={iconColorLeft} size={iconSize} className="bsi__icon bsi__icon--start" noSpacing />
-    </div> }
-    { children }
-    { iconRight && <div style={{ flex: `0 0 ${iconContainerWidth ? `${iconContainerWidth}%` : '10%'}` }}>
-      <Icon name={iconRight} color={iconColorRight} size={iconSize} className="bsi__icon bsi__icon--end" noSpacing />
-    </div> }
-  </Button>
-);
+}) => {
+  const flexPrct = `${100 - (iconContainerWidth * 2)}%`;
+  const style = { flex: `0 0 ${flexPrct}` };
+
+  return (
+    <Button
+      textAlign="center"
+      flex
+      color={color}
+      inverted={inverted}
+      transparent={transparent}
+      disabled={disabled}
+      fontSize={fontSize}
+      fontColor={fontColor}
+      loading={loading}
+      onClick={onClick}
+      className={className}
+    >
+      {
+        iconLeft &&
+        <div style={{ flex: `0 0 ${iconContainerWidth}%` }}>
+          <Icon name={iconLeft} color={iconColorLeft} size={iconSize} className="bsi__icon bsi__icon--start" noSpacing />
+        </div>
+      }
+
+      <div style={style}>
+        { children }
+      </div>
+
+      {
+        iconRight &&
+        <div style={{ flex: `0 0 ${iconContainerWidth}%` }}>
+          <Icon name={iconRight} color={iconColorRight} size={iconSize} className="bsi__icon bsi__icon--end" noSpacing />
+        </div>
+      }
+    </Button>
+  );
+};
 
 ButtonSideIcon.propTypes = {
   // eslint-disable-next-line
@@ -78,7 +93,7 @@ ButtonSideIcon.defaultProps = {
   iconSize: 'normal',
   iconColorLeft: 'black',
   iconColorRight: 'black',
-  iconContainerWidth: null,
+  iconContainerWidth: '10',
   fontSize: 'small',
   fontColor: null,
   disabled: false,

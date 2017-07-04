@@ -39,8 +39,15 @@ class DateButton extends Component {
     }
   }
 
+  onClick = (e) => {
+    e.preventDefault();
+
+    const { onClick, type } = this.props;
+    onClick(type);
+  };
+
   render() {
-    const { onClick, type, date } = this.props;
+    const { date } = this.props;
     const { updated } = this.state;
 
     let classname = 'date-btn';
@@ -52,14 +59,14 @@ class DateButton extends Component {
         inverted
         textAlign="left"
         className={classname}
-        onClick={e => onClick(e, type)}
+        onClick={e => this.onClick(e)}
         iconLeft="calendar"
         iconColorLeft="purple"
         iconRight="chevron-right"
         iconColorRight="purple-light"
-        iconContainerWidth="20"
+        iconContainerWidth="15"
       >
-        <div className="bsi__container">
+        <div className="date-btn__inner">
           <span className="day-text"> { dateFormat(date, 'dddd') } </span>
           <span className="date-text"> { dateFormat(date, 'mmmm dS') } </span>
         </div>

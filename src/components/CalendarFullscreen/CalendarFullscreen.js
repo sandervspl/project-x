@@ -9,8 +9,6 @@ import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css';
 import './CalendarFullscreen.styl';
 
-const today = new Date();
-
 const theme = {
   // accentColor: '#257ae3',
   headerColor: '#7F5F9B',
@@ -28,13 +26,13 @@ const theme = {
   weekdayColor: '#D9CEE3',
 };
 
-const CalendarFullscreen = ({ onSelect, selected }) => (
+const CalendarFullscreen = ({ type, onSelect, selectedDate }) => (
   <div className="calendar-overlay">
     <InfiniteCalendar
       width={window.innerWidth}
       height={window.innerHeight}
-      selected={selected ? selected : today}
-      minDate={today}
+      selected={selectedDate}
+      minDate={new Date()}
       theme={theme}
       onSelect={onSelect}
       className="px-calendar"
@@ -43,8 +41,13 @@ const CalendarFullscreen = ({ onSelect, selected }) => (
 );
 
 CalendarFullscreen.propTypes = {
+  type: PropTypes.oneOf(['start', 'end']).isRequired,
   onSelect: PropTypes.func.isRequired,
-  selected: PropTypes.instanceOf(Date),
+  selectedDate: PropTypes.instanceOf(Date),
+};
+
+CalendarFullscreen.defaultProps = {
+  selectedDate: new Date(),
 };
 
 export default CalendarFullscreen;

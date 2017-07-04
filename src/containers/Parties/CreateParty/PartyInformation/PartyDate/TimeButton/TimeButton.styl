@@ -1,7 +1,113 @@
 @import "~style/common.styl"
 
-.time-btn
-  flex 0 0 38%
+$time-select-color = $grey_lightest
 
-.time-text
+.time-picker__overlay
+  display none
+  position fixed
+  top 0
+  left 0
+  width 100vw
+  height 1000%
+  background-color rgba(0, 0, 0, 0.5)
+
+  &.overlay-visible
+    display block
+    z-index 10
+
+.time-btn-container
+  flex 0 0 30%
+
+.time-picker
+  display flex
+  justify-content center
+  align-items center
+  width 100%
+  height 40px
   font-weight $demibold
+  box-shadow inset 0 0 0 1px $purple_light
+  border-radius 3px
+  background-color $white
+
+  .rc-time-picker-input
+    padding 0 !important
+    color $purple_default !important
+    border none !important
+    text-align center
+    pointer-events none
+
+.rc-time-picker-panel
+  top calc(50vh - 100.5px) !important
+  left 20px !important
+  width calc(100vw - 40px)
+
+.rc-time-picker-panel-inner
+  width 100%
+  border-radius 3px 3px 0 0
+  border none
+
+.rc-time-picker-panel-wrap
+  display flex
+  justify-content center
+  align-items center
+  box-shadow none
+
+.rc-time-picker-panel-input
+  text-align center
+  font-size 2rem !important
+  padding 0 !important
+  color $purple_default
+  font-weight $demibold
+
+.rc-time-picker-panel-input
+  pointer-events none
+
+.rc-time-picker-panel-select
+  width 33.33333%
+
+  li
+    display flex
+    justify-content center
+    align-items center
+    padding 0
+    height 30px
+    font-size 1rem
+    line-height 30px
+
+li.rc-time-picker-panel-select-option-selected
+  background $time-select-color !important
+  color $black_light
+
+  &:hover
+    background $time-select-color
+
+.rc-time-picker-panel-select li:hover
+  background $white
+
+.rc-time-picker-panel-clear-btn
+  display none
+
+.ok-button
+  display flex
+  align-items center
+  justify-content center
+  position absolute
+  top 100%
+  width 100%
+  height 40px
+  color $white
+  font-weight $demibold
+  background-color $purple_medium
+  border-radius 0 0 3px 3px
+  //box-shadow 0 1px 5px #ccc
+  font-size 1.14rem
+
+@media (pointer:coarse)
+  .rc-time-picker-panel
+    .rc-time-picker-panel-select
+      max-height 144px
+      overflow-y scroll
+      -webkit-overflow-scrolling touch
+
+      ul
+        max-height initial

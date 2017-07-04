@@ -49,6 +49,15 @@ class TimeButton extends Component {
     <div className="ok-button" onClick={this.onClose}> OK </div>
   );
 
+  // disable all but every 5 and 10 minutes of an hour
+  disabledMinutes = () => Array.from({ length: 60 }, (_, index) => {
+    if (index % 10 === 0 || index % 5 === 0) {
+      return null;
+    }
+
+    return index;
+  });
+
   render() {
     const { date } = this.props;
     const { open } = this.state;
@@ -72,6 +81,8 @@ class TimeButton extends Component {
           open={open}
           onOpen={this.onOpen}
           onClose={this.onClose}
+          disabledMinutes={this.disabledMinutes}
+          hideDisabledOptions
           use12Hours
         />
       </div>

@@ -1,4 +1,3 @@
-/* eslint-disable */
 // dependencies
 import React, { PureComponent, PropTypes } from 'react';
 import { isEmpty } from 'validator';
@@ -96,34 +95,6 @@ class CreateParty extends PureComponent {
     });
   };
 
-  addAttendant = (attendant) => {
-    this.setState({
-      attendants: [
-        ...this.state.attendants,
-        attendant,
-      ],
-    });
-  };
-
-  removeAttendant = () => {
-  };
-
-  clickHandler = (e) => {
-    e.preventDefault();
-
-    const { partyName, partyDescription } = this.state;
-    const { createPartyProcess } = this.props.createPartyActions;
-
-    createPartyProcess(partyName, partyDescription);
-  };
-
-  setDateSelectMode = (dateSelectMode) => {
-    this.setState({
-      calendarActive: true,
-      dateSelectMode,
-    });
-  };
-
   setDate = (date) => {
     const { dateSelectMode } = this.state;
 
@@ -151,8 +122,44 @@ class CreateParty extends PureComponent {
     });
   };
 
+  setDateSelectMode = (dateSelectMode) => {
+    this.setState({
+      calendarActive: true,
+      dateSelectMode,
+    });
+  };
+
+  clickHandler = (e) => {
+    e.preventDefault();
+
+    const { partyName, partyDescription } = this.state;
+    const { createPartyProcess } = this.props.createPartyActions;
+
+    createPartyProcess(partyName, partyDescription);
+  };
+
+  addAttendant = (attendant) => {
+    this.setState({
+      attendants: [
+        ...this.state.attendants,
+        attendant,
+      ],
+    });
+  };
+
+  removeAttendant = () => {
+  };
+
   render() {
-    const { partyCode, rules, allowCreate, calendarActive, dateSelectMode, date, time } = this.state;
+    const {
+      partyCode,
+      rules,
+      allowCreate,
+      calendarActive,
+      dateSelectMode,
+      date,
+      time,
+    } = this.state;
     const { loading, error, errorMessage } = this.props.createParty;
 
     return (
@@ -160,7 +167,7 @@ class CreateParty extends PureComponent {
         { calendarActive && <CalendarFullscreen
           type={dateSelectMode}
           onSelect={this.setDate}
-          selected={dateSelectMode === 'start' ? date.start : date.end}
+          selectedDate={date[dateSelectMode]}
         /> }
 
         <PartyBannerImage />

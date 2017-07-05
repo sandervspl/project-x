@@ -4,6 +4,7 @@ import { isEmpty } from 'validator';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import _ from 'lodash';
 
 // actions
 import * as createPartyActions from 'ducks/modules/party/createParty';
@@ -37,7 +38,7 @@ class CreateParty extends PureComponent {
   constructor(props) {
     super(props);
 
-    const today = new Date();
+    const today = this.createTodayDate();
 
     this.state = {
       partyName: '',
@@ -72,6 +73,9 @@ class CreateParty extends PureComponent {
     ) {
       this.setState({ allowCreate: false });
     }
+
+    // check if end date > start date -- else set end date = start date
+    this.compareEndtoStartDate(nextState);
   }
 
   componentWillUnmount() {
@@ -98,7 +102,7 @@ class CreateParty extends PureComponent {
   setDate = (date) => {
     const { dateSelectMode } = this.state;
 
-    // Save current time when changing date or else it defaults to 12:00 AM
+    // save current time when changing date or else it defaults to 12:00 AM
     const tt = moment(this.state.date[dateSelectMode]).format('HH:mm:ss');
     const dd = moment(date).format('YYYY-MM-DD');
 
@@ -127,6 +131,42 @@ class CreateParty extends PureComponent {
       calendarActive: true,
       dateSelectMode,
     });
+  };
+
+  compareEndtoStartDate = (nextState) => {
+    const { dateSelectMode } = this.state;
+
+    // set end date to start date if end date is before start date
+    if (dateSelectMode === 'start') {
+      const dateDiff = moment(nextState.date.end).diff(moment(nextState.date.start), 'minutes', true);
+
+      if (dateDiff < 0) {
+        this.setState({
+          date: {
+            ...nextState.date,
+            end: new Date(nextState.date.start),
+          },
+        });
+      }
+    }
+  };
+
+  // TODO: if time is HH:55+ then it should go to HH+1:00
+  createTodayDate = () => {
+    const curDate = new Date();
+    const curMinutes = moment(curDate).minute();
+    const curSeconds = moment(curDate).seconds();
+
+    // get closest valid minute
+    const validMinute = _.range(curMinutes, 60).find(min => (min % 5 === 0 && min > curMinutes));
+
+    // construct date
+    const diffMinutes = validMinute - curMinutes;
+
+    return new Date(moment(curDate, moment.ISO_8601)
+      .add(diffMinutes, 'minutes')
+      .subtract(curSeconds, 'seconds')
+      .format());
   };
 
   clickHandler = (e) => {
@@ -158,17 +198,21 @@ class CreateParty extends PureComponent {
       calendarActive,
       dateSelectMode,
       date,
-      time,
     } = this.state;
     const { loading, error, errorMessage } = this.props.createParty;
+    const today = new Date();
 
     return (
       <div>
-        { calendarActive && <CalendarFullscreen
-          type={dateSelectMode}
-          onSelect={this.setDate}
-          selectedDate={date[dateSelectMode]}
-        /> }
+        {
+          calendarActive &&
+            <CalendarFullscreen
+              type={dateSelectMode}
+              onSelect={this.setDate}
+              selectedDate={date[dateSelectMode]}
+              minDate={dateSelectMode === 'start' ? today : date.start}
+            />
+        }
 
         <PartyBannerImage />
 
@@ -179,7 +223,6 @@ class CreateParty extends PureComponent {
             partyCode={partyCode}
             onClick={this.setDateSelectMode}
             date={date}
-            time={time}
             setTime={this.setTime}
           />
         </PageSection>

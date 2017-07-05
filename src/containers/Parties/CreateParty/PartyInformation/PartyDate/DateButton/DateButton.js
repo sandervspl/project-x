@@ -10,7 +10,7 @@ import './DateButton.styl';
 
 class DateButton extends Component {
   static propTypes = {
-    date: PropTypes.instanceOf(Date),
+    date: PropTypes.shape({}).isRequired,
     onClick: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired,
   };
@@ -24,7 +24,9 @@ class DateButton extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextProps.date !== this.props.date) {
+    const { type } = this.props;
+
+    if (nextProps.date[type] !== this.props.date[type]) {
       this.setState({
         updated: true,
       });
@@ -47,7 +49,7 @@ class DateButton extends Component {
   };
 
   render() {
-    const { date } = this.props;
+    const { date, type } = this.props;
     const { updated } = this.state;
 
     let classname = 'date-btn';
@@ -67,8 +69,8 @@ class DateButton extends Component {
         iconContainerWidth="15"
       >
         <div className="date-btn__inner">
-          <span className="day-text"> { dateFormat(date, 'dddd') } </span>
-          <span className="date-text"> { dateFormat(date, 'mmmm dS') } </span>
+          <span className="day-text"> { dateFormat(date[type], 'dddd') } </span>
+          <span className="date-text"> { dateFormat(date[type], 'mmmm dS') } </span>
         </div>
       </ButtonSideIcon>
     );

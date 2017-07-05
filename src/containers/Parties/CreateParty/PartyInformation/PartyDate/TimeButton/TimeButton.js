@@ -11,7 +11,7 @@ import './TimeButton.styl';
 
 class TimeButton extends Component {
   static propTypes = {
-    date: PropTypes.instanceOf(Date).isRequired,
+    date: PropTypes.shape({}).isRequired,
     setTime: PropTypes.func,
     type: PropTypes.string,
   };
@@ -22,6 +22,35 @@ class TimeButton extends Component {
     this.state = {
       open: false,
     };
+  }
+
+  // TODO: change end time to start time if end time is before start time
+  componentWillUpdate(nextProps) {
+    const { type } = this.props;
+
+    const startDate = moment(nextProps.date.start);
+    const endDate = moment(nextProps.date.end);
+
+    const sd = {
+      day: startDate.date(),
+      month: startDate.month(),
+    };
+
+    const ed = {
+      day: endDate.date(),
+      month: endDate.month(),
+    };
+
+    if (type === 'start') {
+      if (sd.month === ed.month && sd.day === ed.day) {
+        console.log('check for time diff');
+      }
+    }
+
+    // console.log(`TYPE: ${this.props.type}`);
+    // console.log(`start date: ${startDate}`);
+    // console.log(`date: ${date}`);
+    // console.log(startDate === date);
   }
 
   onChange = (val) => {
@@ -50,16 +79,89 @@ class TimeButton extends Component {
   );
 
   // disable all but every 5 and 10 minutes of an hour
-  disabledMinutes = () => Array.from({ length: 60 }, (_, index) => {
-    if (index % 10 === 0 || index % 5 === 0) {
-      return null;
+  // and disable unavailable time slots
+  disabledMinutes = () => {
+    const { type, date } = this.props;
+
+    const startDate = moment(date.start).format('L');
+    const startDateMinute = moment(date.start).minute();
+    const startDateHour = moment(date.start).hour();
+
+    const endDate = moment(date.end).format('L');
+    const endDateHour = moment(date.end).hour();
+
+    const curDate = moment(new Date()).format('L');
+    const curMinute = moment(new Date()).minutes();
+    const curHour = moment(new Date()).hour();
+
+    let sameDate = curDate === startDate;
+    let sameHour = curHour === startDateHour;
+    let compareMinute = curMinute;
+
+    if (type === 'end') {
+      sameDate = startDate === endDate;
+      sameHour = startDateHour === endDateHour;
+      compareMinute = startDateMinute;
     }
 
-    return index;
-  });
+    // 'start' button
+    return Array.from({ length: 60 }, (_, index) => {
+      if ((sameDate && sameHour && index <= compareMinute) || index % 5 !== 0) {
+        return index;
+      }
+
+      return null;
+    });
+  };
+
+  disabledHours = () => {
+    const { type, date } = this.props;
+
+    // grab hour of selected start date
+    const curDate = moment(new Date()).format('L');
+    const startDate = moment(date.start).format('L');
+
+    const dateHour = moment(date.start).hour();
+    // const dateDay = moment(dateStart).day();
+    // const dateMonth = moment(dateStart).month();
+    //
+    const curHour = moment(new Date()).hour();
+    // const curDay = moment(new Date()).day();
+    // const curMonth = moment(new Date()).month();
+
+    if (type === 'start') {
+      if (curDate === startDate) {
+        return Array.from({ length: 24 }, (_, index) => {
+          if (index < curHour) {
+            return index;
+          }
+
+          return null;
+        });
+      }
+
+      return [];
+    }
+
+    // type 'end'
+    const endDate = moment(date).format('L');
+
+    if (startDate === endDate) {
+      // put hours before selected date hour in array to be disabled from picker
+      return Array.from({ length: 24 }, (_, index) => {
+        if (index < dateHour) {
+          return index;
+        }
+
+        return null;
+      });
+    }
+
+    return [];
+  };
 
   render() {
-    const { date } = this.props;
+    const { date, type } = this.props;
     const { open } = this.state;
 
     let overlayVisible = '';
@@ -72,8 +174,8 @@ class TimeButton extends Component {
         <div className={`time-picker__overlay ${overlayVisible}`} />
         <TimePicker
           showSecond={false}
-          defaultValue={moment(date)}
-          value={moment(date)}
+          defaultValue={moment(date[type])}
+          value={moment(date[type])}
           className="time-btn time-picker"
           onChange={this.onChange}
           format="hh:mm a"
@@ -82,8 +184,8 @@ class TimeButton extends Component {
           onOpen={this.onOpen}
           onClose={this.onClose}
           disabledMinutes={this.disabledMinutes}
+          disabledHours={this.disabledHours}
           hideDisabledOptions
-          use12Hours
         />
       </div>
     );

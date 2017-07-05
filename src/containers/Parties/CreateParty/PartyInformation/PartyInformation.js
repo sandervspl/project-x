@@ -40,8 +40,8 @@ const PartyInformation = ({
         onChange={setPartyDescription}
       />
 
-      <PartyDate date={date.start} setTime={setTime} onClick={onClick} type="start" />
-      <PartyDate date={date.end} setTime={setTime} onClick={onClick} type="end" />
+      <PartyDate type="start" date={date} setTime={setTime} onClick={onClick} />
+      <PartyDate type="end" date={date} setTime={setTime} onClick={onClick} />
     </Form>
   </div>
 );

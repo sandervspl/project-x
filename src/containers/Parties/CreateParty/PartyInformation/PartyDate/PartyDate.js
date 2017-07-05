@@ -22,7 +22,7 @@ const PartyDate = ({ date, onClick, type, setTime }) => (
 );
 
 PartyDate.propTypes = {
-  date: PropTypes.instanceOf(Date),
+  date: PropTypes.shape({}).isRequired,
   onClick: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   setTime: PropTypes.func,

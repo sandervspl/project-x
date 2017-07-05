@@ -26,13 +26,13 @@ const theme = {
   weekdayColor: '#D9CEE3',
 };
 
-const CalendarFullscreen = ({ type, onSelect, selectedDate }) => (
+const CalendarFullscreen = ({ type, onSelect, selectedDate, minDate }) => (
   <div className="calendar-overlay">
     <InfiniteCalendar
       width={window.innerWidth}
       height={window.innerHeight}
       selected={selectedDate}
-      minDate={new Date()}
+      minDate={minDate}
       theme={theme}
       onSelect={onSelect}
       className="px-calendar"
@@ -44,10 +44,12 @@ CalendarFullscreen.propTypes = {
   type: PropTypes.oneOf(['start', 'end']).isRequired,
   onSelect: PropTypes.func.isRequired,
   selectedDate: PropTypes.instanceOf(Date),
+  minDate: PropTypes.instanceOf(Date),
 };
 
 CalendarFullscreen.defaultProps = {
   selectedDate: new Date(),
+  minDate: new Date(),
 };
 
 export default CalendarFullscreen;

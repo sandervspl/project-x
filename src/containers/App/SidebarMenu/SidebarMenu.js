@@ -10,7 +10,7 @@ import Authorized from 'components/Authorized/Authorized';
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 
 // actions
-import * as userActions from 'ducks/modules/user/getUser';
+import { unauthorize } from 'ducks/modules/user/getUser';
 
 // routes
 import routes from 'routes/routes';
@@ -67,7 +67,6 @@ ItemProfile.propTypes = {
 };
 
 // sidebar
-@connect(null, userActions)
 class SidebarMenu extends Component {
   static propTypes = {
     children: PropTypes.element,
@@ -87,7 +86,7 @@ class SidebarMenu extends Component {
   };
 
   render() {
-    const { children, unauthorize } = this.props;
+    const { children } = this.props;
     const { open } = this.state;
 
     return (
@@ -110,7 +109,7 @@ class SidebarMenu extends Component {
             </Authorized>
 
             <Authorized>
-              <ItemLogOut logout={unauthorize} />
+              <ItemLogOut logout={this.props.unauthorize} />
             </Authorized>
 
           </Sidebar>
@@ -125,4 +124,4 @@ class SidebarMenu extends Component {
   }
 }
 
-export default SidebarMenu;
+export default connect(null, { unauthorize })(SidebarMenu);

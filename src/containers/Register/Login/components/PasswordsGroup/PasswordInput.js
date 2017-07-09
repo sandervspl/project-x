@@ -1,7 +1,7 @@
 // dependencies
 import React, { PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
-import _ from 'lodash';
+import { debounce } from 'lodash';
 
 const PasswordInput = ({
   fieldId,
@@ -11,7 +11,7 @@ const PasswordInput = ({
   placeholder,
   name,
 }) => {
-  const handleChange = _.debounce((e) => {
+  const handleChange = debounce((e) => {
     const el = e.target;
 
     if (el) {

@@ -8,12 +8,8 @@ import Button from 'components/Button/Button';
 import PageSection from 'components/PageSection/PageSection';
 
 // actions
-import * as createActions from 'ducks/modules/user/create';
+import { toRegisterPage } from 'ducks/modules/user/create';
 
-@connect(
-  state => ({ create: state.app.user.userCreate }),
-  createActions,
-)
 class NextButton extends Component {
   static propTypes = {
     toRegisterPage: PropTypes.func,
@@ -22,9 +18,13 @@ class NextButton extends Component {
     }),
   };
 
-  state = {
-    enabled: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      enabled: false,
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     const { loginFormValid } = nextProps.create;
@@ -38,10 +38,11 @@ class NextButton extends Component {
   onClick = (e) => {
     e.preventDefault();
 
-    const { toRegisterPage } = this.props;
     const { loginFormValid } = this.props.create;
 
-    if (loginFormValid) toRegisterPage(2);
+    if (loginFormValid) {
+      this.props.toRegisterPage(2);
+    }
   };
 
   render() {
@@ -62,4 +63,10 @@ class NextButton extends Component {
   }
 }
 
-export default NextButton;
+function mapStateToProps(state) {
+  return {
+    create: state.app.user.userCreate,
+  };
+}
+
+export default connect(mapStateToProps, { toRegisterPage })(NextButton);

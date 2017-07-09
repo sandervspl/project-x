@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 // actions
-import * as createActions from 'ducks/modules/user/create';
+import { setLoginFormValidation } from 'ducks/modules/user/create';
 
 // components
 import PolicyText from 'components/PolicyText/PolicyText';
@@ -11,10 +11,6 @@ import EmailInput from './components/EmailInput/EmailInput';
 import PasswordsGroup from './components/PasswordsGroup/PasswordsGroup';
 import NextButton from './components/NextButton';
 
-@connect(
-  state => ({ create: state.app.user.userCreate }),
-  createActions,
-)
 class Login extends Component {
   static propTypes = {
     setLoginFormValidation: PropTypes.func,
@@ -34,13 +30,12 @@ class Login extends Component {
   }
 
   componentDidUpdate() {
-    const { setLoginFormValidation } = this.props;
     const { loginFormValid } = this.props.create;
 
     if (this.state.emailValid && this.state.passwordsValid && !loginFormValid) {
-      setLoginFormValidation(true);
+      this.props.setLoginFormValidation(true);
     } else if ((!this.state.emailValid || !this.state.passwordsValid) && loginFormValid) {
-      setLoginFormValidation(false);
+      this.props.setLoginFormValidation(false);
     }
   }
 
@@ -78,4 +73,10 @@ class Login extends Component {
   }
 }
 
-export default Login;
+function mapStateToProps(state) {
+  return {
+    create: state.app.user.userCreate,
+  };
+}
+
+export default connect(mapStateToProps, { setLoginFormValidation })(Login);

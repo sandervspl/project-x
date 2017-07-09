@@ -61,7 +61,7 @@ const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange }) => {
 
 PhotoUpload.propTypes = {
   loading: PropTypes.bool,
-  file: PropTypes.string,
+  file: PropTypes.shape({}),
   imagePreviewUrl: PropTypes.string,
   handleImageChange: PropTypes.func,
 };

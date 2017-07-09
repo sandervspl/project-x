@@ -73,9 +73,9 @@ const fetchSuccess = idType => ({
   exists: false,
 });
 
-export const fetchFail = (idType, errorMessage = 'Unable to connect to server') => {
+export const fetchFail = (idType) => {
   const idTypeCap = idType.charAt(0).toUpperCase() + idType.slice(1);
-  const msg = errorMessage || `${idTypeCap} already exists.`;
+  const msg = `${idTypeCap} already exists.`;
 
   return {
     type: FAIL,

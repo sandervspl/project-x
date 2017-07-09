@@ -2,21 +2,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
-import _ from 'lodash';
+import { debounce } from 'lodash';
+
+// actions
+import { checkExists, invalidId } from 'ducks/modules/user/exists';
 
 // components
 import InputError from 'components/InputError/InputError';
 
-// actions
-import * as existsActions from 'ducks/modules/user/exists';
-
-@connect(
-  state => ({
-    exists: state.app.user.userExists,
-    create: state.app.user.userCreate,
-  }),
-  existsActions,
-)
 class Username extends Component {
   static propTypes = {
     validateUsername: PropTypes.func.isRequired,
@@ -39,7 +32,7 @@ class Username extends Component {
     this.usernameMinLength = 3;
   }
 
-  handleChange = _.debounce((e) => {
+  handleChange = debounce((e) => {
     const el = e.target;
     // minimum amount of characters needed for valid username
     const { validateUsername } = this.props;
@@ -54,16 +47,16 @@ class Username extends Component {
   }, 750);
 
   handleBlur = async (e) => {
-    const { checkExists, validateUsername, invalidId } = this.props;
+    const { validateUsername } = this.props;
     const value = e.target.value.trim();
 
     if (value.length < this.usernameMinLength) {
-      invalidId('username');
+      this.props.invalidId('username');
       validateUsername(false);
       return;
     }
 
-    const exists = await checkExists(value);
+    const exists = await this.props.checkExists(value);
     validateUsername(!exists);
   };
 
@@ -96,15 +89,25 @@ class Username extends Component {
           onBlur={this.handleBlur}
           disabled={loading}
         />
+
         {
           showErrorShort &&
-          <InputError>Username is too short.</InputError>
+            <InputError>Username is too short.</InputError>
         }
+
         { usernameExists && <InputError>{errorMessage}</InputError> }
+
         { error && <InputError>{errorMessageCreate}</InputError>}
       </Form.Field>
     );
   }
 }
 
-export default Username;
+function mapStateToProps(state) {
+  return {
+    exists: state.app.user.userExists,
+    create: state.app.user.userCreate,
+  };
+}
+
+export default connect(mapStateToProps, { checkExists, invalidId })(Username);

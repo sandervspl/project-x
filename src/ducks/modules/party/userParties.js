@@ -79,7 +79,7 @@ const fetchFail = (errorMessage = 'Unable to connect to server.') => ({
 });
 
 // async actions
-export const fetch = () => async (dispatch) => {
+export const fetchHostedParties = () => async (dispatch) => {
   // set fetch state to start
   dispatch(fetchStart());
 

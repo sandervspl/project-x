@@ -5,9 +5,6 @@ import { connect } from 'react-redux';
 // assets
 import defaultImg from 'assets/images/avatar_default.png';
 
-// actions
-import * as getUserActions from 'ducks/modules/user/getUser';
-
 // style
 import './Avatar.styl';
 
@@ -22,4 +19,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, getUserActions)(Avatar);
+export default connect(mapStateToProps)(Avatar);

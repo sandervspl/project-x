@@ -2,11 +2,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Modal } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 // actions
-import * as loginActions from 'ducks/modules/user/login';
-import * as userActions from 'ducks/modules/user/getUser';
+import { resetLogin } from 'ducks/modules/user/login';
 
 // components
 import FooterAuth from 'components/FooterAuth/FooterAuth';
@@ -15,23 +13,11 @@ import LoginModalContent from './LoginModalContent/LoginModalContent';
 // style
 // import './LoginModal.styl';
 
-@connect(
-  state => ({
-    userLogin: state.app.user.userLogin,
-    getUser: state.app.user.getUser,
-  }),
-  dispatch => ({
-    loginActions: bindActionCreators(loginActions, dispatch),
-    userActions: bindActionCreators(userActions, dispatch),
-  }),
-)
 class LoginModal extends PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     toggleModal: PropTypes.func.isRequired,
-    loginActions: PropTypes.shape({
-      resetLogin: PropTypes.func,
-    }),
+    resetLogin: PropTypes.func,
     userLogin: PropTypes.shape({
       loaded: PropTypes.bool,
     }),
@@ -70,9 +56,8 @@ class LoginModal extends PureComponent {
 
   componentWillUnmount() {
     const { loaded } = this.props.userLogin;
-    const { resetLogin } = this.props.loginActions;
 
-    if (loaded) resetLogin();
+    if (loaded) this.props.resetLogin();
   }
 
   setEmailUsernameValidation = (valid, value) => {
@@ -83,7 +68,7 @@ class LoginModal extends PureComponent {
         emailUsername: value,
       },
     });
-  }
+  };
 
   setPasswordValid = (valid, value) => {
     this.setState({
@@ -93,13 +78,12 @@ class LoginModal extends PureComponent {
         password: value,
       },
     });
-  }
+  };
 
   isFormValid = (emailUsernameValid, passwordValid) => {
-    // const { emailUsernameValid, passwordValid } = this.state;
     const formValid = emailUsernameValid && passwordValid;
     this.setState({ formValid });
-  }
+  };
 
   render() {
     const { isOpen, toggleModal } = this.props;
@@ -128,4 +112,11 @@ class LoginModal extends PureComponent {
   }
 }
 
-export default LoginModal;
+function mapStateToProps(state) {
+  return {
+    userLogin: state.app.user.userLogin,
+    getUser: state.app.user.getUser,
+  };
+}
+
+export default connect(mapStateToProps, { resetLogin })(LoginModal);

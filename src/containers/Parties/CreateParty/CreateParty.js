@@ -1,13 +1,12 @@
 // dependencies
 import React, { PureComponent, PropTypes } from 'react';
 import { isEmpty } from 'validator';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import _ from 'lodash';
+import { range } from 'lodash';
 
 // actions
-import * as createPartyActions from 'ducks/modules/party/createParty';
+import { createPartyProcess, resetCreateParty } from 'ducks/modules/party/createParty';
 
 // components
 import CalendarFullscreen from 'components/CalendarFullscreen/CalendarFullscreen';
@@ -29,10 +28,8 @@ class CreateParty extends PureComponent {
       error: PropTypes.bool,
       errorMessage: PropTypes.string,
     }),
-    createPartyActions: PropTypes.shape({
-      createPartyProcess: PropTypes.func,
-      resetCreateParty: PropTypes.func,
-    }),
+    createPartyProcess: PropTypes.func,
+    resetCreateParty: PropTypes.func,
   };
 
   constructor(props) {
@@ -79,7 +76,7 @@ class CreateParty extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.createPartyActions.resetCreateParty();
+    this.props.resetCreateParty();
   }
 
   setPartyName = (partyName) => {
@@ -158,7 +155,7 @@ class CreateParty extends PureComponent {
     const curSeconds = moment(curDate).seconds();
 
     // get closest valid minute
-    const validMinute = _.range(curMinutes, 60).find(min => (min % 5 === 0 && min > curMinutes));
+    const validMinute = range(curMinutes, 60).find(min => (min % 5 === 0 && min > curMinutes));
 
     // construct date
     const diffMinutes = validMinute - curMinutes;
@@ -173,9 +170,8 @@ class CreateParty extends PureComponent {
     e.preventDefault();
 
     const { partyName, partyDescription } = this.state;
-    const { createPartyProcess } = this.props.createPartyActions;
 
-    createPartyProcess(partyName, partyDescription);
+    this.props.createPartyProcess(partyName, partyDescription);
   };
 
   addAttendant = (attendant) => {
@@ -266,10 +262,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createPartyActions: bindActionCreators(createPartyActions, dispatch),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateParty);
+export default connect(mapStateToProps, { createPartyProcess, resetCreateParty })(CreateParty);

@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 // actions
-import * as createActions from 'ducks/modules/user/create';
+import { setPersonalFormValidation } from 'ducks/modules/user/create';
 
 // style
 import './Personal.styl';
@@ -14,10 +14,6 @@ import UsernameInput from './components/UsernameInput/UsernameInput';
 import CreateButton from './components/CreateButton';
 import PhotoUpload from './components/PhotoUpload/PhotoUpload';
 
-@connect(
-  state => ({ create: state.app.user.userCreate }),
-  createActions,
-)
 class Register extends Component {
   static propTypes = {
     setPersonalFormValidation: PropTypes.func,
@@ -27,23 +23,34 @@ class Register extends Component {
     }),
   };
 
-  state = {
-    fullNameValid: null,
-    usernameValid: null,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      fullNameValid: null,
+      usernameValid: null,
+    };
+  }
+
+  componentDidUpdate() {
+    this.isFormValid();
+  }
+
+  setFullNameValid = (fullNameValid) => {
+    this.setState({ fullNameValid });
   };
 
-  setFullNameValid = fullNameValid => this.setState({ fullNameValid }, this.isFormValid);
-
-  setUsernameValid = usernameValid => this.setState({ usernameValid }, this.isFormValid);
+  setUsernameValid = (usernameValid) => {
+    this.setState({ usernameValid });
+  };
 
   isFormValid = () => {
     const { fullNameValid, usernameValid } = this.state;
-    const { setPersonalFormValidation } = this.props;
     const { personalFormValid } = this.props.create;
     const isValid = fullNameValid && usernameValid;
 
     if (personalFormValid !== isValid) {
-      setPersonalFormValidation(isValid);
+      this.props.setPersonalFormValidation(isValid);
     }
   };
 
@@ -73,4 +80,10 @@ class Register extends Component {
   }
 }
 
-export default Register;
+function mapStateToProps(state) {
+  return {
+    create: state.app.user.userCreate,
+  };
+}
+
+export default connect(mapStateToProps, { setPersonalFormValidation })(Register);

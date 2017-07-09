@@ -1,12 +1,11 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 
 // actions
-import * as getUserActions from 'ducks/modules/user/getUser';
-import * as userPartiesActions from 'ducks/modules/party/userParties';
+import { fetchUserData } from 'ducks/modules/user/getUser';
+import { fetchHostedParties } from 'ducks/modules/party/userParties';
 
 // helpers
 import { isLoggedIn } from 'helpers/auth';
@@ -28,27 +27,22 @@ class Profile extends Component {
       user: PropTypes.shape({}),
       errorMessage: PropTypes.string,
     }),
-    getUserActions: PropTypes.shape({
-      fetchUserData: PropTypes.func,
-    }),
-    userPartiesActions: PropTypes.shape({
-      fetch: PropTypes.func,
-    }),
+    fetchUserData: PropTypes.func,
+    fetchHostedParties: PropTypes.func,
   };
 
   async componentDidMount() {
-    const { fetchUserData } = this.props.getUserActions;
     const { user } = this.props.getUser;
 
     const isAuth = await isLoggedIn();
 
     // fetch user data if its missing
-    if (isAuth && _.isEmpty(user)) {
-      fetchUserData();
+    if (isAuth && isEmpty(user)) {
+      this.props.fetchUserData();
     }
 
-    // fetch parties
-    this.props.userPartiesActions.fetch();
+    // fetch user's hosted parties
+    this.props.fetchHostedParties();
   }
 
   render() {
@@ -81,11 +75,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    userPartiesActions: bindActionCreators(userPartiesActions, dispatch),
-    getUserActions: bindActionCreators(getUserActions, dispatch),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, { fetchUserData, fetchHostedParties })(Profile);

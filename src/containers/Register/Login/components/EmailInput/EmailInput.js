@@ -3,18 +3,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
 import { isEmail, isEmpty } from 'validator';
-import _ from 'lodash';
+import { debounce } from 'lodash';
 
 // components
 import InputError from 'components/InputError/InputError';
 
 // actions
-import * as existsActions from 'ducks/modules/user/exists';
+import { checkExists, invalidId } from 'ducks/modules/user/exists';
 
-@connect(
-  state => ({ exists: state.app.user.userExists }),
-  existsActions,
-)
 class EmailInput extends Component {
   static propTypes = {
     validateEmail: PropTypes.func.isRequired,
@@ -28,7 +24,7 @@ class EmailInput extends Component {
     invalidId: PropTypes.func,
   };
 
-  handleChange = _.debounce((e) => {
+  handleChange = debounce((e) => {
     const el = e.target;
     const { validateEmail } = this.props;
     const { emailExists } = this.props.exists;
@@ -48,17 +44,20 @@ class EmailInput extends Component {
   }, 750);
 
   handleBlur = async (e) => {
-    const { checkExists, validateEmail, invalidId } = this.props;
+    const { validateEmail } = this.props;
     const value = e.target.value.trim();
 
-    if (isEmpty(value)) return;
+    if (isEmpty(value)) {
+      return;
+    }
+
     if (!isEmail(value)) {
-      invalidId('email');
+      this.props.invalidId('email');
       validateEmail(false);
       return;
     }
 
-    const exists = await checkExists(value);
+    const exists = await this.props.checkExists(value);
     validateEmail(!exists);
   };
 
@@ -67,8 +66,13 @@ class EmailInput extends Component {
     const { loading, emailExists } = this.props.exists;
     const isValid = (mailValid !== null && mailValid);
 
-    if (loading) return 'spinner';
-    if (isValid && !emailExists) return 'check';
+    if (loading) {
+      return 'spinner';
+    }
+
+    if (isValid && !emailExists) {
+      return 'check';
+    }
 
     return 'mail';
   };
@@ -98,4 +102,10 @@ class EmailInput extends Component {
   }
 }
 
-export default EmailInput;
+function mapStateToProps(state) {
+  return {
+    exists: state.app.user.userExists,
+  };
+}
+
+export default connect(mapStateToProps, { checkExists, invalidId })(EmailInput);

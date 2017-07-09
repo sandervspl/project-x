@@ -1,14 +1,11 @@
 // dependencies
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-
-// actions
-import * as getUserActions from 'ducks/modules/user/getUser';
+import { isEmpty } from 'lodash';
 
 const Authorized = ({ children, getUser }) => {
   const { loaded, user } = getUser;
-  const authorized = loaded && !_.isEmpty(user);
+  const authorized = loaded && !isEmpty(user);
 
   if (!authorized) {
     return null;
@@ -31,4 +28,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, getUserActions)(Authorized);
+export default connect(mapStateToProps)(Authorized);

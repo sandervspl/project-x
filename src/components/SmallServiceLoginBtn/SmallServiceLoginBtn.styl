@@ -1,13 +1,14 @@
 @import "~style/common.styl"
 
-a.small-login-btn-link
-  flex-grow 1
-  min-width 33%
+.small-login-btn-link
+  flex 0 1 32.5%
 
   .small-login-btn
     padding .7rem
+    width 100%
     color $off_white
     font-weight $regular
+    border none
     border-radius 3px
     text-align center
     text-transform capitalize
@@ -22,7 +23,6 @@ a.small-login-btn-link
     &.facebook
       background-color $fb_blue
     &.twitter
-      margin 0 .357rem
       background-color $tw_blue
     &.google
       background-color $gp_red

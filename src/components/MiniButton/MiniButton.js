@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 // style
 import './MiniButton.styl';
 
-const MiniButton = ({ children, href, action }) => {
+const MiniButton = ({ children, href, onClick }) => {
   if (href) {
     return (
       <a href={href}>
@@ -13,8 +13,8 @@ const MiniButton = ({ children, href, action }) => {
     );
   }
 
-  if (action) {
-    return <div className="mini-btn purple" onClick={action}> { children } </div>;
+  if (onClick) {
+    return <div className="mini-btn purple" onClick={onClick}> { children } </div>;
   }
 
   return <div className="mini-btn purple"> { children } </div>;
@@ -23,7 +23,7 @@ const MiniButton = ({ children, href, action }) => {
 MiniButton.propTypes = {
   children: PropTypes.string,
   href: PropTypes.string,
-  action: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 MiniButton.defaultProps = {

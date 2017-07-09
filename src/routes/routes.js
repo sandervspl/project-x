@@ -1,10 +1,14 @@
 const routes = {
   home: '/',
+  login: {
+    login: '/login',
+  },
   user: {
     profile: '/user',
   },
   register: {
-    create: '/register',
+    register: '/register',
+    create: '/register/create',
     welcome: '/register/welcome',
   },
   party: {

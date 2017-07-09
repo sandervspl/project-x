@@ -6,9 +6,6 @@ import { connect } from 'react-redux';
 import Button from 'components/Button/Button';
 import PageSection from 'components/PageSection/PageSection';
 
-// actions
-import { loginProcess } from 'ducks/modules/user/login';
-
 // style
 import './LoginButton.styl';
 
@@ -20,14 +17,12 @@ class LoginButton extends Component {
       loading: PropTypes.bool,
       loaded: PropTypes.bool,
     }),
-    loginProcess: PropTypes.func,
+    onClick: PropTypes.func,
   };
 
   handleClick = (e) => {
     e.preventDefault();
-    const { formValues } = this.props;
-
-    this.props.loginProcess(formValues);
+    this.props.onClick();
   };
 
   render() {
@@ -44,7 +39,7 @@ class LoginButton extends Component {
           disabled={!formValid || loading || loaded}
           loading={loading || loaded}
         >
-          SIGN IN
+          Sign in
         </Button>
       </PageSection>
     );
@@ -54,8 +49,7 @@ class LoginButton extends Component {
 function mapStateToProps(state) {
   return {
     userLogin: state.app.user.userLogin,
-    getUser: state.app.user.getUser,
   };
 }
 
-export default connect(mapStateToProps, { loginProcess })(LoginButton);
+export default connect(mapStateToProps)(LoginButton);

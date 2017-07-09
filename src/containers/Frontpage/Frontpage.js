@@ -6,7 +6,6 @@ import FullscreenLoader from 'components/FullscreenLoader/FullscreenLoader';
 import Background from './Background/Background';
 import Title from './Title/Title';
 import ButtonGroup from './ButtonGroup/ButtonGroup';
-import LoginModal from './LoginModal/LoginModal';
 import RegisterModal from './RegisterModal/RegisterModal';
 
 class Frontpage extends Component {
@@ -16,11 +15,14 @@ class Frontpage extends Component {
     }),
   };
 
-  state = {
-    loaded: false,
-    loginModalOpen: false,
-    registerModalOpen: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loaded: false,
+      registerModalOpen: false,
+    };
+  }
 
   componentWillMount() {
     const { query } = this.props.location;
@@ -28,7 +30,6 @@ class Frontpage extends Component {
     // open login modal
     if (query.login && query.login === '1') {
       this.setState({
-        loginModalOpen: true,
         registerModalOpen: false,
       });
     }
@@ -36,7 +37,6 @@ class Frontpage extends Component {
     // open register modal
     if (query.register && query.register === '1') {
       this.setState({
-        loginModalOpen: false,
         registerModalOpen: true,
       });
     }
@@ -46,10 +46,6 @@ class Frontpage extends Component {
     let key = '';
 
     switch (modal) {
-      case 'signin':
-        key = 'loginModalOpen';
-        break;
-
       case 'signup':
         key = 'registerModalOpen';
         break;
@@ -58,8 +54,7 @@ class Frontpage extends Component {
         throw Error('invalid modal. Available modals: "signin" and "signup"');
     }
 
-    const obj = { [key]: state };
-    this.setState(obj);
+    this.setState({ [key]: state });
   };
 
   hasLoaded = () => {
@@ -67,7 +62,7 @@ class Frontpage extends Component {
   };
 
   render() {
-    const { loginModalOpen, registerModalOpen, loaded } = this.state;
+    const { registerModalOpen, loaded } = this.state;
 
     return (
       <main className="page-fill">
@@ -75,10 +70,6 @@ class Frontpage extends Component {
         <Background hasLoaded={this.hasLoaded} />
         <Title />
         <ButtonGroup toggleModal={this.toggleModal} />
-        <LoginModal
-          isOpen={loginModalOpen}
-          toggleModal={this.toggleModal}
-        />
         <RegisterModal
           isOpen={registerModalOpen}
           toggleModal={this.toggleModal}

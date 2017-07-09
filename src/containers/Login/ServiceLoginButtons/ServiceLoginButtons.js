@@ -11,7 +11,7 @@ import './ServiceLoginButtons.styl';
 const ServiceLoginButtons = () => (
   <div className="service-login-button-container">
     <Divider horizontal>or</Divider>
-    <h4>Log in with</h4>
+    <h4 className="service-login-header">Log in with</h4>
     <ServiceLoginButtonGroup />
   </div>
 );

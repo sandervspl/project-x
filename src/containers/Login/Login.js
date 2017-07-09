@@ -77,8 +77,8 @@ class Login extends Component {
   render() {
     return (
       <PageInner>
-        <Header textAlign="center">(logo)</Header>
-        <Header textAlign="center">Sign in to Project-x</Header>
+        <Header textAlign="center" size="small">(logo)</Header>
+        <Header textAlign="center" size="big">Sign in to Project-x</Header>
 
         <Form className="login-form__container">
           <EmailUsernameInput onChange={this.setEmailUsernameState} />

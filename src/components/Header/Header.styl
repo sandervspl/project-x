@@ -1,10 +1,22 @@
 @import "~style/common.styl"
 
-#app .header
+.header
   display flex
   align-items center
-  justify-content space-between
+  justify-content center
   margin-bottom .714rem
+
+  &.header--ta-left
+    justify-content flex-start
+
+  &.header--ta-center
+    justify-content center
+
+  &.header--ta-right
+    justify-content flex-end
+
+  &.header--with-link
+    justify-content space-between
 
   .icon
     margin-right 0
@@ -17,9 +29,19 @@
       &:last-child
         color $white
 
-  h3
-    margin-left .357rem
-
   .header-btn
+    font-size 1rem
     vertical-align sub
     float right
+
+.header-text
+  margin-left .357rem
+
+  &.header-text--fs-small
+    font-size 1.1rem !important
+
+  &.header-text--fs-regular
+    font-size 1.3rem !important
+
+  &.header-text--fs-big
+    font-size 1.7rem !important

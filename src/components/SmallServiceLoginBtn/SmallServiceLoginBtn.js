@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 
@@ -7,7 +8,7 @@ import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 import './SmallServiceLoginBtn.styl';
 
 const SmallServiceLoginBtn = ({ serviceName }) => (
-  <a href="#" className="small-login-btn-link">
+  <Link to="#" className="small-login-btn-link">
     <button className={`small-login-btn ${serviceName}`}>
       <TextWithIcon
         icon={serviceName}
@@ -17,7 +18,7 @@ const SmallServiceLoginBtn = ({ serviceName }) => (
         {serviceName}
       </TextWithIcon>
     </button>
-  </a>
+  </Link>
 );
 
 SmallServiceLoginBtn.propTypes = {

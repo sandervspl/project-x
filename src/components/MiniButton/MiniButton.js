@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 
 // style
 import './MiniButton.styl';
@@ -7,9 +8,9 @@ import './MiniButton.styl';
 const MiniButton = ({ children, href, onClick }) => {
   if (href) {
     return (
-      <a href={href}>
+      <Link to={href}>
         <div className="mini-btn btn-basic purple"> { children } </div>
-      </a>
+      </Link>
     );
   }
 

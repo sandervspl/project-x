@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 
 // components
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
@@ -37,7 +38,7 @@ const Header = ({ children, icon, iconColor, href, hrefText, textAlign, size, cl
         /* eslint-enable */
       }}
 
-      { href && <a href="#" className="header-btn">{ hrefText }</a> }
+      { href && <Link to="#" className="header-btn">{ hrefText }</Link> }
     </div>
   );
 };

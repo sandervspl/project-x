@@ -22,7 +22,7 @@ import './SidebarMenu.styl';
 const ItemTop = ({ toggleOpen }) => (
   <Menu.Item name="home" className="item-top">
     <div className="item-left">
-      <a href="#" className="item-text-language">ENGLISH</a>
+      <Link to="#" className="item-text-language">ENGLISH</Link>
     </div>
     <div className="item-right" onClick={toggleOpen}>
       <TextWithIcon

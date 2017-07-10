@@ -6,8 +6,8 @@ import { Form } from 'semantic-ui-react';
 // actions
 import { loginProcess } from 'ducks/modules/user/login';
 
-// hoc
-import withInput from 'hoc/withInput';
+// utils
+import { getValueFromEvent, getNameFromEvent, validateInputMinChar } from 'utils/form';
 
 // components
 import PageInner from 'components/PageInner/PageInner';
@@ -25,9 +25,6 @@ import './Login.styl';
 class Login extends Component {
   static propTypes = {
     loginProcess: PropTypes.func,
-    getValueFromEvent: PropTypes.func,
-    getNameFromEvent: PropTypes.func,
-    validateInputMinChar: PropTypes.func,
   };
 
   constructor(props) {
@@ -46,8 +43,6 @@ class Login extends Component {
   }
 
   onChange = (e) => {
-    const { getValueFromEvent, getNameFromEvent, validateInputMinChar } = this.props;
-
     const name = getNameFromEvent(e);
     const value = getValueFromEvent(e, true);
     const valid = validateInputMinChar(value, 1);
@@ -112,4 +107,4 @@ class Login extends Component {
   }
 }
 
-export default withInput(connect(null, { loginProcess })(Login));
+export default connect(null, { loginProcess })(Login);

@@ -93,6 +93,7 @@ module.exports = {
       routes: path.resolve(__dirname, '../src/routes'),
       store: path.resolve(__dirname, '../src/store'),
       style: path.resolve(__dirname, '../src/style'),
+      utils: path.resolve(__dirname, '../src/utils'),
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web'

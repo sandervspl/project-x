@@ -7,24 +7,25 @@ import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 // style
 import './Header.styl';
 
-const Header = ({ children, icon, iconColor, href, hrefText, textAlign, size }) => {
-  let className = 'header';
+const Header = ({ children, icon, iconColor, href, hrefText, textAlign, size, className }) => {
+  let containerClassName = 'header';
 
   switch (textAlign) {
-    case 'left': className += ' header--ta-left'; break;
-    case 'center': className += ' header--ta-center'; break;
-    case 'right': className += ' header--ta-right'; break;
+    case 'left': containerClassName += ' header--ta-left'; break;
+    case 'center': containerClassName += ' header--ta-center'; break;
+    case 'right': containerClassName += ' header--ta-right'; break;
     default: break;
   }
 
   if (href) {
-    className += ' header--with-link';
+    containerClassName += ' header--with-link';
   }
+  containerClassName += ` ${className}`;
 
-  const h3ClassName = `inline header-text header-text--fs-${size}`;
+  const h3ClassName = `header-text header-text--fs-${size}`;
 
   return (
-    <div className={className}>
+    <div className={containerClassName}>
       {do { /* eslint-disable */
         if (icon) {
           <TextWithIcon icon={icon} iconColor={iconColor}>
@@ -42,7 +43,9 @@ const Header = ({ children, icon, iconColor, href, hrefText, textAlign, size }) 
 };
 
 Header.propTypes = {
-  children: PropTypes.string,
+  // eslint-disable-next-line
+  children: PropTypes.any,
+  className: PropTypes.string,
   icon: PropTypes.string,
   iconColor: PropTypes.string,
   href: PropTypes.string,

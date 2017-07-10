@@ -2,14 +2,15 @@
 import React, { PropTypes } from 'react';
 
 // components
+import Header from 'components/Header/Header';
 import Settings from './Settings/Settings';
 
 // style
 import './Username.styl';
 
 const Username = ({ firstName, lastName }) => (
-  <div id="profile-username-container">
-    <h3 className="inline username">{firstName} {lastName}</h3>
+  <div id="profile-username__container">
+    <Header className="profile__username-text">{firstName} {lastName}</Header>
     <Settings />
   </div>
 );

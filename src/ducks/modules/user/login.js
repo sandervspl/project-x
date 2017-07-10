@@ -84,11 +84,11 @@ export const resetLogin = () => dispatch => dispatch(loginReset());
 
 // async actions
 export const login = credentials => async (dispatch) => {
-  const { emailUsername, password } = credentials;
+  const { username, password } = credentials;
 
   // set up correct object for request
   const userCredentials = {
-    username: emailUsername,
+    username,
     password,
   };
 

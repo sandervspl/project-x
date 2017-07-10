@@ -15,7 +15,7 @@ const FormInput = ({ type, name, placeholder, onChange }) => {
       <Form.TextArea
         placeholder={placeholder}
         name={name}
-        onChange={e => onChange(e.target.value)}
+        onChange={onChange}
         className={className}
       />
     );
@@ -27,7 +27,7 @@ const FormInput = ({ type, name, placeholder, onChange }) => {
         type={type}
         placeholder={placeholder}
         name={name}
-        onChange={e => onChange(e.target.value)}
+        onChange={onChange}
         className={className}
       />
     </Form.Field>

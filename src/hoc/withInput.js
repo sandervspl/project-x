@@ -20,6 +20,8 @@ function withInput(WrappedComponent) {
       return e.target.value;
     };
 
+    getNameFromEvent = e => e.target.name;
+
     validateInputMinChar = (value, minCharacter) =>
       !isEmpty(value) && value.length >= minCharacter;
 
@@ -30,6 +32,7 @@ function withInput(WrappedComponent) {
           {...this.state}
           getValueFromEvent={this.getValueFromEvent}
           validateInputMinChar={this.validateInputMinChar}
+          getNameFromEvent={this.getNameFromEvent}
         />
       );
     }

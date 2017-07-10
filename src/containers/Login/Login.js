@@ -6,13 +6,15 @@ import { Form } from 'semantic-ui-react';
 // actions
 import { loginProcess } from 'ducks/modules/user/login';
 
+// hoc
+import withInput from 'hoc/withInput';
+
 // components
 import PageInner from 'components/PageInner/PageInner';
 import Header from 'components/Header/Header';
 import FooterAuth from 'components/FooterAuth/FooterAuth';
+import FormInput from 'components/FormInput/FormInput';
 import LoginFormError from './LoginFormError/LoginFormError';
-import EmailUsernameInput from './EmailUsernameInput/EmailUsernameInput';
-import PasswordInput from './PasswordInput/PasswordInput';
 import LoginButton from './LoginButton/LoginButton';
 import HelpLogin from './HelpLogin/HelpLogin';
 import ServiceLoginButtons from './ServiceLoginButtons/ServiceLoginButtons';
@@ -23,6 +25,9 @@ import './Login.styl';
 class Login extends Component {
   static propTypes = {
     loginProcess: PropTypes.func,
+    getValueFromEvent: PropTypes.func,
+    getNameFromEvent: PropTypes.func,
+    validateInputMinChar: PropTypes.func,
   };
 
   constructor(props) {
@@ -30,44 +35,37 @@ class Login extends Component {
 
     this.state = {
       formValid: {
-        emailUsername: null,
+        username: null,
         password: null,
       },
       formValues: {
-        emailUsername: '',
+        username: '',
         password: '',
       },
     };
   }
 
-  setEmailUsernameState = (emailUsername, valid) => {
-    this.setState({
-      formValues: {
-        ...this.state.formValues,
-        emailUsername,
-      },
-      formValid: {
-        ...this.state.formValid,
-        emailUsername: valid,
-      },
-    });
-  };
+  onChange = (e) => {
+    const { getValueFromEvent, getNameFromEvent, validateInputMinChar } = this.props;
 
-  setPasswordState = (password, valid) => {
+    const name = getNameFromEvent(e);
+    const value = getValueFromEvent(e, true);
+    const valid = validateInputMinChar(value, 1);
+
     this.setState({
-      formValues: {
-        ...this.state.formValues,
-        password,
-      },
       formValid: {
         ...this.state.formValid,
-        password: valid,
+        [name]: valid,
+      },
+      formValues: {
+        ...this.state.formValues,
+        [name]: value,
       },
     });
   };
 
   isFormValid = () =>
-    this.state.formValid.emailUsername && this.state.formValid.password;
+    this.state.formValid.username && this.state.formValid.password;
 
   loginWithCredentials = () => {
     const { formValues } = this.state;
@@ -81,8 +79,20 @@ class Login extends Component {
         <Header textAlign="center" size="big">Sign in to Project-x</Header>
 
         <Form className="login-form__container">
-          <EmailUsernameInput onChange={this.setEmailUsernameState} />
-          <PasswordInput onChange={this.setPasswordState} />
+          <FormInput
+            type="text"
+            placeholder="Email or username"
+            id="px-username-field"
+            name="username"
+            onChange={this.onChange}
+          />
+          <FormInput
+            type="password"
+            placeholder="Password"
+            id="px-password-field"
+            name="password"
+            onChange={this.onChange}
+          />
 
           <LoginFormError />
 
@@ -102,4 +112,4 @@ class Login extends Component {
   }
 }
 
-export default connect(null, { loginProcess })(Login);
+export default withInput(connect(null, { loginProcess })(Login));

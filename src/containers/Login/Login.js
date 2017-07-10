@@ -11,7 +11,7 @@ import { getValueFromEvent, getNameFromEvent, validateInputMinChar } from 'utils
 
 // components
 import PageInner from 'components/PageInner/PageInner';
-import Header from 'components/Header/Header';
+import TitleWithLogo from 'components/TitleWithLogo/TitleWithLogo';
 import FooterAuth from 'components/FooterAuth/FooterAuth';
 import FormInput from 'components/FormInput/FormInput';
 import LoginFormError from './LoginFormError/LoginFormError';
@@ -78,8 +78,7 @@ class Login extends Component {
 
     return (
       <PageInner>
-        <Header textAlign="center" size="small">(logo)</Header>
-        <Header textAlign="center" size="big">Sign in to Project-x</Header>
+        <TitleWithLogo> Sign in to Project-x </TitleWithLogo>
 
         <Form className="login-form__container">
           <FormInput

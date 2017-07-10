@@ -6,7 +6,6 @@ import FullscreenLoader from 'components/FullscreenLoader/FullscreenLoader';
 import Background from './Background/Background';
 import Title from './Title/Title';
 import ButtonGroup from './ButtonGroup/ButtonGroup';
-import RegisterModal from './RegisterModal/RegisterModal';
 
 class Frontpage extends Component {
   static propTypes = {
@@ -42,38 +41,19 @@ class Frontpage extends Component {
     }
   }
 
-  toggleModal = (modal, state) => {
-    let key = '';
-
-    switch (modal) {
-      case 'signup':
-        key = 'registerModalOpen';
-        break;
-
-      default:
-        throw Error('invalid modal. Available modals: "signin" and "signup"');
-    }
-
-    this.setState({ [key]: state });
-  };
-
   hasLoaded = () => {
     this.setState({ loaded: true });
   };
 
   render() {
-    const { registerModalOpen, loaded } = this.state;
+    const { loaded } = this.state;
 
     return (
       <main className="page-fill">
         <FullscreenLoader loaded={loaded} />
         <Background hasLoaded={this.hasLoaded} />
         <Title />
-        <ButtonGroup toggleModal={this.toggleModal} />
-        <RegisterModal
-          isOpen={registerModalOpen}
-          toggleModal={this.toggleModal}
-        />
+        <ButtonGroup />
       </main>
     );
   }

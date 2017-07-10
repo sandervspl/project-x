@@ -1,5 +1,5 @@
 // dependencies
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { browserHistory } from 'react-router';
 
 // components
@@ -11,20 +11,18 @@ import routes from 'routes/routes';
 // style
 import './ButtonGroup.styl';
 
-const RegisterButton = ({ onClick }) => (
+
+const RegisterButton = () => (
   <Button
     color="purple"
     className="create-account-btn"
     fontSize="normal"
-    onClick={() => onClick('signup', true)}
-    // onClick={() => browserHistory.push(routes.register.register)}
+    onClick={() => browserHistory.push(routes.register.register)}
   >
     CREATE ACCOUNT
   </Button>
 );
-RegisterButton.propTypes = {
-  onClick: PropTypes.func,
-};
+
 
 const LoginButton = () => (
   <Button
@@ -33,25 +31,21 @@ const LoginButton = () => (
     color="white"
     className="login-btn"
     fontSize="normal"
-    // onClick={() => toggleModal('signin', true)}
     onClick={() => browserHistory.push(routes.login.login)}
   >
     SIGN IN
   </Button>
 );
 
-const ButtonGroup = ({ toggleModal }) => (
+
+const ButtonGroup = () => (
   <div className="button-group">
     <h3>Sign in to continue</h3>
     <div className="button-group-inner">
-      <RegisterButton onClick={toggleModal} />
+      <RegisterButton />
       <LoginButton />
     </div>
   </div>
 );
-
-ButtonGroup.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
-};
 
 export default ButtonGroup;

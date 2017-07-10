@@ -12,8 +12,7 @@ import PartyDate from './PartyDate/PartyDate';
 import './PartyInformation.styl';
 
 const PartyInformation = ({
-  setPartyName,
-  setPartyDescription,
+  onChange,
   partyCode,
   onClick,
   date,
@@ -26,8 +25,8 @@ const PartyInformation = ({
       <FormInput
         type="text"
         placeholder="Party name"
-        name="partyname"
-        onChange={setPartyName}
+        name="partyName"
+        onChange={onChange}
       />
 
       <PartyCodeDisplay code={partyCode} />
@@ -35,9 +34,9 @@ const PartyInformation = ({
       <FormInput
         type="textarea"
         placeholder="Party description"
-        name="partydescription"
+        name="partyDescription"
         smallMarginTop
-        onChange={setPartyDescription}
+        onChange={onChange}
       />
 
       <PartyDate type="start" date={date} setTime={setTime} onClick={onClick} />
@@ -48,8 +47,7 @@ const PartyInformation = ({
 
 
 PartyInformation.propTypes = {
-  setPartyName: PropTypes.func,
-  setPartyDescription: PropTypes.func,
+  onChange: PropTypes.func,
   partyCode: PropTypes.string,
   onClick: PropTypes.func,
   date: PropTypes.shape({}),

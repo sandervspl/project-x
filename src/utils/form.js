@@ -12,6 +12,6 @@ export function getNameFromEvent(e) {
   return e.target.name;
 }
 
-export function validateInputMinChar(value, minCharacter) {
-  return !isEmpty(value) && value.length >= minCharacter;
+export function validateInputMinChar(value, minCharacters) {
+  return !isEmpty(value) && value.length >= minCharacters;
 }

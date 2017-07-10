@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { range } from 'lodash';
 
+// utils
+import { getValueFromEvent, getNameFromEvent } from 'utils/form';
+
 // actions
 import { createPartyProcess, resetCreateParty } from 'ducks/modules/party/createParty';
 
@@ -53,22 +56,22 @@ class CreateParty extends PureComponent {
         allowExplicitSongs: false,
         approveSongs: false,
       },
-      allowCreate: false,
+      formValid: false,
       calendarActive: false,
       dateSelectMode: null,
     };
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (!nextState.allowCreate &&
-      !isEmpty(nextState.partyName) &&
-      !isEmpty(nextState.partyDescription)
-    ) {
-      this.setState({ allowCreate: true });
-    } else if (nextState.allowCreate &&
-      (isEmpty(nextState.partyName) || isEmpty(nextState.partyDescription))
-    ) {
-      this.setState({ allowCreate: false });
+    const { formValid, partyName, partyDescription } = nextState;
+    if (!formValid && !isEmpty(partyName) && !isEmpty(partyDescription)) {
+      this.setState({
+        formValid: true,
+      });
+    } else if (formValid && (isEmpty(partyName) || isEmpty(partyDescription))) {
+      this.setState({
+        formValid: false,
+      });
     }
 
     // check if end date > start date -- else set end date = start date
@@ -79,12 +82,13 @@ class CreateParty extends PureComponent {
     this.props.resetCreateParty();
   }
 
-  setPartyName = (partyName) => {
-    this.setState({ partyName: partyName.trim() });
-  };
+  setPartyInformation = (e) => {
+    const name = getNameFromEvent(e);
+    const value = getValueFromEvent(e, true);
 
-  setPartyDescription = (partyDescription) => {
-    this.setState({ partyDescription: partyDescription.trim() });
+    this.setState({
+      [name]: value,
+    });
   };
 
   setRuleValue = (ruleTag, value) => {
@@ -183,14 +187,13 @@ class CreateParty extends PureComponent {
     });
   };
 
-  removeAttendant = () => {
-  };
+  removeAttendant = () => {};
 
   render() {
     const {
       partyCode,
       rules,
-      allowCreate,
+      formValid,
       calendarActive,
       dateSelectMode,
       date,
@@ -214,8 +217,7 @@ class CreateParty extends PureComponent {
 
         <PageSection customMargin="7.5rem 0 0">
           <PartyInformation
-            setPartyName={this.setPartyName}
-            setPartyDescription={this.setPartyDescription}
+            onChange={this.setPartyInformation}
             partyCode={partyCode}
             onClick={this.setDateSelectMode}
             date={date}
@@ -244,7 +246,7 @@ class CreateParty extends PureComponent {
             icon="plus"
             iconColor="white"
             fontSize="big"
-            disabled={!allowCreate}
+            disabled={!formValid}
             loading={loading}
             onClick={this.clickHandler}
           >

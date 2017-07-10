@@ -31,10 +31,7 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      formValid: {
-        username: null,
-        password: null,
-      },
+      formValid: null,
       formValues: {
         username: '',
         password: '',
@@ -42,16 +39,28 @@ class Login extends Component {
     };
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    const { formValues, formValid } = nextState;
+
+    const usernameValid = validateInputMinChar(formValues.username, 1);
+    const passwordValid = validateInputMinChar(formValues.password, 1);
+
+    if (!formValid && usernameValid && passwordValid) {
+      this.setState({
+        formValid: true,
+      });
+    } else if (formValid && (!usernameValid || !passwordValid)) {
+      this.setState({
+        formValid: false,
+      });
+    }
+  }
+
   onChange = (e) => {
     const name = getNameFromEvent(e);
     const value = getValueFromEvent(e, true);
-    const valid = validateInputMinChar(value, 1);
 
     this.setState({
-      formValid: {
-        ...this.state.formValid,
-        [name]: valid,
-      },
       formValues: {
         ...this.state.formValues,
         [name]: value,
@@ -59,15 +68,14 @@ class Login extends Component {
     });
   };
 
-  isFormValid = () =>
-    this.state.formValid.username && this.state.formValid.password;
-
   loginWithCredentials = () => {
     const { formValues } = this.state;
     this.props.loginProcess(formValues);
   };
 
   render() {
+    const { formValid } = this.state;
+
     return (
       <PageInner>
         <Header textAlign="center" size="small">(logo)</Header>
@@ -92,7 +100,7 @@ class Login extends Component {
           <LoginFormError />
 
           <LoginButton
-            formValid={this.isFormValid()}
+            formValid={formValid}
             onClick={this.loginWithCredentials}
           />
         </Form>

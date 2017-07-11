@@ -1,27 +1,37 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { Button } from 'semantic-ui-react';
+import { noop } from 'lodash';
+
+import Button from 'components/Button/Button';
+import Icon from 'components/Icon/Icon';
 
 // style
 import './ButtonIconLeftTextMiddle.styl';
 
-const ButtonIconLeftTextMiddle = ({ children, icon, className, id }) => (
-  <Button fluid className={`btn btn--iltm ${className}`} id={id}>
-    <i className={`fa fa-${icon}`} aria-hidden="true" />
+const ButtonIconLeftTextMiddle = ({ children, icon, iconColor, className, onClick, color }) => (
+  <Button
+    className={`btn btn--iltm ${className}`}
+    color={color}
+    onClick={onClick}
+  >
+    <Icon name={icon} color={iconColor} />
     { children }
   </Button>
 );
 
 ButtonIconLeftTextMiddle.propTypes = {
-  children: PropTypes.string,
   icon: PropTypes.string.isRequired,
+  children: PropTypes.string,
+  iconColor: PropTypes.string,
   className: PropTypes.string,
-  id: PropTypes.string,
+  color: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
-ButtonIconLeftTextMiddle.defaultValues = {
+ButtonIconLeftTextMiddle.defaultProps = {
   id: '',
   className: '',
+  onClick: noop,
 };
 
 export default ButtonIconLeftTextMiddle;

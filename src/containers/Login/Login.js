@@ -7,7 +7,7 @@ import { Form } from 'semantic-ui-react';
 import { loginProcess } from 'ducks/modules/user/login';
 
 // utils
-import { getValueFromEvent, getNameFromEvent, validateInputMinChar } from 'utils/form';
+import { getValueFromEvent, getNameFromEvent, validateInputMinChars } from 'utils/form';
 
 // components
 import PageInner from 'components/PageInner/PageInner';
@@ -42,8 +42,8 @@ class Login extends Component {
   componentWillUpdate(nextProps, nextState) {
     const { formValues, formValid } = nextState;
 
-    const usernameValid = validateInputMinChar(formValues.username, 1);
-    const passwordValid = validateInputMinChar(formValues.password, 1);
+    const usernameValid = validateInputMinChars(formValues.username, 1);
+    const passwordValid = validateInputMinChars(formValues.password, 1);
 
     if (!formValid && usernameValid && passwordValid) {
       this.setState({
@@ -77,7 +77,7 @@ class Login extends Component {
     const { formValid } = this.state;
 
     return (
-      <PageInner>
+      <PageInner noNav>
         <TitleWithLogo> Sign in to Project-x </TitleWithLogo>
 
         <Form className="login-form__container">

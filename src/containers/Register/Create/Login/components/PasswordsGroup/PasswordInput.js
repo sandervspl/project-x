@@ -1,35 +1,30 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { Form } from 'semantic-ui-react';
 import { debounce } from 'lodash';
 
+// utils
+import { getValueFromEvent } from 'utils/form';
+
+// components
+import FormInput from 'components/FormInput/FormInput';
+
 const PasswordInput = ({
-  fieldId,
+  onChange,
   isValid,
-  validatePassword,
-  requiredLength,
   placeholder,
   name,
 }) => {
   const handleChange = debounce((e) => {
-    const el = e.target;
+    const value = getValueFromEvent(e);
 
-    if (el) {
-      const val = el.value.trim();
-
-      // minimum length of password
-      const minLength = requiredLength || 1;
-      const valid = val.length >= minLength;
-
-      validatePassword(valid, fieldId, val);
-    }
+    onChange(name, value);
   }, 750);
 
   return (
-    <Form.Input
+    <FormInput
       type="password"
-      placeholder={placeholder || ''}
-      name={name || ''}
+      placeholder={placeholder}
+      name={name}
       icon={isValid ? 'check' : 'key'}
       className="password"
       onChange={(e) => { e.persist(); handleChange(e); }}
@@ -38,10 +33,8 @@ const PasswordInput = ({
 };
 
 PasswordInput.propTypes = {
-  fieldId: PropTypes.string.isRequired,
-  validatePassword: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   isValid: PropTypes.bool,
-  requiredLength: PropTypes.number,
   placeholder: PropTypes.string,
   name: PropTypes.string,
 };

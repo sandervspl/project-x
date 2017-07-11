@@ -54,9 +54,9 @@ export default () => (
       <Route exact path={routes.home} components={Frontpage} onEnter={isAuth} />
       <Route exact path={routes.login.login} components={Login} onEnter={isAuth} />
       <Route exact path={routes.register.register} components={Register} onEnter={isAuth} />
+      <Route path={routes.register.create} components={RegisterCreate} onEnter={isAuth} />
       <Route exact path={routes.register.welcome} components={RegisterWelcomePage} onEnter={hasAccess} />
       <Route components={App}>
-        <Route path={routes.register.create} components={RegisterCreate} onEnter={isAuth} />
         <Route path={routes.user.profile} components={User} onEnter={hasAccess}>
           <IndexRoute components={Profile} />
           <Route path={routes.party.create} components={CreateParty} onEnter={hasAccess} />

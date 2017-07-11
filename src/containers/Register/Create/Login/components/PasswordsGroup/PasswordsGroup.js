@@ -1,85 +1,110 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { isNull, isEmpty } from 'lodash';
+
+// utils
+import { validateInputMinChars } from 'utils/form';
 
 // components
 import InputError from 'components/InputError/InputError';
 import PasswordInput from './PasswordInput';
 
+const passwordMinLength = 8;
 
 class PasswordsGroup extends Component {
   static propTypes = {
     validatePasswords: PropTypes.func.isRequired,
-    passwordsValid: PropTypes.bool,
+    // passwordsValid: PropTypes.bool,
+    onChange: PropTypes.func,
+    create: PropTypes.shape({
+      user: PropTypes.shape({
+        password: PropTypes.string,
+        passwordRepeat: PropTypes.string,
+      }),
+    }),
   };
 
-  state = {
-    password1Valid: null,
-    password2Valid: null,
-    password1Value: null,
-    password2Value: null,
-  };
+  constructor(props) {
+    super(props);
 
-  // required password length
-  requiredLength = 8;
-
-  validatePassword = (isValid, id, value) => {
-    this.setState({
-      [`password${id}Valid`]: isValid,
-      [`password${id}Value`]: value,
-    }, this.passwordsAreValid);
+    this.state = {
+      passwordValid: null,
+      passwordRepeatValid: null,
+    };
   }
 
-  passwordsAreValid = () => {
+  componentWillUpdate(nextProps) {
     const { validatePasswords } = this.props;
-    const { password1Valid, password2Valid, password1Value, password2Value } = this.state;
+    const { password, passwordRepeat } = nextProps.create.user;
+    const { password: curPassword, passwordRepeat: curPasswordRepeat } = this.props.create.user;
 
-    if (password1Valid !== null && password2Valid !== null) {
-      const passwordsAreValid = (
-        password1Valid && password2Valid && (password1Value === password2Value)
-      );
-      validatePasswords(passwordsAreValid);
+    let valid = null;
+    if (!isEmpty(passwordRepeat)) {
+      valid = curPassword === passwordRepeat || curPasswordRepeat === password;
     }
+
+    if (password !== curPassword || passwordRepeat !== curPasswordRepeat) {
+      this.setState({
+        passwordValid: validateInputMinChars(password, passwordMinLength),
+        passwordRepeatValid: password === passwordRepeat,
+      });
+    }
+
+    validatePasswords(valid);
   }
 
-  checkPasswordLength = password => password.length < this.requiredLength;
+  handleChange = (name, value) => {
+    const { onChange } = this.props;
+
+    // update store
+    onChange(name, value);
+  };
+
+  passwordsAreNotEqual = () => {
+    const { password, passwordRepeat } = this.props.create.user;
+    return isEmpty(passwordRepeat) ? null : password !== passwordRepeat;
+  };
 
   render() {
-    const { password1Value, password1Valid, password2Valid } = this.state;
-    const { passwordsValid } = this.props;
+    const { passwordValid, passwordRepeatValid } = this.state;
 
-    // validation
-    const passwordsNotEqual = (passwordsValid !== null && !passwordsValid);
-    const pw1TooShort = (password1Value !== null && this.checkPasswordLength(password1Value));
-    const pw2Valid = (password2Valid !== null && password2Valid && !passwordsNotEqual);
+    // errors
+    const pwShort = !isNull(passwordValid) && !passwordValid;
+    const pwNotEqual = this.passwordsAreNotEqual();
 
     return (
       <div>
         <Form.Field>
           <PasswordInput
-            fieldId="1"
-            validatePassword={this.validatePassword}
-            requiredLength={this.requiredLength}
-            isValid={password1Valid}
+            onChange={this.handleChange}
+            isValid={passwordValid}
             placeholder="Password"
             name="password"
           />
-          { pw1TooShort && <InputError>Should be at least 8 characters long.</InputError> }
+          { pwShort && <InputError>Should be at least 8 characters long.</InputError> }
         </Form.Field>
+
         <Form.Field>
           <PasswordInput
-            fieldId="2"
-            validatePassword={this.validatePassword}
-            requiredLength={this.requiredLength}
-            isValid={pw2Valid}
-            placeholder="Verify password"
-            name="verify-password"
+            onChange={this.handleChange}
+            isValid={passwordRepeatValid}
+            placeholder="repeat password"
+            name="passwordRepeat"
           />
-          { passwordsNotEqual && <InputError>Passwords do not match.</InputError> }
+          { pwNotEqual && <InputError>Passwords do not match.</InputError> }
         </Form.Field>
       </div>
     );
   }
 }
 
-export default PasswordsGroup;
+function mapStateToProps(state) {
+  return {
+    create: state.app.user.userCreate,
+  };
+}
+
+
+export default connect(mapStateToProps)(PasswordsGroup);

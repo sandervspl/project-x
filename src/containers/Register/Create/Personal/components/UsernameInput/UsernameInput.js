@@ -9,6 +9,12 @@ import { checkExists, invalidId } from 'ducks/modules/user/exists';
 
 // components
 import InputError from 'components/InputError/InputError';
+import FormInput from 'components/FormInput/FormInput';
+
+// utils
+import { getNameFromEvent, getValueFromEvent, validateInputMinChars } from 'utils/form';
+
+const minCharacterAmount = 3;
 
 class Username extends Component {
   static propTypes = {
@@ -25,32 +31,39 @@ class Username extends Component {
       error: PropTypes.bool,
       errorMessage: PropTypes.string,
     }),
+    onChange: PropTypes.func,
   };
 
-  constructor(p) {
-    super(p);
-    this.usernameMinLength = 3;
-  }
-
-  handleChange = debounce((e) => {
-    const el = e.target;
+  validateUsername = debounce((e) => {
     // minimum amount of characters needed for valid username
     const { validateUsername } = this.props;
     const { usernameExists } = this.props.exists;
 
     if (usernameExists) {
       validateUsername(false);
-    } else if (el) {
-      const val = el.value.trim();
-      validateUsername(val.length >= this.usernameMinLength);
+    } else {
+      const value = getValueFromEvent(e, true);
+      validateUsername(validateInputMinChars(value, minCharacterAmount));
     }
   }, 750);
 
+  handleChange = (e) => {
+    const { onChange } = this.props;
+    const name = getNameFromEvent(e);
+    const value = getValueFromEvent(e, true);
+
+    // update store
+    onChange(name, value);
+
+    // validate username
+    this.validateUsername(e);
+  };
+
   handleBlur = async (e) => {
     const { validateUsername } = this.props;
-    const value = e.target.value.trim();
+    const value = getValueFromEvent(e, true);
 
-    if (value.length < this.usernameMinLength) {
+    if (!validateInputMinChars(value, minCharacterAmount)) {
       this.props.invalidId('username');
       validateUsername(false);
       return;
@@ -69,7 +82,7 @@ class Username extends Component {
     if (isValid && !usernameExists) return 'check';
 
     return 'user circle';
-  }
+  };
 
   render() {
     const { usernameValid } = this.props;
@@ -81,11 +94,12 @@ class Username extends Component {
 
     return (
       <Form.Field>
-        <Form.Input
+        <FormInput
+          type="text"
           placeholder="Username"
           name="username"
           icon={icon}
-          onChange={(e) => { e.persist(); this.handleChange(e); }}
+          onChange={(e) => { e.persist(); this.handleChange(e); }} // persist is needed for debounce
           onBlur={this.handleBlur}
           disabled={loading}
         />

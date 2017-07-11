@@ -7,6 +7,8 @@ import { setLoginFormValidation } from 'ducks/modules/user/create';
 
 // components
 import PolicyText from 'components/PolicyText/PolicyText';
+import TitleWithLogo from 'components/TitleWithLogo/TitleWithLogo';
+import AboutPage from 'components/AboutPage/AboutPage';
 import EmailInput from './components/EmailInput/EmailInput';
 import PasswordsGroup from './components/PasswordsGroup/PasswordsGroup';
 import NextButton from './components/NextButton';
@@ -18,6 +20,7 @@ class Login extends Component {
       loginFormValid: PropTypes.bool,
       page: PropTypes.number,
     }),
+    onChange: PropTypes.func,
   };
 
   constructor(props) {
@@ -31,10 +34,12 @@ class Login extends Component {
 
   componentDidUpdate() {
     const { loginFormValid } = this.props.create;
+    const { emailValid, passwordsValid } = this.state;
+    const isValid = emailValid && passwordsValid;
 
-    if (this.state.emailValid && this.state.passwordsValid && !loginFormValid) {
+    if (isValid && !loginFormValid) {
       this.props.setLoginFormValidation(true);
-    } else if ((!this.state.emailValid || !this.state.passwordsValid) && loginFormValid) {
+    } else if (!isValid && loginFormValid) {
       this.props.setLoginFormValidation(false);
     }
   }
@@ -49,24 +54,32 @@ class Login extends Component {
 
   render() {
     const { emailValid, passwordsValid } = this.state;
+    const { onChange } = this.props;
     const { page } = this.props.create;
+    const isPageTwo = page === 2;
 
     return (
-      <section className={`register-form login ${page === 2 && 'show-personal'}`}>
-        <h1>New account</h1>
-        <p className="register-about">
+      <section className={`register-form login ${isPageTwo ? 'show-personal' : ''}`}>
+        <TitleWithLogo> New account </TitleWithLogo>
+
+        <AboutPage>
           Registering an account at Project-x lets you create your own unique party environment.
           Invite your friends blabla etc.
-        </p>
+        </AboutPage>
+
         <EmailInput
           mailValid={emailValid}
           validateEmail={this.validateEmail}
+          onChange={onChange}
         />
         <PasswordsGroup
           passwordsValid={passwordsValid}
           validatePasswords={this.validatePasswords}
+          onChange={onChange}
         />
+
         <NextButton />
+
         <PolicyText />
       </section>
     );

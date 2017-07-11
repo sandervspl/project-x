@@ -19,6 +19,7 @@ export const LOGIN_FORM_INVALID = 'px/user/LOGIN_FORM_INVALID';
 export const PERSONAL_FORM_VALID = 'px/user/PERSONAL_FORM_VALID';
 export const PERSONAL_FORM_INVALID = 'px/user/PERSONAL_FORM_INVALID';
 export const TO_REGISTER_PAGE = 'px/user/TO_REGISTER_PAGE';
+export const UPDATE_USER_VALUES = 'px/user/UPDATE_USER_VALUES';
 
 // state
 export const initialState = {
@@ -29,6 +30,14 @@ export const initialState = {
   personalFormValid: null,
   page: 1,
   errorMessage: '',
+  user: {
+    email: '',
+    password: '',
+    passwordRepeat: '',
+    firstName: '',
+    lastName: '',
+    username: '',
+  },
 };
 
 // cookies
@@ -94,6 +103,15 @@ export default (state = initialState, action = {}) => {
         page: action.page,
       };
 
+    case UPDATE_USER_VALUES:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          [action.key]: action.value,
+        },
+      };
+
     default:
       return state;
   }
@@ -126,6 +144,12 @@ export const setPersonalFormValidation = (valid) => {
 export const toRegisterPage = pageNum => ({
   type: TO_REGISTER_PAGE,
   page: pageNum,
+});
+
+export const updateUserValues = (key, value) => ({
+  type: UPDATE_USER_VALUES,
+  key,
+  value,
 });
 
 // async actions

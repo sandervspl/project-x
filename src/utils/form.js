@@ -1,4 +1,4 @@
-import { isEmpty } from 'validator';
+import { isEmpty } from 'lodash';
 
 export function getValueFromEvent(e, trimmed = false) {
   if (trimmed) {
@@ -12,6 +12,6 @@ export function getNameFromEvent(e) {
   return e.target.name;
 }
 
-export function validateInputMinChar(value, minCharacters) {
+export function validateInputMinChars(value, minCharacters) {
   return !isEmpty(value) && value.length >= minCharacters;
 }

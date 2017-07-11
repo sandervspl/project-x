@@ -52,15 +52,15 @@ class DateButton extends Component {
     const { date, type } = this.props;
     const { updated } = this.state;
 
-    let classname = 'date-btn';
-    if (updated) classname += ' date-updated';
+    let clsName = 'date-btn';
+    if (updated) clsName += ' date-updated';
 
     return (
       <ButtonSideIcon
         color="purple-light"
         inverted
         textAlign="left"
-        className={classname}
+        className={clsName}
         onClick={e => this.onClick(e)}
         iconLeft="calendar"
         iconColorLeft="purple"

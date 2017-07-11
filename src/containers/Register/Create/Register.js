@@ -1,13 +1,15 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 
 // actions
-import { createUserProcess, toRegisterPage } from 'ducks/modules/user/create';
+import { createUserProcess, toRegisterPage, updateUserValues } from 'ducks/modules/user/create';
 import { resetExists } from 'ducks/modules/user/exists';
 
 // components
 import FooterAuth from 'components/FooterAuth/FooterAuth';
+import PageInner from 'components/PageInner/PageInner';
 import LoginForm from './Login/Login';
 import PersonalForm from './Personal/Personal';
 
@@ -20,10 +22,18 @@ class Register extends Component {
       loginFormValid: PropTypes.bool,
       personalFormValid: PropTypes.bool,
       page: PropTypes.number,
+      user: PropTypes.shape({
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        username: PropTypes.string,
+        password: PropTypes.string,
+        email: PropTypes.string,
+      }),
     }),
     createUserProcess: PropTypes.func,
     toRegisterPage: PropTypes.func,
     resetExists: PropTypes.func,
+    updateUserValues: PropTypes.func,
   };
 
   componentWillUnmount() {
@@ -36,46 +46,51 @@ class Register extends Component {
     this.props.resetExists();
   }
 
+  updateUserValuesInState = (key, value) => {
+    this.updateUserValuesInStore(key, value);
+  };
+
+  updateUserValuesInStore = debounce((key, value) => {
+    this.props.updateUserValues(key, value);
+  }, 250);
+
   handleSubmit = (e) => {
     e.preventDefault();
 
     const { loginFormValid, personalFormValid } = this.props.create;
 
     // only allow user creation if form is completely valid
-    if (!loginFormValid || !personalFormValid) return;
+    if (!loginFormValid || !personalFormValid) {
+      return;
+    }
 
-    // look for all inputs in the form
-    const form = e.target;
-    const inputs = form.querySelectorAll('input');
-    let newUser = {};
+    // take all data from store
+    const { firstName, lastName, username, email, password } = this.props.create.user;
 
-    // put input values in an object
-    inputs.forEach((input) => {
-      if (input.name === 'verify-password') return;
-      // FIXME: remove when it's available
-      if (input.name === 'avatar') return;
+    // create new user object
+    const newUser = {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    };
 
-      newUser = {
-        ...newUser,
-        [input.name]: input.value,
-      };
-    });
-
-    // send data to create user action
+    // send user object to create user action
     this.props.createUserProcess(newUser);
   };
 
   render() {
     return (
-      <main id="register-page" className="page-fill">
-        <section className="inner register-forms-container">
+      <PageInner noNav>
+        <div className="register-forms-container">
           <form className="ui form" onSubmit={this.handleSubmit}>
-            <LoginForm />
-            <PersonalForm />
+            <LoginForm onChange={this.updateUserValuesInState} />
+            <PersonalForm onChange={this.updateUserValuesInState} />
           </form>
           <FooterAuth type="signin" redirectURL="/?login=1" />
-        </section>
-      </main>
+        </div>
+      </PageInner>
     );
   }
 }
@@ -92,5 +107,6 @@ export default connect(
     createUserProcess,
     toRegisterPage,
     resetExists,
+    updateUserValues,
   },
 )(Register);

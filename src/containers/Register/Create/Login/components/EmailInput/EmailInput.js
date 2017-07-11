@@ -2,11 +2,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Form } from 'semantic-ui-react';
-import { isEmail, isEmpty } from 'validator';
+import { isEmail } from 'validator';
 import { debounce } from 'lodash';
+
+// utils
+import { getNameFromEvent, getValueFromEvent, validateInputMinChars } from 'utils/form';
 
 // components
 import InputError from 'components/InputError/InputError';
+import FormInput from 'components/FormInput/FormInput';
 
 // actions
 import { checkExists, invalidId } from 'ducks/modules/user/exists';
@@ -22,32 +26,41 @@ class EmailInput extends Component {
     }),
     checkExists: PropTypes.func,
     invalidId: PropTypes.func,
+    onChange: PropTypes.func,
   };
 
-  handleChange = debounce((e) => {
-    const el = e.target;
+  validateEmail = debounce((e) => {
     const { validateEmail } = this.props;
     const { emailExists } = this.props.exists;
 
     // invalidate if email exists in database
     if (emailExists) {
       validateEmail(false);
-    } else if (el) {
-      const val = el.value.trim();
+    } else {
+      const value = getValueFromEvent(e, true);
+      const isValidEmail = isEmail(value);
 
-      if (!isEmpty(val)) {
-        validateEmail(isEmail(val));
-      } else {
-        validateEmail(false);
-      }
+      validateEmail(isValidEmail);
     }
   }, 750);
 
+  handleChange = (e) => {
+    const { onChange } = this.props;
+    const name = getNameFromEvent(e);
+    const value = getValueFromEvent(e, true);
+
+    // update store
+    onChange(name, value);
+
+    // validate username
+    this.validateEmail(e);
+  };
+
   handleBlur = async (e) => {
     const { validateEmail } = this.props;
-    const value = e.target.value.trim();
+    const value = getValueFromEvent(e, true);
 
-    if (isEmpty(value)) {
+    if (!validateInputMinChars(value, 1)) {
       return;
     }
 
@@ -85,7 +98,7 @@ class EmailInput extends Component {
 
     return (
       <Form.Field>
-        <Form.Input
+        <FormInput
           type="email"
           placeholder="Email address"
           icon={icon}

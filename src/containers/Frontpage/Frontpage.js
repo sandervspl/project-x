@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 
 // components
 import FullscreenLoader from 'components/FullscreenLoader/FullscreenLoader';
+import PageFill from 'components/PageFill/PageFill';
 import Background from './Background/Background';
 import Title from './Title/Title';
 import ButtonGroup from './ButtonGroup/ButtonGroup';
@@ -49,12 +50,12 @@ class Frontpage extends Component {
     const { loaded } = this.state;
 
     return (
-      <main className="page-fill">
+      <PageFill inner={false}>
         <FullscreenLoader loaded={loaded} />
         <Background hasLoaded={this.hasLoaded} />
         <Title />
         <ButtonGroup />
-      </main>
+      </PageFill>
     );
   }
 }

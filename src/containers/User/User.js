@@ -1,15 +1,16 @@
 // dependencies
 import React, { PropTypes } from 'react';
 
+// components
+import PageFill from 'components/PageFill/PageFill';
+
 // style
 // import './User.styl';
 
 const User = ({ children }) => (
-  <main className="page-fill flow">
-    <div className="inner">
-      { children }
-    </div>
-  </main>
+  <PageFill flow>
+    { children }
+  </PageFill>
 );
 
 User.propTypes = {

@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import Error404 from 'components/Error404/Error404';
 import Frontpage from 'containers/Frontpage/Frontpage';
 import Register from 'containers/Register/Register';
-import RegisterCreate from 'containers/Register/Create/Register';
+import RegisterCreate from 'containers/Register/Create/RegisterCreate';
 import RegisterWelcomePage from 'containers/Register/WelcomePage/WelcomePage';
 import Login from 'containers/Login/Login';
 import User from 'containers/User/User';

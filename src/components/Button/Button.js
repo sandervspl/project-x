@@ -23,6 +23,7 @@ const Button = ({
   loading,
   onClick,
   flex,
+  error,
   className,
 }) => {
   const renderContent = () => {
@@ -41,15 +42,16 @@ const Button = ({
     return children;
   };
 
-  let classname = `px-btn px-btn--${color} px-btn__fs--${fontSize} px-btn__ta--${textAlign} ${className}`;
-  if (inverted) classname += ' px-btn--inverted';
-  if (loading) classname += ' px-btn--loading';
-  if (transparent) classname += ' px-btn--transparent';
-  if (fontColor) classname += ` px-btn__fc--${fontColor}`;
-  if (flex) classname += ' px-btn--flex';
+  let clsName = `px-btn px-btn--${color} px-btn__fs--${fontSize} px-btn__ta--${textAlign} ${className}`;
+  if (inverted) clsName += ' px-btn--inverted';
+  if (loading) clsName += ' px-btn--loading';
+  if (transparent) clsName += ' px-btn--transparent';
+  if (fontColor) clsName += ` px-btn__fc--${fontColor}`;
+  if (flex) clsName += ' px-btn--flex';
+  if (error) clsName += ' px-btn--error';
 
   return (
-    <button className={classname} disabled={disabled} onClick={onClick}>
+    <button className={clsName} disabled={disabled} onClick={onClick}>
       { renderContent() }
     </button>
   );
@@ -58,7 +60,7 @@ const Button = ({
 Button.propTypes = {
   // eslint-disable-next-line
   children: PropTypes.any,
-  color: PropTypes.oneOf(['black', 'purple', 'white', 'purple-light']),
+  color: PropTypes.oneOf(['black', 'purple', 'white', 'purple-light', 'facebook', 'twitter', 'google']),
   inverted: PropTypes.bool,
   transparent: PropTypes.bool,
   icon: PropTypes.string,
@@ -71,6 +73,7 @@ Button.propTypes = {
   loading: PropTypes.bool,
   onClick: PropTypes.func,
   flex: PropTypes.bool,
+  error: PropTypes.bool,
   className: PropTypes.string,
 };
 
@@ -87,6 +90,7 @@ Button.defaultProps = {
   loading: false,
   onClick: null,
   flex: false,
+  error: false,
   className: '',
 };
 

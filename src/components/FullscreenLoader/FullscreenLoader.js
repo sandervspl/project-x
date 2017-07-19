@@ -3,15 +3,16 @@ import React, { PropTypes } from 'react';
 
 // components
 import Loader from 'components/Loader/Loader';
+import PageFill from 'components/PageFill/PageFill';
 
 // style
 import './FullscreenLoader.styl';
 
 const Fullscreenloader = ({ loaded }) => {
-  const cls = loaded ? 'page-fill full-page-loader loaded' : 'page-fill full-page-loader';
+  const className = loaded ? 'full-page-loader loaded' : 'full-page-loader';
 
   return (
-    <div className={cls}>
+    <PageFill inner={false} className={className}>
       <Loader
         className="page-loader"
         color="purple"
@@ -20,7 +21,7 @@ const Fullscreenloader = ({ loaded }) => {
         active
       />
       <h3>Setting up the party...</h3>
-    </div>
+    </PageFill>
   );
 };
 

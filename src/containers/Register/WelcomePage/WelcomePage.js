@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router';
 // components
 import Button from 'components/Button/Button';
 import Icon from 'components/Icon/Icon';
+import PageFill from 'components/PageFill/PageFill';
 
 // assets
 import defaultImg from 'assets/images/avatar_default.png';
@@ -37,14 +38,12 @@ const GetStartedButton = () => {
 
 // TODO: fix avatar img src
 const WelcomePage = ({ user }) => (
-  <div id="welcome-page" className="page-fill">
-    <div className="inner">
-      <div id="portrait-container" style={{ backgroundImage: `url(${defaultImg})` }} />
-      <h1>Welcome</h1>
-      <h3>{user.username}</h3>
-      <GetStartedButton />
-    </div>
-  </div>
+  <PageFill className="welcome-page">
+    <div id="portrait-container" style={{ backgroundImage: `url(${defaultImg})` }} />
+    <h1>Welcome</h1>
+    <h3>{user.username}</h3>
+    <GetStartedButton />
+  </PageFill>
 );
 
 WelcomePage.propTypes = {

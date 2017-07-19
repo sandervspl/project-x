@@ -4,8 +4,7 @@
   display block
   align-self center
   position relative
-  //padding 1rem .714rem
-  padding .7rem 1.25rem
+  padding rem(10) rem(17.5)
   width 100%
   color $black
   border-radius 3px
@@ -21,20 +20,25 @@
   &:disabled
     color $grey
 
-  &.px-btn--flex
+  &--inverted
+    &^[0]--error
+      box-shadow inset 0 0 0 1px $red_error !important
+
+  &--flex
     display flex
 
-  &.px-btn--purple
+  &--purple
     color $white
     background-color $purple_default
 
     &:disabled
+      color $white
       background-color $purple_light
 
     > .icon
       color $white
 
-    &.px-btn--inverted
+    &^[0]--inverted
       background-color $white
       box-shadow inset 0 0 0 1px $purple_default
       color $purple_default
@@ -46,7 +50,7 @@
       > .icon
         color $purple_medium
 
-  &.px-btn--purple-light
+  &--purple-light
     color $white
     background-color $purple_default
 
@@ -56,7 +60,7 @@
     > .icon
       color $white
 
-    &.px-btn--inverted
+    &^[0]--inverted
       background-color $white
       box-shadow inset 0 0 0 1px $purple_light
       color $purple_light
@@ -68,48 +72,60 @@
       > .icon
         color $purple_light
 
-  &.px-btn--white
+  &--white
     background-color $white
     color $black
 
-    &.px-btn--inverted
+    &^[0]--inverted
       background-color $black
       color $white
 
-  &.px-btn__fs--small
-    font-size .929rem
+  &--facebook
+    background-color $fb_blue
+    color $white
 
-  &.px-btn__fs--normal
-    font-size 1rem
+  &--twitter
+    background-color $tw_blue
+    color $white
 
-  &.px-btn__fs--big
-    font-size 1.2rem
+  &--google
+    background-color $gp_red
+    color $white
 
-  &.px-btn__fc--black
+  &__fs--small
+    font-size rem(13)
+
+  &__fs--normal
+    font-size rem(14)
+
+  &__fs--big
+    font-size rem(17)
+
+  &__fc--black
     color $black !important
 
-  &.px-btn__fc--white
+  &__fc--white
     color $white !important
 
-  &.px-btn__fc--purple
+  &__fc--purple
     color $purple_default !important
 
-  &.px-btn__ta--left
+  &__ta--left
     text-align left
 
-  &.px-btn__ta--right
+  &__ta--right
     text-align right
 
-  &.px-btn__ta--center
+  &__ta--center
     text-align center
 
-  &.px-btn--loading
+  &--loading
     width 35px
     height 35px
     border-radius 50%
 
-  &.px-btn--transparent
+  &--transparent
     background-color rgba(255, 255, 255, 0) !important
 
-    &.px-btn--white
-      box-shadow inset 0 0 0px 2px $white
+    &^[0]--white
+      box-shadow inset 0 0 0 2px $white

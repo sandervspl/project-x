@@ -114,6 +114,8 @@ class TimeButton extends Component {
     });
   };
 
+  // FIXME: displaying all hours sometimes?
+  // FIXME: end date: not all hours are showing if date is different (minutes work?)
   disabledHours = () => {
     const { type, date } = this.props;
 

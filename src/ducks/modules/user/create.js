@@ -26,10 +26,10 @@ export const initialState = {
   loading: false,
   error: false,
   loaded: false,
+  errorMessage: '',
   loginFormValid: null,
   personalFormValid: null,
   page: 1,
-  errorMessage: '',
   user: {
     email: '',
     password: '',

@@ -24,6 +24,7 @@ const ButtonSideIcon = ({
   disabled,
   loading,
   onClick,
+  error,
   className,
 }) => {
   const flexPrct = `${100 - (iconContainerWidth * 2)}%`;
@@ -41,6 +42,7 @@ const ButtonSideIcon = ({
       fontColor={fontColor}
       loading={loading}
       onClick={onClick}
+      error={error}
       className={className}
     >
       {
@@ -81,6 +83,7 @@ ButtonSideIcon.propTypes = {
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
   onClick: PropTypes.func,
+  error: PropTypes.bool,
   className: PropTypes.string,
 };
 
@@ -99,6 +102,7 @@ ButtonSideIcon.defaultProps = {
   disabled: false,
   loading: false,
   onClick: null,
+  error: false,
   className: '',
 };
 

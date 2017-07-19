@@ -7,8 +7,8 @@ import PageInner from 'components/PageInner/PageInner';
 // style
 import './PageFill.styl';
 
-const PageFill = ({ children, inner, flow }) => (
-  <div className={`page-fill__container ${flow ? 'page-fill__container--flow' : ''}`}>
+const PageFill = ({ children, inner, flow, className, id }) => (
+  <div id={id} className={`page-fill__container ${flow ? 'page-fill__container--flow' : ''} ${className}`}>
     {do { /* eslint-disable */
       if (inner) {
         <PageInner> { children } </PageInner>;
@@ -25,11 +25,15 @@ PageFill.propTypes = {
   children: PropTypes.any,
   inner: PropTypes.bool,
   flow: PropTypes.bool,
+  className: PropTypes.string,
+  id: PropTypes.string,
 };
 
 PageFill.defaultProps = {
   inner: true,
   flow: false,
+  className: '',
+  id: null,
 };
 
 export default PageFill;

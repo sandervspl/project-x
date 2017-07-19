@@ -2,14 +2,15 @@
 import React, { PropTypes } from 'react';
 
 // components
+import PageFill from 'components/PageFill/PageFill';
 import SidebarMenu from './SidebarMenu/SidebarMenu';
 
 const App = ({ children }) => (
-  <div className="page-fill">
+  <PageFill inner={false}>
     <SidebarMenu>
       {children}
     </SidebarMenu>
-  </div>
+  </PageFill>
 );
 
 App.propTypes = {

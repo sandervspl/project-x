@@ -6,17 +6,19 @@
   justify-content center
   margin-bottom rem(10)
 
-  &.header--ta-left
-    justify-content flex-start
+  &.header
+    &--ta-
+      &left
+        justify-content flex-start
 
-  &.header--ta-center
-    justify-content center
+      &center
+        justify-content center
 
-  &.header--ta-right
-    justify-content flex-end
+      &right
+        justify-content flex-end
 
-  &.header--with-link
-    justify-content space-between
+    &--with-link
+      justify-content space-between
 
   .icon
     margin-right 0
@@ -34,18 +36,18 @@
     vertical-align sub
     float right
 
-.header-text
-  display inline-block
-  margin 0 0 0 rem(5)
-  font-size rem(18)
-  font-weight $medium
-  vertical-align middle
+  &-text
+    display inline-block
+    //margin 0 0 0 rem(5)
+    font-size rem(18)
+    font-weight $medium
+    vertical-align middle
 
-  &.header-text--fs-small
-    font-size rem(15) !important
+    &--fs-small
+      font-size rem(15) !important
 
-  &.header-text--fs-regular
-    font-size rem(18) !important
+    &--fs-regular
+      font-size rem(18) !important
 
-  &.header-text--fs-big
-    font-size rem(24) !important
+    &--fs-big
+      font-size rem(24) !important

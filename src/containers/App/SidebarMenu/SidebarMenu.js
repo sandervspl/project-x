@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import NavigationBar from 'components/NavigationBar/NavigationBar';
 import Authorized from 'components/Authorized/Authorized';
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
+import PageFill from 'components/PageFill/PageFill';
 
 // actions
 import { unauthorize } from 'ducks/modules/user/getUser';
@@ -90,7 +91,7 @@ class SidebarMenu extends Component {
     const { open } = this.state;
 
     return (
-      <div className="page-fill" id="app" role="app">
+      <PageFill inner={false} id="app">
         <Sidebar.Pushable>
           <Sidebar
             as={Menu}
@@ -119,7 +120,7 @@ class SidebarMenu extends Component {
           </Sidebar.Pusher>
           <div className="pushable-overlay" />
         </Sidebar.Pushable>
-      </div>
+      </PageFill>
     );
   }
 }

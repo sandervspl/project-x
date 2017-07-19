@@ -14,9 +14,9 @@ import LoginForm from './Login/Login';
 import PersonalForm from './Personal/Personal';
 
 // style
-import './Register.styl';
+import './RegisterCreate.styl';
 
-class Register extends Component {
+class RegisterCreate extends Component {
   static propTypes = {
     create: PropTypes.shape({
       loginFormValid: PropTypes.bool,
@@ -68,13 +68,7 @@ class Register extends Component {
     const { firstName, lastName, username, email, password } = this.props.create.user;
 
     // create new user object
-    const newUser = {
-      firstName,
-      lastName,
-      username,
-      email,
-      password,
-    };
+    const newUser = { firstName, lastName, username, email, password };
 
     // send user object to create user action
     this.props.createUserProcess(newUser);
@@ -88,7 +82,7 @@ class Register extends Component {
             <LoginForm onChange={this.updateUserValuesInState} />
             <PersonalForm onChange={this.updateUserValuesInState} />
           </form>
-          <FooterAuth type="signin" redirectURL="/?login=1" />
+          <FooterAuth type="signin" />
         </div>
       </PageInner>
     );
@@ -101,12 +95,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    createUserProcess,
-    toRegisterPage,
-    resetExists,
-    updateUserValues,
-  },
-)(Register);
+const mapDispatch = { createUserProcess, toRegisterPage, resetExists, updateUserValues };
+
+export default connect(mapStateToProps, mapDispatch)(RegisterCreate);

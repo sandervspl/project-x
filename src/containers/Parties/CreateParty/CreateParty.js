@@ -264,4 +264,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { createPartyProcess, resetCreateParty })(CreateParty);
+const mapDispatch = {
+  createPartyProcess,
+  resetCreateParty,
+};
+
+export default connect(mapStateToProps, mapDispatch)(CreateParty);

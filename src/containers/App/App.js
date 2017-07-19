@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react';
 
 // components
-import SidebarMenu from './SidebarMenu';
+import SidebarMenu from './SidebarMenu/SidebarMenu';
 
 const App = ({ children }) => (
   <div className="page-fill">

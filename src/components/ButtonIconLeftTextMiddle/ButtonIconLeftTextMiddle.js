@@ -8,14 +8,15 @@ import Icon from 'components/Icon/Icon';
 // style
 import './ButtonIconLeftTextMiddle.styl';
 
-const ButtonIconLeftTextMiddle = ({ children, icon, iconColor, className, onClick, color }) => (
+const ButtonIconLeftTextMiddle = props => (
   <Button
-    className={`btn btn--iltm ${className}`}
-    color={color}
-    onClick={onClick}
+    className={`btn btn--iltm ${props.className}`}
+    color={props.color}
+    inverted={props.inverted}
+    onClick={props.onClick}
   >
-    <Icon name={icon} color={iconColor} />
-    { children }
+    <Icon name={props.icon} color={props.iconColor} />
+    { props.children }
   </Button>
 );
 
@@ -25,6 +26,7 @@ ButtonIconLeftTextMiddle.propTypes = {
   iconColor: PropTypes.string,
   className: PropTypes.string,
   color: PropTypes.string,
+  inverted: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

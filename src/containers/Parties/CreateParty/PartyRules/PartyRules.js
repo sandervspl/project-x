@@ -6,7 +6,7 @@ import Header from 'components/Header/Header';
 import RulesList from './RulesList/RulesList';
 
 // style
-import './PartyRules.styl';
+// import './PartyRules.styl';
 
 const PartyRules = ({ defaultRuleValues, setRuleValue }) => (
   <div className="full-width">

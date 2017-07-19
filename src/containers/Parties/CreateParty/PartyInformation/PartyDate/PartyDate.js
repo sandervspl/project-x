@@ -11,7 +11,7 @@ import './PartyDate.styl';
 
 const PartyDate = ({ date, onClick, type, setTime }) => (
   <PageSection customMargin=".75rem 0 0">
-    <h3 className="party-date-header">
+    <h3 className="party-date__header">
       { type === 'start' ? 'Starts on' : 'Ends on' }
     </h3>
     <PageSection row spaced customMargin="0">

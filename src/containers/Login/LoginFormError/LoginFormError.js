@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import InputError from 'components/InputError/InputError';
 
 // style
-import './LoginFormError.styl';
+// import './LoginFormError.styl';
 
 const LoginFormError = ({ userLogin, getUser }) => {
   const { error: loginError, errorMessage: loginErrorMsg } = userLogin;

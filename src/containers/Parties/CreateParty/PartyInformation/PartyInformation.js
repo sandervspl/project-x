@@ -9,7 +9,7 @@ import PartyCodeDisplay from './PartyCodeDisplay/PartyCodeDisplay';
 import PartyDate from './PartyDate/PartyDate';
 
 // style
-import './PartyInformation.styl';
+// import './PartyInformation.styl';
 
 const PartyInformation = ({
   onChange,

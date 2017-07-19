@@ -2,7 +2,7 @@
 import React from 'react';
 
 // style
-import './Error404.styl';
+// import './Error404.styl';
 
 const Error404 = () => (
   <div>

@@ -1,4 +1,3 @@
-/* eslint-disable */
 // dependencies
 import React, { Component, PropTypes } from 'react';
 
@@ -6,7 +5,11 @@ import React, { Component, PropTypes } from 'react';
 // import './Party.styl';
 
 class Party extends Component {
-  static propTypes = {};
+  static propTypes = {
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  };
 
   constructor(props) {
     super(props);

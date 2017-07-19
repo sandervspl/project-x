@@ -2,7 +2,7 @@
 import React, { PropTypes } from 'react';
 
 // style
-import './User.styl';
+// import './User.styl';
 
 const User = ({ children }) => (
   <main className="page-fill flow">

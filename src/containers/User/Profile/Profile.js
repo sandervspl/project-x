@@ -17,7 +17,7 @@ import PartyButtonGroup from './PartyButtonGroup/PartyButtonGroup';
 import PartyListGroup from './PartyListGroup/PartyListGroup';
 
 // style
-import './Profile.styl';
+// import './Profile.styl';
 
 class Profile extends Component {
   static propTypes = {

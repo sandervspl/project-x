@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import PartyList from './PartyList/PartyList';
 
 // style
-import './PartyListGroup.styl';
+// import './PartyListGroup.styl';
 
 const PartyListGroup = ({ userParties }) => (
   <section id="party-list-container">
@@ -16,9 +16,7 @@ const PartyListGroup = ({ userParties }) => (
 );
 
 PartyListGroup.propTypes = {
-  userParties: PropTypes.shape({
-    // parties: PropTypes.arrayOf({}),
-  }),
+  userParties: PropTypes.shape({}),
 };
 
 function mapStateToProps(state) {

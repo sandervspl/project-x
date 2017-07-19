@@ -7,7 +7,7 @@ import Button from 'components/Button/Button';
 import PageSection from 'components/PageSection/PageSection';
 
 // style
-import './LoginButton.styl';
+// import './LoginButton.styl';
 
 class LoginButton extends Component {
   static propTypes = {

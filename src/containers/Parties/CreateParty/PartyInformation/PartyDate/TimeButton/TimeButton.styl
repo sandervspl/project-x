@@ -2,19 +2,6 @@
 
 $time-select-color = $grey_lightest
 
-.time-picker__overlay
-  display none
-  position fixed
-  top 0
-  left 0
-  width 100vw
-  height 1000%
-  background-color rgba(0, 0, 0, 0.5)
-
-  &.overlay-visible
-    display block
-    z-index 10
-
 .time-btn-container
   flex 0 0 34%
 
@@ -29,6 +16,19 @@ $time-select-color = $grey_lightest
   border-radius 3px
   background-color $white
 
+  &__overlay
+    display none
+    position fixed
+    top 0
+    left 0
+    width 100vw
+    height 1000%
+    background-color rgba(0, 0, 0, 0.5)
+
+    &.overlay-visible
+      display block
+      z-index 10
+
   .rc-time-picker-input
     padding 0 !important
     color $purple_default !important
@@ -36,43 +36,48 @@ $time-select-color = $grey_lightest
     text-align center
     pointer-events none
 
-.rc-time-picker-panel
-  top calc(50vh - 100.5px) !important
-  left 20px !important
-  width calc(100vw - 40px)
+.rc-time-picker
+  &-panel
+    top calc(50vh - 100.5px) !important
+    left 20px !important
+    width calc(100vw - 40px)
 
-.rc-time-picker-panel-inner
-  width 100%
-  border-radius 3px 3px 0 0
-  border none
+    &-clear-btn
+      display none
 
-.rc-time-picker-panel-wrap
-  display flex
-  justify-content center
-  align-items center
-  box-shadow none
+    &-inner
+      width 100%
+      border-radius 3px 3px 0 0
+      border none
 
-.rc-time-picker-panel-input
-  text-align center
-  font-size 2rem !important
-  padding 0 !important
-  color $purple_default
-  font-weight $demibold
+    &-wrap
+      display flex
+      justify-content center
+      align-items center
+      box-shadow none
 
-.rc-time-picker-panel-input
-  pointer-events none
+    &-input
+      text-align center
+      font-size rem(28) !important
+      padding 0 !important
+      color $purple_default
+      font-weight $demibold
+      pointer-events none
 
-.rc-time-picker-panel-select
-  width 50%
+    &-select
+      width 50%
 
-  li
-    display flex
-    justify-content center
-    align-items center
-    padding 0
-    height 30px
-    font-size 1rem
-    line-height 30px
+      li
+        display flex
+        justify-content center
+        align-items center
+        padding 0
+        height 30px
+        font-size rem(14)
+        line-height 30px
+
+        &:hover
+          background $white
 
 li.rc-time-picker-panel-select-option-selected
   background $time-select-color !important
@@ -81,12 +86,6 @@ li.rc-time-picker-panel-select-option-selected
 
   &:hover
     background $time-select-color
-
-.rc-time-picker-panel-select li:hover
-  background $white
-
-.rc-time-picker-panel-clear-btn
-  display none
 
 .ok-button
   display flex
@@ -100,8 +99,7 @@ li.rc-time-picker-panel-select-option-selected
   font-weight $demibold
   background-color $purple_medium
   border-radius 0 0 3px 3px
-  //box-shadow 0 1px 5px #ccc
-  font-size 1.14rem
+  font-size rem(16)
 
 @media (pointer:coarse)
   .rc-time-picker-panel

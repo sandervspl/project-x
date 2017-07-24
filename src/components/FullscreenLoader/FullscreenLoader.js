@@ -9,10 +9,16 @@ import PageFill from 'components/PageFill/PageFill';
 import './FullscreenLoader.styl';
 
 const Fullscreenloader = ({ loaded }) => {
-  const className = loaded ? 'full-page-loader loaded' : 'full-page-loader';
+  const classlist = ['full-page-loader'];
+
+  if (loaded) {
+    classlist.push('loaded');
+  }
+
+  const clsName = classlist.join(' ');
 
   return (
-    <PageFill inner={false} className={className}>
+    <PageFill inner={false} className={clsName}>
       <Loader
         className="page-loader"
         color="purple"

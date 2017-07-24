@@ -31,29 +31,9 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      formValid: null,
-      formValues: {
-        username: '',
-        password: '',
-      },
+      username: '',
+      password: '',
     };
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    const { formValues, formValid } = nextState;
-
-    const usernameValid = validateInputMinChars(formValues.username, 1);
-    const passwordValid = validateInputMinChars(formValues.password, 1);
-
-    if (!formValid && usernameValid && passwordValid) {
-      this.setState({
-        formValid: true,
-      });
-    } else if (formValid && (!usernameValid || !passwordValid)) {
-      this.setState({
-        formValid: false,
-      });
-    }
   }
 
   onChange = (e) => {
@@ -61,24 +41,27 @@ class Login extends Component {
     const value = getValueFromEvent(e, true);
 
     this.setState({
-      formValues: {
-        ...this.state.formValues,
-        [name]: value,
-      },
+      [name]: value,
     });
   };
 
   loginWithCredentials = () => {
-    const { formValues } = this.state;
-    this.props.loginProcess(formValues);
+    const { username, password } = this.state;
+    this.props.loginProcess({ username, password });
+  };
+
+  isFormValid = () => {
+    const { username, password } = this.state;
+    const usernameValid = validateInputMinChars(username, 1);
+    const passwordValid = validateInputMinChars(password, 1);
+
+    return usernameValid && passwordValid;
   };
 
   render() {
-    const { formValid } = this.state;
-
     return (
       <PageInner noNav>
-        <TitleWithLogo> Sign in to Project-x </TitleWithLogo>
+        <TitleWithLogo>Sign in to Project-x</TitleWithLogo>
 
         <Form className="login-form__container">
           <FormInput
@@ -99,7 +82,7 @@ class Login extends Component {
           <LoginFormError />
 
           <LoginButton
-            formValid={formValid}
+            formValid={this.isFormValid()}
             onClick={this.loginWithCredentials}
           />
         </Form>

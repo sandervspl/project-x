@@ -1,6 +1,7 @@
 // dependencies
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { capitalize } from 'lodash';
 
 // components
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
@@ -9,31 +10,42 @@ import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 import './Header.styl';
 
 const Header = ({ children, icon, iconColor, href, hrefText, textAlign, size, className }) => {
-  let containerClassName = 'header';
+  const capitalizeString = (child) => {
+    if (typeof child === 'string') {
+      return capitalize(child);
+    }
+
+    return child;
+  };
+
+  const containerBlock = 'header';
+  const containerClasslist = [containerBlock];
 
   switch (textAlign) {
-    case 'left': containerClassName += ' header--ta-left'; break;
-    case 'center': containerClassName += ' header--ta-center'; break;
-    case 'right': containerClassName += ' header--ta-right'; break;
+    case 'left': containerClasslist.push(`${containerBlock}--ta-left`); break;
+    case 'center': containerClasslist.push(`${containerBlock}--ta-center`); break;
+    case 'right': containerClasslist.push(`${containerBlock}--ta-right`); break;
     default: break;
   }
 
   if (href) {
-    containerClassName += ' header--with-link';
+    containerClasslist.push(`${containerBlock}--with-link`);
   }
-  containerClassName += ` ${className}`;
+  containerClasslist.push(className);
+  const containerClsName = containerClasslist.join(' ');
 
-  const h3ClassName = `header-text header-text--fs-${size}`;
+  const textBlock = 'header-text';
+  const textClsName = [textBlock, `${textBlock}--fs-${size}`].join(' ');
 
   return (
-    <div className={containerClassName}>
+    <div className={containerClsName}>
       {do { /* eslint-disable */
         if (icon) {
           <TextWithIcon icon={icon} iconColor={iconColor}>
-            <h3 className={h3ClassName}>{ children }</h3>
+            <h3 className={textClsName}>{ capitalizeString(children) }</h3>
           </TextWithIcon>;
         } else {
-          <h3 className={h3ClassName}>{ children }</h3>;
+          <h3 className={textClsName}>{ capitalizeString(children) }</h3>;
         }
         /* eslint-enable */
       }}

@@ -10,7 +10,7 @@ import './ButtonIconLeftTextMiddle.styl';
 
 const ButtonIconLeftTextMiddle = props => (
   <Button
-    className={`btn-iltm ${props.className}`}
+    className={['btn-iltm', props.className].join(' ')}
     color={props.color}
     inverted={props.inverted}
     onClick={props.onClick}

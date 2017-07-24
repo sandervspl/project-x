@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import { size } from 'lodash';
 
 // components
 import Loader from 'components/Loader/Loader';
@@ -42,13 +43,23 @@ const Button = ({
     return children;
   };
 
-  let clsName = `px-btn px-btn--${color} px-btn__fs--${fontSize} px-btn__ta--${textAlign} ${className}`;
-  if (inverted) clsName += ' px-btn--inverted';
-  if (loading) clsName += ' px-btn--loading';
-  if (transparent) clsName += ' px-btn--transparent';
-  if (fontColor) clsName += ` px-btn__fc--${fontColor}`;
-  if (flex) clsName += ' px-btn--flex';
-  if (error) clsName += ' px-btn--error';
+  const block = 'px-btn';
+  const classlist = [
+    block,
+    `${block}--${color}`,
+    `${block}__fs--${fontSize}`,
+    `${block}__ta--${textAlign}`,
+  ];
+
+  if (inverted) classlist.push(`${block}--inverted`);
+  if (loading) classlist.push(`${block}--loading`);
+  if (transparent) classlist.push(`${block}--transparent`);
+  if (fontColor) classlist.push(`${block}__fc--${fontColor}`);
+  if (flex) classlist.push(`${block}--flex`);
+  if (error) classlist.push(`${block}--error`);
+  if (size(className) > 0) classlist.push(className);
+
+  const clsName = classlist.join(' ');
 
   return (
     <button className={clsName} disabled={disabled} onClick={onClick}>

@@ -56,24 +56,12 @@ class CreateParty extends PureComponent {
         allowExplicitSongs: false,
         approveSongs: false,
       },
-      formValid: false,
       calendarActive: false,
       dateSelectMode: null,
     };
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { formValid, partyName, partyDescription } = nextState;
-    if (!formValid && !isEmpty(partyName) && !isEmpty(partyDescription)) {
-      this.setState({
-        formValid: true,
-      });
-    } else if (formValid && (isEmpty(partyName) || isEmpty(partyDescription))) {
-      this.setState({
-        formValid: false,
-      });
-    }
-
     // check if end date > start date -- else set end date = start date
     this.compareEndtoStartDate(nextState);
   }
@@ -189,15 +177,14 @@ class CreateParty extends PureComponent {
 
   removeAttendant = () => {};
 
+  isFormValid = () => {
+    const { partyName, partyDescription } = this.state;
+
+    return !isEmpty(partyName) && !isEmpty(partyDescription);
+  };
+
   render() {
-    const {
-      partyCode,
-      rules,
-      formValid,
-      calendarActive,
-      dateSelectMode,
-      date,
-    } = this.state;
+    const { partyCode, rules, calendarActive, dateSelectMode, date } = this.state;
     const { loading, error, errorMessage } = this.props.createParty;
     const today = new Date();
 
@@ -246,7 +233,7 @@ class CreateParty extends PureComponent {
             icon="plus"
             iconColor="white"
             fontSize="big"
-            disabled={!formValid}
+            disabled={!this.isFormValid()}
             loading={loading}
             onClick={this.clickHandler}
           >

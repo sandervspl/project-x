@@ -7,11 +7,16 @@ import { noop } from 'lodash';
 import './FormInput.styl';
 
 const FormInput = ({ onChange, onBlur, className, type, name, placeholder, icon, disabled }) => {
-  let clsName = `px-form-input ${className}`;
+  const classlist = ['px-form-input'];
 
   if (type === 'textarea') {
-    clsName += ' px-textarea';
+    classlist.push('px-textarea');
+  }
+  classlist.push(className);
 
+  const clsName = classlist.join(' ');
+
+  if (type === 'textarea') {
     return (
       <Form.TextArea
         placeholder={placeholder}

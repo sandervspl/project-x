@@ -48,7 +48,13 @@ const ButtonSideIcon = ({
       {
         iconLeft &&
         <div style={{ flex: `0 0 ${iconContainerWidth}%` }}>
-          <Icon name={iconLeft} color={iconColorLeft} size={iconSize} className="bsi__icon bsi__icon--start" noSpacing />
+          <Icon
+            name={iconLeft}
+            color={iconColorLeft}
+            size={iconSize}
+            className="bsi__icon bsi__icon--start"
+            noSpacing
+          />
         </div>
       }
 
@@ -59,7 +65,13 @@ const ButtonSideIcon = ({
       {
         iconRight &&
         <div style={{ flex: `0 0 ${iconContainerWidth}%` }}>
-          <Icon name={iconRight} color={iconColorRight} size={iconSize} className="bsi__icon bsi__icon--end" noSpacing />
+          <Icon
+            name={iconRight}
+            color={iconColorRight}
+            size={iconSize}
+            className="bsi__icon bsi__icon--end"
+            noSpacing
+          />
         </div>
       }
     </Button>

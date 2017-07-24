@@ -16,7 +16,13 @@ const ServiceSignUpButtons = () => {
     ];
 
     return services.map(service => (
-      <ButtonIconLeftTextMiddle key={service} icon={service} className={`btn-signup ${service}`}>
+      <ButtonIconLeftTextMiddle
+        key={`signup-btn-${service}`}
+        icon={service}
+        iconColor="white"
+        color={service}
+        className={`btn-signup ${service}`}
+      >
         { `Sign up with ${service}` }
       </ButtonIconLeftTextMiddle>
       ),

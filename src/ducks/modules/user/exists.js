@@ -1,7 +1,6 @@
 // dependencies
 import { isEmail } from 'validator';
-import { statusOK } from '../../../helpers/async';
-import { API_HOST } from '../../../config';
+import { API_HOST } from 'cfg';
 
 // actions
 export const START = 'px/user/EXISTS_START';
@@ -103,9 +102,7 @@ export const checkExists = id => async (dispatch) => {
 
   // set init for request
   const init = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id }),
+    method: 'HEAD',
   };
 
   // set start state
@@ -113,20 +110,17 @@ export const checkExists = id => async (dispatch) => {
 
   // request server
   try {
-    const result = await fetch(`${API_HOST}/users/exists`, init);
-    const data = await result.json();
+    const response = await fetch(`${API_HOST}/users/${id}`, init);
 
-    const { statusCode } = data.meta;
-
-    if (statusOK(statusCode)) {
+    if (response.ok) {
       // id does not exist
       dispatch(fetchSuccess(idType));
       return false;
     }
   } catch (err) {
     // console.log(`EXISTS ERROR: ${err}`);
-    // dispatch(fetchFail(idType));
-    // return true;
+    dispatch(fetchFail(idType));
+    return true;
   }
 
   // id exists

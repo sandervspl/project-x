@@ -1,16 +1,9 @@
 // dependencies
 import Cookies from 'js-cookie';
-import { statusOK } from 'helpers/async';
-import { cookies } from 'cfg';
-
-// api functions
-import { fetchApi } from 'api';
-
-// action creators
-import { unauthorize } from '../user/getUser';
+import { cookies, API_HOST } from 'cfg';
 
 // cookies
-const authToken = cookies.auth.token;
+const { token: tokenKey } = cookies.auth;
 
 // actions
 export const START = 'px/userParties/START';
@@ -84,31 +77,26 @@ export const fetchHostedParties = () => async (dispatch) => {
   dispatch(fetchStart());
 
   // get token
-  const token = await Cookies.get(authToken);
+  const token = await Cookies.get(tokenKey);
 
   // set init for request
   const init = {
     headers: {
-      'jwt-authorization-token': `Bearer ${token}`,
+      'jwt-authorization-token': `${token}`,
     },
   };
 
   try {
-    const { statusCode, payload } = await fetchApi('parties', init);
+    const result = await fetch(`${API_HOST}/parties`, init);
 
-    if (statusOK(statusCode)) {
+    if (result.ok) {
+      const data = await result.json();
       // set state to success
-      dispatch(fetchSuccess(payload.parties));
+      dispatch(fetchSuccess(data.data));
       return true;
-    } else if (statusCode === 401) {
-      // auth error; token has probably expired.
-      // console.error('token invalid or expired');
-      dispatch(unauthorize(true));
-      return false;
     }
   } catch (err) {
     // console.error(`userParties ERROR: ${err}`);
-    // dispatch(fetchFail());
   }
 
   dispatch(fetchFail());

@@ -158,11 +158,15 @@ const createUser = newUser => async (dispatch) => {
   // set creation state to start
   dispatch(createStart());
 
+  // construct body
+  const form = new FormData();
+  form.append('user', JSON.stringify(newUser.user));
+  form.append('avatar', newUser.avatar);
+
   // set init for request
   const init = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newUser),
+    body: form,
   };
 
   try {

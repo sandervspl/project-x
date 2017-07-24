@@ -1,13 +1,17 @@
 // dependencies
 import { browserHistory } from 'react-router';
-import { statusOK } from 'helpers/async';
-import { API_HOST } from 'cfg';
+import { API_HOST, cookies } from 'cfg';
+import jwtDecode from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 // route paths
 import routes from 'routes/routes';
 
 // other actions
 import { fetchUserData } from './getUser';
+
+// cookies
+const { token: tokenKey } = cookies.auth;
 
 // actions
 export const START = 'px/user/LOGIN_START';
@@ -105,34 +109,44 @@ export const login = credentials => async (dispatch) => {
   // authorization
   try {
     const result = await fetch(`${API_HOST}/auths/local`, init);
-    const data = await result.json();
 
-    // set state to result
-    const { statusCode } = data.meta;
-    dispatch(statusOK(statusCode) ? loginSuccess() : loginFail());
+    if (result.ok) {
+      const data = await result.json();
 
-    return data;
+      // set state to result
+      dispatch(loginSuccess());
+
+      return data;
+    }
+
+    dispatch(loginFail());
+    return false;
   } catch (err) {
     // console.error(`LOGIN ERROR: ${err}`);
     dispatch(loginFail('Unable to sign in at this moment.'));
-    return null;
+    return false;
   }
 };
 
 export const loginProcess = credentials => async (dispatch) => {
   // attempt authorization on server
-  const loginResponse = await dispatch(login(credentials));
-  const authorized = loginResponse && statusOK(loginResponse.meta.statusCode);
+  const loginData = await dispatch(login(credentials));
 
   // unable to authorize
-  if (!authorized) return false;
+  if (!loginData) {
+    return false;
+  }
 
   // grab token from response
-  const { token } = loginResponse.payload;
+  const { data: token } = loginData;
+  const { id: userId } = jwtDecode(token);
+
+  // save jwt token to cookie
+  Cookies.set(tokenKey, token);
 
   // fetch user data with token
   try {
-    const fetchedUserData = await dispatch(fetchUserData(token));
+    const fetchedUserData = await dispatch(fetchUserData(token, userId));
 
     if (fetchedUserData) {
       // redirect to user page

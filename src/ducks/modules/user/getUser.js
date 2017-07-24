@@ -1,14 +1,14 @@
 // dependencies
 import Cookies from 'js-cookie';
 import { browserHistory } from 'react-router';
-import { statusOK } from 'helpers/async';
 import { API_HOST, cookies } from 'cfg';
+import jwtDecode from 'jwt-decode';
 
 // route paths
 import routes from 'routes/routes';
 
 // cookies
-const authToken = cookies.auth.token;
+const { token: tokenKey } = cookies.auth;
 
 // actions
 export const START = 'px/user/FETCH_START';
@@ -87,7 +87,7 @@ const fetchReset = () => ({
 export const resetUser = () => dispatch => dispatch(fetchReset());
 
 export const unauthorize = (fail = false) => async (dispatch) => {
-  await Cookies.remove(authToken);
+  await Cookies.remove(tokenKey);
 
   if (fail) {
     await dispatch(fetchFail('Session expired. Please sign in.'));
@@ -99,48 +99,46 @@ export const unauthorize = (fail = false) => async (dispatch) => {
 };
 
 // async actions
-export const fetchUserData = pToken => async (dispatch) => {
+export const fetchUserData = (pToken, pUserid) => async (dispatch) => {
   // set state to start
   dispatch(fetchStart());
 
   // get token
-  const token = pToken || Cookies.get(authToken);
+  const token = pToken || Cookies.get(tokenKey);
+  const userId = pUserid || jwtDecode(token).id;
 
-  if (!token) {
-    dispatch(fetchReset());
+  if (!token || !userId) {
+    dispatch(unauthorize());
     return false;
   }
 
   // save token to cookie if needed
   if (pToken) {
-    if (Cookies.get(authToken) && Cookies.get(authToken) !== pToken) {
-      Cookies.set(authToken, pToken);
-    } else if (!Cookies.get(authToken)) {
-      Cookies.set(authToken, pToken);
+    if (Cookies.get(tokenKey) && Cookies.get(tokenKey) !== pToken) {
+      Cookies.set(tokenKey, pToken);
+    } else if (!Cookies.get(tokenKey)) {
+      Cookies.set(tokenKey, pToken);
     }
   }
 
   // set init for request
   const init = {
-    method: 'GET',
     headers: {
-      'jwt-authorization-token': `Bearer ${token}`,
+      'jwt-authorization-token': `${token}`,
     },
   };
 
   // fetch user data
   try {
-    const result = await fetch(`${API_HOST}/users/me`, init);
-    const data = await result.json();
+    const result = await fetch(`${API_HOST}/users/${userId}`, init);
 
-    const { statusCode } = data.meta;
-    const { payload } = data;
+    if (result.ok) {
+      const data = await result.json();
 
-    if (statusOK(statusCode)) {
-      // set state to success
-      dispatch(fetchSuccess(payload));
+      // set state to success and save user data to store
+      dispatch(fetchSuccess(data.data));
       return true;
-    } else if (statusCode === 401) {
+    } else if (result.status === 401) {
       // auth error; token has probably expired.
       // console.error('token invalid or expired');
       dispatch(unauthorize(true));

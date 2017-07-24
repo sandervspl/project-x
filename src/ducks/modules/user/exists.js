@@ -119,8 +119,6 @@ export const checkExists = id => async (dispatch) => {
     }
   } catch (err) {
     // console.log(`EXISTS ERROR: ${err}`);
-    dispatch(fetchFail(idType));
-    return true;
   }
 
   // id exists

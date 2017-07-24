@@ -1,8 +1,8 @@
 // dependencies
 import { browserHistory } from 'react-router';
 import Cookies from 'js-cookie';
-import { statusOK } from 'helpers/async';
 import { API_HOST, cookies } from 'cfg';
+import jwtDecode from 'jwt-decode';
 
 // route paths
 import routes from 'routes/routes';
@@ -37,11 +37,12 @@ export const initialState = {
     firstName: '',
     lastName: '',
     username: '',
+    avatar: {},
   },
 };
 
 // cookies
-const authToken = cookies.auth.token;
+const { token: tokenKey } = cookies.auth;
 
 // Reducer
 export default (state = initialState, action = {}) => {
@@ -153,31 +154,26 @@ export const updateUserValues = (key, value) => ({
 });
 
 // async actions
-export const createUser = newUser => async (dispatch) => {
+const createUser = newUser => async (dispatch) => {
   // set creation state to start
   dispatch(createStart());
-
-  // set up correct format
-  const userObject = { user: { ...newUser } };
 
   // set init for request
   const init = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userObject),
+    body: JSON.stringify(newUser),
   };
 
   try {
-    const result = await fetch(`${API_HOST}/users/create`, init);
-    const data = await result.json();
+    const result = await fetch(`${API_HOST}/users`, init);
 
-    const { statusCode } = data.meta;
-
-    if (statusOK(statusCode)) {
-      const { token } = data.payload;
+    if (result.ok) {
+      const data = await result.json();
+      const { jwt: token } = data.data;
 
       // save token to cookie
-      Cookies.set(authToken, token);
+      Cookies.set(tokenKey, token);
 
       // set state to success
       dispatch(createSuccess());
@@ -193,14 +189,15 @@ export const createUser = newUser => async (dispatch) => {
 
 export const createUserProcess = newUser => async (dispatch) => {
   // create request
-  const create = await dispatch(createUser(newUser));
+  const created = await dispatch(createUser(newUser));
 
-  if (create) {
+  if (created) {
     // fetch user data with auth token
-    const token = Cookies.get(authToken);
+    const token = Cookies.get(tokenKey);
+    const { id: userId } = jwtDecode(token);
 
     // fetch user data and save to state
-    const fetchedUserData = await dispatch(fetchUserData(token));
+    const fetchedUserData = await dispatch(fetchUserData(token, userId));
 
     // redirect to user page
     if (fetchedUserData) browserHistory.push(routes.register.welcome);

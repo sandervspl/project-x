@@ -2,16 +2,20 @@
 import React, { PropTypes } from 'react';
 import { Form, Icon, Loader } from 'semantic-ui-react';
 import { isEmpty } from 'validator';
+import { connect } from 'react-redux';
 
 // hoc
 import withFileUpload from 'hoc/withFileUpload';
+
+// actions
+import { updateUserValues } from 'ducks/modules/user/create';
 
 // style
 import './PhotoUpload.styl';
 
 // FIXME: disable until we can use FILE prop
 // eslint-disable-next-line
-const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange }) => {
+const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange, updateUserValues }) => {
   const renderPreviewImage = () => {
     if (isEmpty(imagePreviewUrl)) {
       if (loading) {
@@ -43,6 +47,11 @@ const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange }) => {
     return <div className="upload-photo-container" style={style} />;
   };
 
+  const onChange = (e) => {
+    handleImageChange(e);
+    updateUserValues('avatar', e.target.files[0]);
+  };
+
   return (
     <Form.Field className="photo-upload">
       <label htmlFor="file-upload" className={`custom-file-upload ${loading ? 'loading' : ''}`}>
@@ -51,7 +60,7 @@ const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange }) => {
       <input
         id="file-upload"
         type="file"
-        onChange={handleImageChange}
+        onChange={onChange}
         disabled={loading}
         name="avatar"
       />
@@ -66,4 +75,4 @@ PhotoUpload.propTypes = {
   handleImageChange: PropTypes.func,
 };
 
-export default withFileUpload(PhotoUpload);
+export default connect(null, { updateUserValues })(withFileUpload(PhotoUpload));

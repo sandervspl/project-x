@@ -28,6 +28,7 @@ class RegisterCreate extends Component {
         username: PropTypes.string,
         password: PropTypes.string,
         email: PropTypes.string,
+        avatar: PropTypes.shape({}),
       }),
     }),
     createUserProcess: PropTypes.func,
@@ -65,10 +66,19 @@ class RegisterCreate extends Component {
     }
 
     // take all data from store
-    const { firstName, lastName, username, email, password } = this.props.create.user;
+    const { firstName, lastName, username, email, password, avatar } = this.props.create.user;
 
     // create new user object
-    const newUser = { firstName, lastName, username, email, password };
+    const newUser = {
+      user: {
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+      },
+      avatar,
+    };
 
     // send user object to create user action
     this.props.createUserProcess(newUser);

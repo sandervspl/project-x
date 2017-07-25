@@ -16,3 +16,5 @@ npm-debug.log
 .idea
 /src/style/font-awesome/
 /src/containers/Frontpage/assets/images/ideas/
+/src/assets/images/avatars/*
+!/src/assets/images/avatars/avatar_default.png

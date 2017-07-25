@@ -1,22 +1,33 @@
 // dependencies
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 
 // assets
-import defaultImg from 'assets/images/avatar_default.png';
+import defaultImg from 'assets/images/avatars/avatar_default.png';
 
 // style
 import './Avatar.styl';
 
-// TODO: Fix img src
-const Avatar = () => (
-  <div className="profile-avatar-container" style={{ backgroundImage: `url(${defaultImg})` }} />
-);
+// generate context path
+const pathToAvatars = require.context(process.env.REACT_APP_IMAGE_UPLOAD_PATH);
 
-function mapStateToProps(state) {
-  return {
-    getUser: state.app.user.getUser,
-  };
-}
+const Avatar = ({ avatar }) => {
+  const img = !isEmpty(avatar) ? pathToAvatars(`./${avatar}`) : defaultImg;
 
-export default connect(mapStateToProps)(Avatar);
+  return (
+    <div
+      className="profile-avatar-container"
+      style={{ backgroundImage: `url(${img})` }}
+    />
+  );
+};
+
+Avatar.propTypes = {
+  avatar: PropTypes.string,
+};
+
+Avatar.defaultProps = {
+  avatar: defaultImg,
+};
+
+export default Avatar;

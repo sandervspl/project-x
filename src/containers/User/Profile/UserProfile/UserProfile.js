@@ -12,7 +12,7 @@ import './UserProfile.styl';
 const UserProfile = ({ user }) => (
   <section id="user-profile">
     <section id="user-profile-top">
-      <Avatar />
+      <Avatar avatar={user.avatar} />
       <Username firstName={user.firstName} lastName={user.lastName} />
     </section>
     <section id="user-profile-bottom">

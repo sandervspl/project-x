@@ -14,9 +14,11 @@ const Parties = ({ type, parties, loading }) => {
       return <p className="no-parties-text">You have not {type} any parties yet.</p>;
     }
 
-    return parties.reverse().map((party, index) => {
-      if (index < 3) {
-        return <PartyListItem key={party.id} party={party} />;
+    let listSize = 0;
+    return parties.reverse().map((party) => {
+      if (party.active && listSize < 3) {
+        listSize += 1;
+        return <PartyListItem key={`party-${party.id}`} party={party} />;
       }
 
       return null;

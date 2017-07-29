@@ -11,25 +11,21 @@ import './TimeButton.styl';
 
 class TimeButton extends Component {
   static propTypes = {
-    date: PropTypes.shape({}).isRequired,
+    dates: PropTypes.shape({}).isRequired,
     setTime: PropTypes.func,
     type: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      open: false,
-    };
-  }
+  state = {
+    open: false,
+  };
 
   // TODO: change end time to start time if end time is before start time
   componentWillUpdate(nextProps) {
     const { type } = this.props;
 
-    const startDate = moment(nextProps.date.start);
-    const endDate = moment(nextProps.date.end);
+    const startDate = moment(nextProps.dates.startDate);
+    const endDate = moment(nextProps.dates.endDate);
 
     const sd = {
       day: startDate.date(),
@@ -81,14 +77,14 @@ class TimeButton extends Component {
   // disable all but every 5 and 10 minutes of an hour
   // and disable unavailable time slots
   disabledMinutes = () => {
-    const { type, date } = this.props;
+    const { type, dates } = this.props;
 
-    const startDate = moment(date.start).format('L');
-    const startDateMinute = moment(date.start).minute();
-    const startDateHour = moment(date.start).hour();
+    const startDate = moment(dates.startDate).format('L');
+    const startDateMinute = moment(dates.startDate).minute();
+    const startDateHour = moment(dates.startDate).hour();
 
-    const endDate = moment(date.end).format('L');
-    const endDateHour = moment(date.end).hour();
+    const endDate = moment(dates.endDate).format('L');
+    const endDateHour = moment(dates.endDate).hour();
 
     const curDate = moment(new Date()).format('L');
     const curMinute = moment(new Date()).minutes();
@@ -117,13 +113,13 @@ class TimeButton extends Component {
   // FIXME: displaying all hours sometimes?
   // FIXME: end date: not all hours are showing if date is different (minutes work?)
   disabledHours = () => {
-    const { type, date } = this.props;
+    const { type, dates } = this.props;
 
     // grab hour of selected start date
     const curDate = moment(new Date()).format('L');
-    const startDate = moment(date.start).format('L');
+    const startDate = moment(dates.startDate).format('L');
 
-    const dateHour = moment(date.start).hour();
+    const dateHour = moment(dates.startDate).hour();
     // const dateDay = moment(dateStart).day();
     // const dateMonth = moment(dateStart).month();
     //
@@ -146,7 +142,7 @@ class TimeButton extends Component {
     }
 
     // type 'end'
-    const endDate = moment(date).format('L');
+    const endDate = moment(dates).format('L');
 
     if (startDate === endDate) {
       // put hours before selected date hour in array to be disabled from picker
@@ -163,7 +159,7 @@ class TimeButton extends Component {
   };
 
   render() {
-    const { date, type } = this.props;
+    const { dates, type } = this.props;
     const { open } = this.state;
 
     let overlayVisible = '';
@@ -176,8 +172,8 @@ class TimeButton extends Component {
         <div className={`time-picker__overlay ${overlayVisible}`} />
         <TimePicker
           showSecond={false}
-          defaultValue={moment(date[type])}
-          value={moment(date[type])}
+          defaultValue={moment(dates[type])}
+          value={moment(dates[type])}
           className="time-btn time-picker"
           onChange={this.onChange}
           format="hh:mm a"

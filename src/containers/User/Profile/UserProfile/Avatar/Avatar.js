@@ -9,10 +9,10 @@ import defaultImg from 'assets/images/avatars/avatar_default.png';
 import './Avatar.styl';
 
 // generate context path
-const pathToAvatars = require.context(process.env.REACT_APP_IMAGE_UPLOAD_PATH);
+// const pathToAvatars = require.context(process.env.REACT_APP_IMAGE_UPLOAD_PATH);
 
 const Avatar = ({ avatar }) => {
-  const img = !isEmpty(avatar) ? pathToAvatars(`./${avatar}`) : defaultImg;
+  const img = !isEmpty(avatar) ? /* pathToAvatars(`./${avatar}`) */ '' : defaultImg;
 
   return (
     <div

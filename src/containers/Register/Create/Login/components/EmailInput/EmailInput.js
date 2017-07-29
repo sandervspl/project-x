@@ -6,7 +6,7 @@ import { isEmail } from 'validator';
 import { debounce } from 'lodash';
 
 // utils
-import { getNameFromEvent, getValueFromEvent, validateInputMinChars } from 'utils/form';
+import { getValueFromEvent, validateInputMinChars } from 'utils/form';
 
 // components
 import InputError from 'components/InputError/InputError';
@@ -29,7 +29,7 @@ class EmailInput extends Component {
     onChange: PropTypes.func,
   };
 
-  validateEmail = debounce((e) => {
+  validateEmail = debounce((value) => {
     const { validateEmail } = this.props;
     const { emailExists } = this.props.exists;
 
@@ -37,23 +37,20 @@ class EmailInput extends Component {
     if (emailExists) {
       validateEmail(false);
     } else {
-      const value = getValueFromEvent(e, true);
       const isValidEmail = isEmail(value);
 
       validateEmail(isValidEmail);
     }
   }, 750);
 
-  handleChange = (e) => {
+  handleChange = (name, value) => {
     const { onChange } = this.props;
-    const name = getNameFromEvent(e);
-    const value = getValueFromEvent(e, true);
+
+    // validate username
+    this.validateEmail(value);
 
     // update store
     onChange(name, value);
-
-    // validate username
-    this.validateEmail(e);
   };
 
   handleBlur = async (e) => {
@@ -104,7 +101,7 @@ class EmailInput extends Component {
           icon={icon}
           className="email"
           name="email"
-          onChange={(e) => { e.persist(); this.handleChange(e); }}
+          onChange={this.handleChange}
           onBlur={this.handleBlur}
           disabled={loading}
         />

@@ -1,6 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { isEmpty } from 'validator';
+import { isEmpty } from 'lodash';
 
 // components
 import Loader from 'components/Loader/Loader';

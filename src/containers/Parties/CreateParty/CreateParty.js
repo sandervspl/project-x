@@ -1,15 +1,16 @@
 // dependencies
 import React, { PureComponent, PropTypes } from 'react';
-import { isEmpty } from 'validator';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { range } from 'lodash';
-
-// utils
-import { getValueFromEvent, getNameFromEvent } from 'utils/form';
+import { range, isEmpty, debounce } from 'lodash';
 
 // actions
-import { createPartyProcess, resetCreateParty } from 'ducks/modules/party/createParty';
+import {
+  createPartyProcess,
+  resetCreateParty,
+  fetchInitialParty,
+  updatePartyValue,
+} from 'ducks/modules/party/createParty';
 
 // components
 import CalendarFullscreen from 'components/CalendarFullscreen/CalendarFullscreen';
@@ -24,65 +25,87 @@ import Attendants from './Attendants/Attendants';
 // style
 // import './Create.styl';
 
+function mapStateToProps(state) {
+  return {
+    createParty: state.app.party.createParty,
+  };
+}
+
+const mapDispatch = {
+  createPartyProcess,
+  resetCreateParty,
+  fetchInitialParty,
+  updatePartyValue,
+};
+
 class CreateParty extends PureComponent {
   static propTypes = {
     createParty: PropTypes.shape({
       loading: PropTypes.bool,
       error: PropTypes.bool,
       errorMessage: PropTypes.string,
+      party: PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        description: PropTypes.string,
+        startDate: PropTypes.instanceOf(Date),
+        endDate: PropTypes.instanceOf(Date),
+        settings: PropTypes.shape({}),
+      }),
     }),
     createPartyProcess: PropTypes.func,
     resetCreateParty: PropTypes.func,
+    fetchInitialParty: PropTypes.func,
+    updatePartyValue: PropTypes.func,
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    calendarActive: false,
+    dateSelectMode: null,
+  };
 
-    const today = this.createTodayDate();
-
-    this.state = {
-      partyName: '',
-      partyCode: '42069',
-      partyDescription: '',
-      partyBannerImage: '',
-      date: {
-        start: today,
-        end: today,
-      },
-      attendants: [],
-      rules: {
-        useHostDevice: false,
-        allowDuplicateSongs: true,
-        allowExplicitSongs: false,
-        approveSongs: false,
-      },
-      calendarActive: false,
-      dateSelectMode: null,
-    };
+  async componentWillMount() {
+    await this.props.fetchInitialParty();
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.createParty.party.id === 0) {
+      const today = this.createTodayDate();
+
+      this.setPartyState({
+        ...nextProps.createParty.party,
+        title: '',
+        description: '',
+        startDate: today,
+        endDate: today,
+      });
+    }
+  }
+
+  componentWillUpdate(nextProps) {
     // check if end date > start date -- else set end date = start date
-    this.compareEndtoStartDate(nextState);
+    this.compareEndtoStartDate(nextProps);
   }
 
   componentWillUnmount() {
     this.props.resetCreateParty();
   }
 
-  setPartyInformation = (e) => {
-    const name = getNameFromEvent(e);
-    const value = getValueFromEvent(e, true);
-
-    this.setState({
+  setPartyInformation = (name, value) => {
+    this.setPartyState({
       [name]: value,
     });
   };
 
+  setPartyState = (values) => {
+    // debounce new value to store
+    this.updateStore(values);
+  };
+
   setRuleValue = (ruleTag, value) => {
-    this.setState({
-      rules: {
-        ...this.state.rules,
+    this.setPartyState({
+      settings: {
+        ...this.props.createParty.party.settings,
         [ruleTag]: value,
       },
     });
@@ -90,28 +113,26 @@ class CreateParty extends PureComponent {
 
   setDate = (date) => {
     const { dateSelectMode } = this.state;
+    const { party } = this.props.createParty;
 
     // save current time when changing date or else it defaults to 12:00 AM
-    const tt = moment(this.state.date[dateSelectMode]).format('HH:mm:ss');
+    const tt = moment(party[dateSelectMode]).format('HH:mm:ss');
     const dd = moment(date).format('YYYY-MM-DD');
 
     const newDate = moment(`${dd} ${tt}`, moment.ISO_8601).format();
 
     this.setState({
       calendarActive: false,
-      date: {
-        ...this.state.date,
-        [dateSelectMode]: new Date(newDate),
-      },
+    });
+
+    this.setPartyState({
+      [dateSelectMode]: new Date(newDate),
     });
   };
 
-  setTime = (type, date) => {
-    this.setState({
-      date: {
-        ...this.state.date,
-        [type]: date,
-      },
+  setTime = (dateType, date) => {
+    this.setPartyState({
+      [dateType]: date,
     });
   };
 
@@ -122,81 +143,90 @@ class CreateParty extends PureComponent {
     });
   };
 
-  compareEndtoStartDate = (nextState) => {
+  updateStore = debounce((values) => {
+    this.props.updatePartyValue(values);
+  }, 250);
+
+  compareEndtoStartDate = (nextProps) => {
     const { dateSelectMode } = this.state;
+    const { party } = nextProps.createParty;
 
     // set end date to start date if end date is before start date
-    if (dateSelectMode === 'start') {
-      const dateDiff = moment(nextState.date.end).diff(moment(nextState.date.start), 'minutes', true);
+    if (dateSelectMode === 'startDate') {
+      const dateDiff = moment(party.endDate).diff(moment(party.startDate), 'minutes', true);
 
       if (dateDiff < 0) {
-        this.setState({
-          date: {
-            ...nextState.date,
-            end: new Date(nextState.date.start),
-          },
+        this.setPartyState({
+          endDate: new Date(party.startDate),
         });
       }
     }
   };
 
-  // TODO: if time is HH:55+ then it should go to HH+1:00
   createTodayDate = () => {
     const curDate = new Date();
+    const curHour = moment(curDate).hour();
     const curMinutes = moment(curDate).minute();
     const curSeconds = moment(curDate).seconds();
 
     // get closest valid minute
-    const validMinute = range(curMinutes, 60).find(min => (min % 5 === 0 && min > curMinutes));
+    let validMinute = range(curMinutes, 60).find(min => (min % 5 === 0 && min > curMinutes));
 
-    // construct date
-    const diffMinutes = validMinute - curMinutes;
+    // we will assume our current hour is valid by default
+    let validHour = curHour;
+
+    // if we can't find a correct time and it's past 55m
+    // we go forwards an hour
+    // this will also go to the next day if we skip to 00:00
+    if (!validMinute && curMinutes >= 55) {
+      validMinute = 0;
+      validHour += 1;
+    }
+
+    // construct new date
+    const deltaMinutes = validMinute - curMinutes;
+    const deltaHours = validHour - curHour;
 
     return new Date(moment(curDate, moment.ISO_8601)
-      .add(diffMinutes, 'minutes')
+      .add(deltaHours, 'hours')
+      .add(deltaMinutes, 'minutes')
       .subtract(curSeconds, 'seconds')
       .format());
   };
 
   clickHandler = (e) => {
     e.preventDefault();
-
-    const { partyName, partyDescription } = this.state;
-
-    this.props.createPartyProcess(partyName, partyDescription);
+    this.props.createPartyProcess(this.props.createParty.party);
   };
 
-  addAttendant = (attendant) => {
-    this.setState({
-      attendants: [
-        ...this.state.attendants,
-        attendant,
-      ],
-    });
-  };
+  addAttendant = () => {};
 
   removeAttendant = () => {};
 
   isFormValid = () => {
-    const { partyName, partyDescription } = this.state;
+    const { title, description } = this.props.createParty.party;
 
-    return !isEmpty(partyName) && !isEmpty(partyDescription);
+    return !isEmpty(title) && !isEmpty(description);
   };
 
   render() {
-    const { partyCode, rules, calendarActive, dateSelectMode, date } = this.state;
+    const { dateSelectMode, calendarActive } = this.state;
     const { loading, error, errorMessage } = this.props.createParty;
+    const { startDate, endDate } = this.props.createParty.party;
+
     const today = new Date();
+    const dates = { startDate, endDate };
+    const selectedDate = this.props.createParty.party[dateSelectMode];
+    const minDate = dateSelectMode === 'startDate' ? today : startDate;
 
     return (
       <div>
         {
           calendarActive &&
             <CalendarFullscreen
-              type={dateSelectMode}
               onSelect={this.setDate}
-              selectedDate={date[dateSelectMode]}
-              minDate={dateSelectMode === 'start' ? today : date.start}
+              selectedDate={selectedDate}
+              minDate={minDate}
             />
         }
 
@@ -205,9 +235,8 @@ class CreateParty extends PureComponent {
         <PageSection customMargin="7.5rem 0 0">
           <PartyInformation
             onChange={this.setPartyInformation}
-            partyCode={partyCode}
             onClick={this.setDateSelectMode}
-            date={date}
+            dates={dates}
             setTime={this.setTime}
           />
         </PageSection>
@@ -215,7 +244,6 @@ class CreateParty extends PureComponent {
         <PageSection>
           <PartyRules
             setRuleValue={this.setRuleValue}
-            defaultRuleValues={rules}
           />
         </PageSection>
 
@@ -227,7 +255,7 @@ class CreateParty extends PureComponent {
         </PageSection>
 
         <PageSection>
-          { error && <InputError block> { errorMessage } </InputError> }
+          { error && <InputError block>{ errorMessage }</InputError> }
           <Button
             color="purple"
             icon="plus"
@@ -244,16 +272,5 @@ class CreateParty extends PureComponent {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    createParty: state.app.party.createParty,
-  };
-}
-
-const mapDispatch = {
-  createPartyProcess,
-  resetCreateParty,
-};
 
 export default connect(mapStateToProps, mapDispatch)(CreateParty);

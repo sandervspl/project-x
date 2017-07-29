@@ -13,34 +13,33 @@ import PartyDate from './PartyDate/PartyDate';
 
 const PartyInformation = ({
   onChange,
-  partyCode,
   onClick,
-  date,
+  dates,
   setTime,
 }) => (
   <div className="full-width">
     <Header icon="music" iconColor="purple-medium">Party information</Header>
 
     <Form className="party-information">
+      <PartyCodeDisplay />
+
       <FormInput
         type="text"
-        placeholder="Party name"
-        name="partyName"
+        placeholder="Party title"
+        name="title"
         onChange={onChange}
       />
-
-      <PartyCodeDisplay code={partyCode} />
 
       <FormInput
         type="textarea"
         placeholder="Party description"
-        name="partyDescription"
+        name="description"
         smallMarginTop
         onChange={onChange}
       />
 
-      <PartyDate type="start" date={date} setTime={setTime} onClick={onClick} />
-      <PartyDate type="end" date={date} setTime={setTime} onClick={onClick} />
+      <PartyDate type="startDate" dates={dates} setTime={setTime} onClick={onClick} />
+      <PartyDate type="endDate" dates={dates} setTime={setTime} onClick={onClick} />
     </Form>
   </div>
 );
@@ -48,9 +47,8 @@ const PartyInformation = ({
 
 PartyInformation.propTypes = {
   onChange: PropTypes.func,
-  partyCode: PropTypes.string,
   onClick: PropTypes.func,
-  date: PropTypes.shape({}),
+  dates: PropTypes.shape({}),
   setTime: PropTypes.func,
 };
 

@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 // components
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
@@ -7,7 +8,13 @@ import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
 // style
 import './PartyCodeDisplay.styl';
 
-const PartyCodeDisplay = ({ code }) => (
+function mapStateToProps(state) {
+  return {
+    partyCode: state.app.party.createParty.party.code,
+  };
+}
+
+const PartyCodeDisplay = ({ partyCode }) => (
   <div className="party-code-display">
     <span>Party code</span>
 
@@ -18,13 +25,13 @@ const PartyCodeDisplay = ({ code }) => (
       iconSize="small"
       containerClassName="party-code"
     >
-      { code }
+      { partyCode }
     </TextWithIcon>
   </div>
 );
 
 PartyCodeDisplay.propTypes = {
-  code: PropTypes.string,
+  partyCode: PropTypes.string,
 };
 
-export default PartyCodeDisplay;
+export default connect(mapStateToProps)(PartyCodeDisplay);

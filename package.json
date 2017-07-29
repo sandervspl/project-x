@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "babel-preset-react": "^6.24.1",
+    "classnames": "^2.2.5",
     "dateformat": "^2.0.0",
     "eslint-import-resolver-webpack": "^0.8.1",
     "font-awesome": "^4.7.0",

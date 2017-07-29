@@ -12,7 +12,7 @@ import InputError from 'components/InputError/InputError';
 import FormInput from 'components/FormInput/FormInput';
 
 // utils
-import { getNameFromEvent, getValueFromEvent, validateInputMinChars } from 'utils/form';
+import { getValueFromEvent, validateInputMinChars } from 'utils/form';
 
 const minCharacterAmount = 3;
 
@@ -34,7 +34,7 @@ class Username extends Component {
     onChange: PropTypes.func,
   };
 
-  validateUsername = debounce((e) => {
+  validateUsername = debounce((value) => {
     // minimum amount of characters needed for valid username
     const { validateUsername } = this.props;
     const { usernameExists } = this.props.exists;
@@ -42,21 +42,18 @@ class Username extends Component {
     if (usernameExists) {
       validateUsername(false);
     } else {
-      const value = getValueFromEvent(e, true);
       validateUsername(validateInputMinChars(value, minCharacterAmount));
     }
   }, 750);
 
-  handleChange = (e) => {
+  handleChange = (name, value) => {
     const { onChange } = this.props;
-    const name = getNameFromEvent(e);
-    const value = getValueFromEvent(e, true);
 
     // update store
     onChange(name, value);
 
     // validate username
-    this.validateUsername(e);
+    this.validateUsername(value);
   };
 
   handleBlur = async (e) => {
@@ -99,18 +96,13 @@ class Username extends Component {
           placeholder="Username"
           name="username"
           icon={icon}
-          onChange={(e) => { e.persist(); this.handleChange(e); }} // persist is needed for debounce
+          onChange={this.handleChange}
           onBlur={this.handleBlur}
           disabled={loading}
         />
 
-        {
-          showErrorShort &&
-            <InputError>Username is too short.</InputError>
-        }
-
+        { showErrorShort && <InputError>Username is too short.</InputError> }
         { usernameExists && <InputError>{errorMessage}</InputError> }
-
         { error && <InputError>{errorMessageCreate}</InputError>}
       </Form.Field>
     );

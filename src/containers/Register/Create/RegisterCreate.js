@@ -1,7 +1,6 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'lodash';
 
 // actions
 import { createUserProcess, toRegisterPage, updateUserValues } from 'ducks/modules/user/create';
@@ -15,6 +14,15 @@ import PersonalForm from './Personal/Personal';
 
 // style
 import './RegisterCreate.styl';
+
+// redux
+function mapStateToProps(state) {
+  return {
+    create: state.app.user.userCreate,
+  };
+}
+
+const mapDispatch = { createUserProcess, toRegisterPage, resetExists, updateUserValues };
 
 class RegisterCreate extends Component {
   static propTypes = {
@@ -46,14 +54,6 @@ class RegisterCreate extends Component {
 
     this.props.resetExists();
   }
-
-  updateUserValuesInState = (key, value) => {
-    this.updateUserValuesInStore(key, value);
-  };
-
-  updateUserValuesInStore = debounce((key, value) => {
-    this.props.updateUserValues(key, value);
-  }, 250);
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -89,8 +89,8 @@ class RegisterCreate extends Component {
       <PageInner noNav>
         <div className="register-forms-container">
           <form className="ui form" onSubmit={this.handleSubmit}>
-            <LoginForm onChange={this.updateUserValuesInState} />
-            <PersonalForm onChange={this.updateUserValuesInState} />
+            <LoginForm onChange={this.props.updateUserValues} />
+            <PersonalForm onChange={this.props.updateUserValues} />
           </form>
           <FooterAuth type="signin" />
         </div>
@@ -98,13 +98,5 @@ class RegisterCreate extends Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    create: state.app.user.userCreate,
-  };
-}
-
-const mapDispatch = { createUserProcess, toRegisterPage, resetExists, updateUserValues };
 
 export default connect(mapStateToProps, mapDispatch)(RegisterCreate);

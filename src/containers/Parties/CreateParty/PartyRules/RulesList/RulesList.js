@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 // components
 import OptionWithSwitch from 'components/OptionWithSwitch/OptionWithSwitch';
@@ -7,20 +8,18 @@ import OptionWithSwitch from 'components/OptionWithSwitch/OptionWithSwitch';
 // style
 // import './RulesList.styl';
 
-const RulesList = ({ defaultRuleValues, setRuleValue }) => (
-  <div>
-    <OptionWithSwitch
-      tag="useHostDevice"
-      onChange={setRuleValue}
-      isOn={defaultRuleValues.useHostDevice}
-    >
-      {'Explicitly use host\'s device'}
-    </OptionWithSwitch>
+function mapStateToProps(state) {
+  return {
+    settings: state.app.party.createParty.party.settings,
+  };
+}
 
+const RulesList = ({ settings, setRuleValue }) => (
+  <div>
     <OptionWithSwitch
       tag="allowDuplicateSongs"
       onChange={setRuleValue}
-      isOn={defaultRuleValues.allowDuplicateSongs}
+      isOn={settings.allowDuplicateSongs}
     >
       Allow duplicate songs
     </OptionWithSwitch>
@@ -28,7 +27,7 @@ const RulesList = ({ defaultRuleValues, setRuleValue }) => (
     <OptionWithSwitch
       tag="allowExplicitSongs"
       onChange={setRuleValue}
-      isOn={defaultRuleValues.allowExplicitSongs}
+      isOn={settings.allowExplicitSongs}
     >
       Allow explicit songs
     </OptionWithSwitch>
@@ -36,7 +35,7 @@ const RulesList = ({ defaultRuleValues, setRuleValue }) => (
     <OptionWithSwitch
       tag="approveSongs"
       onChange={setRuleValue}
-      isOn={defaultRuleValues.approveSongs}
+      isOn={settings.approveSongs}
     >
       Approve suggested songs
     </OptionWithSwitch>
@@ -44,8 +43,8 @@ const RulesList = ({ defaultRuleValues, setRuleValue }) => (
 );
 
 RulesList.propTypes = {
-  defaultRuleValues: PropTypes.shape({}),
+  settings: PropTypes.shape({}),
   setRuleValue: PropTypes.func.isRequired,
 };
 
-export default RulesList;
+export default connect(mapStateToProps)(RulesList);

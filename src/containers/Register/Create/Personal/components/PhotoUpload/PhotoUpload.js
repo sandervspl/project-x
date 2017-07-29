@@ -1,7 +1,7 @@
 // dependencies
 import React, { PropTypes } from 'react';
 import { Form, Icon, Loader } from 'semantic-ui-react';
-import { isEmpty } from 'validator';
+import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
 
 // hoc

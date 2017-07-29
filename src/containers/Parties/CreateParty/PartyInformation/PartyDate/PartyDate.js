@@ -9,20 +9,20 @@ import TimeButton from './TimeButton/TimeButton';
 // style
 import './PartyDate.styl';
 
-const PartyDate = ({ date, onClick, type, setTime }) => (
+const PartyDate = ({ dates, onClick, type, setTime }) => (
   <PageSection customMargin=".75rem 0 0">
     <h3 className="party-date__header">
       { type === 'start' ? 'Starts on' : 'Ends on' }
     </h3>
     <PageSection row spaced customMargin="0">
-      <DateButton date={date} onClick={onClick} type={type} />
-      <TimeButton date={date} setTime={setTime} type={type} />
+      <DateButton dates={dates} onClick={onClick} type={type} />
+      <TimeButton dates={dates} setTime={setTime} type={type} />
     </PageSection>
   </PageSection>
 );
 
 PartyDate.propTypes = {
-  date: PropTypes.shape({}).isRequired,
+  dates: PropTypes.shape({}).isRequired,
   onClick: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   setTime: PropTypes.func,

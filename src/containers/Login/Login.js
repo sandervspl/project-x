@@ -7,7 +7,7 @@ import { Form } from 'semantic-ui-react';
 import { loginProcess } from 'ducks/modules/user/login';
 
 // utils
-import { getValueFromEvent, getNameFromEvent, validateInputMinChars } from 'utils/form';
+import { validateInputMinChars } from 'utils/form';
 
 // components
 import PageInner from 'components/PageInner/PageInner';
@@ -36,10 +36,7 @@ class Login extends Component {
     };
   }
 
-  onChange = (e) => {
-    const name = getNameFromEvent(e);
-    const value = getValueFromEvent(e, true);
-
+  onChange = (name, value) => {
     this.setState({
       [name]: value,
     });

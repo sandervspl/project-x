@@ -19,7 +19,7 @@ import routes from 'routes/routes';
 import './WelcomePage.styl';
 
 // generate context path
-const pathToAvatars = require.context(process.env.REACT_APP_IMAGE_UPLOAD_PATH);
+// const pathToAvatars = require.context(process.env.REACT_APP_IMAGE_UPLOAD_PATH);
 
 const GetStartedButton = () => {
   const handleClick = () => {
@@ -47,7 +47,7 @@ const GetStartedButton = () => {
 
 // TODO: fix avatar img src
 const WelcomePage = ({ user }) => {
-  const img = !isEmpty(user.avatar) ? pathToAvatars(`./${user.avatar}`) : defaultImg;
+  const img = !isEmpty(user.avatar) ? /* pathToAvatars(`./${user.avatar}`) */ '' : defaultImg;
 
   return (
     <PageFill className="welcome-page" inner={false}>

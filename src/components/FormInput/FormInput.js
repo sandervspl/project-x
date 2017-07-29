@@ -2,44 +2,47 @@
 import React, { PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 import { noop } from 'lodash';
+import cx from 'classnames';
 
 // style
 import './FormInput.styl';
+import FormEditWrapper from '../FormEditWrapper/FormEditWrapper';
 
-const FormInput = ({ onChange, onBlur, className, type, name, placeholder, icon, disabled }) => {
-  const classlist = ['px-form-input'];
+const FormInput = ({
+  onChange,
+  onBlur,
+  className,
+  type,
+  name,
+  placeholder,
+  icon,
+  disabled,
+  value,
+}) => {
+  const clsName = cx('px-form-input', {
+    'px-textarea': type === 'textarea',
+    className,
+  });
 
-  if (type === 'textarea') {
-    classlist.push('px-textarea');
-  }
-  classlist.push(className);
+  const ElementType = type === 'textarea' ? Form.TextArea : Form.Input;
 
-  const clsName = classlist.join(' ');
+  let props = {
+    placeholder,
+    name,
+    onBlur,
+    className: clsName,
+    disabled,
+    value,
+  };
 
-  if (type === 'textarea') {
-    return (
-      <Form.TextArea
-        placeholder={placeholder}
-        name={name}
-        onChange={onChange}
-        onBlur={onBlur}
-        className={clsName}
-        disabled={disabled}
-      />
-    );
+  if (type !== 'textArea') {
+    props = { ...props, type, icon };
   }
 
   return (
-    <Form.Input
-      type={type}
-      placeholder={placeholder}
-      name={name}
-      onChange={onChange}
-      onBlur={onBlur}
-      className={clsName}
-      icon={icon}
-      disabled={disabled}
-    />
+    <FormEditWrapper onChange={onChange}>
+      <ElementType {...props} />
+    </FormEditWrapper>
   );
 };
 
@@ -52,12 +55,17 @@ FormInput.propTypes = {
   placeholder: PropTypes.string,
   icon: PropTypes.string,
   disabled: PropTypes.bool,
+  value: PropTypes.string,
 };
 
 FormInput.defaultProps = {
   onChange: noop,
   onBlur: noop,
   disabled: false,
+  value: '',
+  className: '',
+  type: null,
+  icon: null,
 };
 
 export default FormInput;

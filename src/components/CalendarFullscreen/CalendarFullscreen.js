@@ -1,4 +1,3 @@
-/* eslint-disable */
 // dependencies
 import React, { PropTypes } from 'react';
 
@@ -26,7 +25,7 @@ const theme = {
   weekdayColor: '#D9CEE3',
 };
 
-const CalendarFullscreen = ({ type, onSelect, selectedDate, minDate }) => (
+const CalendarFullscreen = ({ onSelect, selectedDate, minDate }) => (
   <div className="calendar-overlay">
     <InfiniteCalendar
       width={window.innerWidth}
@@ -41,7 +40,6 @@ const CalendarFullscreen = ({ type, onSelect, selectedDate, minDate }) => (
 );
 
 CalendarFullscreen.propTypes = {
-  type: PropTypes.oneOf(['start', 'end']).isRequired,
   onSelect: PropTypes.func.isRequired,
   selectedDate: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),

@@ -8,15 +8,14 @@ import RulesList from './RulesList/RulesList';
 // style
 // import './PartyRules.styl';
 
-const PartyRules = ({ defaultRuleValues, setRuleValue }) => (
+const PartyRules = ({ setRuleValue }) => (
   <div className="full-width">
     <Header icon="shield" iconColor="purple-medium">Rules</Header>
-    <RulesList defaultRuleValues={defaultRuleValues} setRuleValue={setRuleValue} />
+    <RulesList setRuleValue={setRuleValue} />
   </div>
 );
 
 PartyRules.propTypes = {
-  defaultRuleValues: PropTypes.shape({}),
   setRuleValue: PropTypes.func,
 };
 

@@ -8,16 +8,20 @@ import PartyDate from './PartyDate/PartyDate';
 // style
 import './PartyInfo.styl';
 
-const PartyInfo = ({ name, date }) => (
+const PartyInfo = ({ title, date }) => (
   <div className="party-info-container">
-    <PartyName name={name} />
+    <PartyName title={title} />
     <PartyDate date={date} />
   </div>
 );
 
 PartyInfo.propTypes = {
-  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
+};
+
+PartyInfo.defaultProps = {
+  title: '',
 };
 
 export default PartyInfo;

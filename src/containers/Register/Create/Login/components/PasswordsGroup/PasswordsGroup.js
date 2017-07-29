@@ -55,13 +55,6 @@ class PasswordsGroup extends Component {
     validatePasswords(valid);
   }
 
-  handleChange = (name, value) => {
-    const { onChange } = this.props;
-
-    // update store
-    onChange(name, value);
-  };
-
   passwordsAreNotEqual = () => {
     const { password, passwordRepeat } = this.props.create.user;
     return isEmpty(passwordRepeat) ? null : password !== passwordRepeat;
@@ -69,6 +62,7 @@ class PasswordsGroup extends Component {
 
   render() {
     const { passwordValid, passwordRepeatValid } = this.state;
+    const { onChange } = this.props;
 
     // errors
     const pwShort = !isNull(passwordValid) && !passwordValid;
@@ -78,7 +72,7 @@ class PasswordsGroup extends Component {
       <div>
         <Form.Field>
           <PasswordInput
-            onChange={this.handleChange}
+            onChange={onChange}
             isValid={passwordValid}
             placeholder="Password"
             name="password"
@@ -88,7 +82,7 @@ class PasswordsGroup extends Component {
 
         <Form.Field>
           <PasswordInput
-            onChange={this.handleChange}
+            onChange={onChange}
             isValid={passwordRepeatValid}
             placeholder="repeat password"
             name="passwordRepeat"

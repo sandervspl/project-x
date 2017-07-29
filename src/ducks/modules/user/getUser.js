@@ -105,7 +105,7 @@ export const fetchUserData = (pToken, pUserid) => async (dispatch) => {
 
   // get token
   const token = pToken || Cookies.get(tokenKey);
-  const userId = pUserid || jwtDecode(token).id;
+  const userId = pUserid || token ? jwtDecode(token).id : null;
 
   if (!token || !userId) {
     dispatch(unauthorize());

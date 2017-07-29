@@ -1,6 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { isEmpty } from 'lodash';
+import cx from 'classnames';
 
 // components
 import PageInner from 'components/PageInner/PageInner';
@@ -9,13 +9,14 @@ import PageInner from 'components/PageInner/PageInner';
 import './PageFill.styl';
 
 const PageFill = ({ children, inner, flow, className, id }) => {
-  const block = 'page-fill';
-  const classlist = [`${block}__container`];
-
-  if (flow) classlist.push(`${block}__container--flow`);
-  if (!isEmpty(className)) classlist.push(className);
-
-  const clsName = classlist.join(' ');
+  const blockName = 'page-fill';
+  const clsName = cx(
+    `${blockName}__container`,
+    {
+      [`${blockName}__container--flow`]: flow,
+    },
+    className,
+  );
 
   return (
     <div id={id} className={clsName}>

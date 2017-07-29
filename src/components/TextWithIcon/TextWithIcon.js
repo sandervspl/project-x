@@ -17,14 +17,11 @@ const TextWithIcon = ({
   textClassName,
 }) => {
   const iconComponent = <Icon name={icon} color={iconColor} className="twi-icon" size={iconSize} />;
+  const textComponent = <span className={`twi-text ${textClassName}`}>{ children }</span>;
 
   return (
     <div className={`${containerClassName}`}>
-      { iconPosition === 'left' && iconComponent }
-
-      <span className={`twi-text ${textClassName}`}>{ children }</span>
-
-      { iconPosition === 'right' && iconComponent }
+      { iconPosition === 'left' ? [iconComponent, textComponent] : [textComponent, iconComponent] }
     </div>
   );
 };

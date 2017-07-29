@@ -24,7 +24,7 @@ class OptionWithSwitch extends Component {
     const newValue = !isOn;
 
     onChange(tag, newValue);
-  }
+  };
 
   render() {
     const { children, isOn } = this.props;

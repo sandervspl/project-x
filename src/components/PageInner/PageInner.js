@@ -1,11 +1,19 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
 // style
 import './PageInner.styl';
 
 const PageInner = ({ children, noNav }) => (
-  <div className={`page-inner ${noNav ? 'no-nav' : ''}`}> { children } </div>
+  <div
+    className={cx(
+      'page-inner',
+      { 'no-nav': noNav },
+    )}
+  >
+    {children}
+  </div>
 );
 
 PageInner.propTypes = {

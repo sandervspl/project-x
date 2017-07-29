@@ -1,6 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
-import { size } from 'lodash';
+import cx from 'classnames';
 
 // components
 import Loader from 'components/Loader/Loader';
@@ -44,22 +44,21 @@ const Button = ({
   };
 
   const block = 'px-btn';
-  const classlist = [
+  const clsName = cx(
     block,
     `${block}--${color}`,
     `${block}__fs--${fontSize}`,
     `${block}__ta--${textAlign}`,
-  ];
-
-  if (inverted) classlist.push(`${block}--inverted`);
-  if (loading) classlist.push(`${block}--loading`);
-  if (transparent) classlist.push(`${block}--transparent`);
-  if (fontColor) classlist.push(`${block}__fc--${fontColor}`);
-  if (flex) classlist.push(`${block}--flex`);
-  if (error) classlist.push(`${block}--error`);
-  if (size(className) > 0) classlist.push(className);
-
-  const clsName = classlist.join(' ');
+    {
+      [`${block}--inverted`]: inverted,
+      [`${block}--loading`]: loading,
+      [`${block}--transparent`]: transparent,
+      [`${block}__fc--${fontColor}`]: fontColor,
+      [`${block}--flex`]: flex,
+      [`${block}--error`]: error,
+    },
+    className,
+  );
 
   return (
     <button className={clsName} disabled={disabled} onClick={onClick}>

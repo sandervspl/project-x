@@ -2,6 +2,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { capitalize } from 'lodash';
+import cx from 'classnames';
 
 // components
 import TextWithIcon from 'components/TextWithIcon/TextWithIcon';
@@ -19,23 +20,20 @@ const Header = ({ children, icon, iconColor, href, hrefText, textAlign, size, cl
   };
 
   const containerBlock = 'header';
-  const containerClasslist = [containerBlock];
-
-  switch (textAlign) {
-    case 'left': containerClasslist.push(`${containerBlock}--ta-left`); break;
-    case 'center': containerClasslist.push(`${containerBlock}--ta-center`); break;
-    case 'right': containerClasslist.push(`${containerBlock}--ta-right`); break;
-    default: break;
-  }
-
-  if (href) {
-    containerClasslist.push(`${containerBlock}--with-link`);
-  }
-  containerClasslist.push(className);
-  const containerClsName = containerClasslist.join(' ');
+  const containerClsName = cx(
+    containerBlock,
+    {
+      [`${containerBlock}--with-link`]: href,
+    },
+    `${containerBlock}--ta-${textAlign}`,
+    className,
+  );
 
   const textBlock = 'header-text';
-  const textClsName = [textBlock, `${textBlock}--fs-${size}`].join(' ');
+  const textClsName = cx(
+    textBlock,
+    `${textBlock}--fs-${size}`,
+  );
 
   return (
     <div className={containerClsName}>
@@ -71,6 +69,7 @@ Header.defaultProps = {
   iconColor: 'black',
   textAlign: 'left',
   size: 'regular',
+  href: null,
 };
 
 export default Header;

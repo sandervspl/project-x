@@ -1,17 +1,23 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
 // style
 import './PageSection.styl';
 
 const PageSection = ({ children, customMargin, row, spaced }) => {
-  let className = 'page-section';
-  if (row) className += ' page-section--row';
-  if (spaced) className += ' page-section--spaced';
+  const blockName = 'page-section';
+  const clsName = cx(
+    blockName,
+    {
+      [`${blockName}--row`]: row,
+      [`${blockName}--spaced`]: spaced,
+    },
+  );
 
   return (
     <div
-      className={className}
+      className={clsName}
       style={customMargin && { margin: customMargin }}
     >
       { children }

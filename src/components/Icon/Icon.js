@@ -1,20 +1,26 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
 // style
 import './Icon.styl';
 
 const Icon = ({ name, color, size, className, disabled, noSpacing }) => {
-  let clsName = '';
-  if (disabled) clsName += ' px-icon--disabled';
-  if (noSpacing) clsName += ' px-icon--no-spacing';
-  clsName += ` ${className}`;
+  const clsName = cx(
+    'fa',
+    `fa-${name}`,
+    'px-icon',
+    `px-icon--${color}`,
+    `px-icon--${size}`,
+    {
+      'px-icon--disabled': disabled,
+      'px-icon--no-spacing': noSpacing,
+    },
+    className,
+  );
 
   return (
-    <i
-      className={`fa fa-${name} px-icon px-icon--${color} px-icon--${size} ${clsName}`}
-      aria-hidden="true"
-    />
+    <i className={clsName} aria-hidden="true" />
   );
 };
 

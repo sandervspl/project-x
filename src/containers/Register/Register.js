@@ -14,7 +14,7 @@ import EmailSignUpButton from './EmailSignUpButton/EmailSignUpButton';
 import './Register.styl';
 
 const RegisterModalContent = () => (
-  <PageInner>
+  <PageInner noNav>
     <TitleWithLogo> Sign up for Project-x </TitleWithLogo>
 
     <ServiceSignUpButtons />

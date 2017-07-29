@@ -10,38 +10,30 @@ import routes from 'routes/routes';
 // style
 import './FooterAuth.styl';
 
-const FooterAuth = ({ type }) => {
-  let content = '<div/>';
+const SignIn = () => (
+  <div className="inner-auth">
+    <span className="auth-text">{'Already have an account?'}</span>
+    <MiniButton href={routes.login.login}>
+      Sign in
+    </MiniButton>
+  </div>
+);
 
-  switch (type) {
-    case 'signin':
-      content = (
-        <div className="inner-auth">
-          <span className="auth-text">{'Already have an account?'}</span>
-          <MiniButton href={routes.login.login}>Sign in</MiniButton>
-        </div>
-      );
-      break;
+const SignUp = () => (
+  <div className="inner-auth">
+    <span className="auth-text">{'Need an account?'}</span>
+    <MiniButton href={routes.register.register}>
+      Sign up
+    </MiniButton>
+  </div>
+);
 
-    case 'signup':
-      content = (
-        <div className="inner-auth">
-          <span className="auth-text">{'Need an account?'}</span>
-          <MiniButton href={routes.register.register}>Sign up</MiniButton>
-        </div>
-      );
-      break;
+const FooterAuth = ({ type }) => (
+  <div className="auth-footer">
+    {type === 'signin' ? <SignIn /> : <SignUp />}
+  </div>
+);
 
-    default:
-      break;
-  }
-
-  return (
-    <div className="auth-footer">
-      {content}
-    </div>
-  );
-};
 
 FooterAuth.propTypes = {
   type: PropTypes.oneOf(['signup', 'signin']).isRequired,

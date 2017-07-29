@@ -19,10 +19,11 @@ const FormInput = ({
   disabled,
   value,
 }) => {
-  const clsName = cx('px-form-input', {
-    'px-textarea': type === 'textarea',
+  const clsName = cx(
+    'px-form-input',
+    { 'px-textarea': type === 'textarea' },
     className,
-  });
+  );
 
   const ElementType = type === 'textarea' ? Form.TextArea : Form.Input;
 
@@ -35,7 +36,7 @@ const FormInput = ({
     value,
   };
 
-  if (type !== 'textArea') {
+  if (type !== 'textarea') {
     props = { ...props, type, icon };
   }
 

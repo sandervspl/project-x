@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
 // components
 import Loader from 'components/Loader/Loader';
@@ -9,13 +10,10 @@ import PageFill from 'components/PageFill/PageFill';
 import './FullscreenLoader.styl';
 
 const Fullscreenloader = ({ loaded }) => {
-  const classlist = ['full-page-loader'];
-
-  if (loaded) {
-    classlist.push('loaded');
-  }
-
-  const clsName = classlist.join(' ');
+  const clsName = cx(
+    'full-page-loader',
+    { loaded },
+  );
 
   return (
     <PageFill inner={false} className={clsName}>

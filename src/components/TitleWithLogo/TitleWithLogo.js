@@ -9,8 +9,12 @@ import './TitleWithLogo.styl';
 
 const TitleWithLogo = ({ children }) => (
   <div className="title-with-logo__container">
-    <Header textAlign="center" size="small">(logo)</Header>
-    <Header textAlign="center" size="big">{children}</Header>
+    <Header textAlign="center" size="small">
+      (logo)
+    </Header>
+    <Header textAlign="center" size="big">
+      {children}
+    </Header>
   </div>
 );
 

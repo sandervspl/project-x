@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
 // components
 import Icon from 'components/Icon/Icon';
@@ -16,8 +17,24 @@ const TextWithIcon = ({
   iconSize,
   textClassName,
 }) => {
-  const iconComponent = <Icon name={icon} color={iconColor} className="twi-icon" size={iconSize} />;
-  const textComponent = <span className={`twi-text ${textClassName}`}>{ children }</span>;
+  const iconComponent = (
+    <Icon
+      key="-twi-icon-component"
+      name={icon}
+      color={iconColor}
+      className="twi-icon"
+      size={iconSize}
+    />
+  );
+
+  const textComponent = (
+    <span
+      key="-twi-text-component"
+      className={cx('twi-text', textClassName)}
+    >
+      {children}
+    </span>
+  );
 
   return (
     <div className={`${containerClassName}`}>

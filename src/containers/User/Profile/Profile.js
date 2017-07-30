@@ -33,7 +33,7 @@ class Profile extends Component {
     fetchHostedParties: PropTypes.func,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     // fetch user's hosted parties
     this.props.fetchHostedParties();
   }

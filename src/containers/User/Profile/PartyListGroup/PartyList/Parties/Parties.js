@@ -1,5 +1,6 @@
 // dependencies
 import React, { PropTypes } from 'react';
+import cx from 'classnames';
 
 // components
 import Loader from 'components/Loader/Loader';
@@ -8,29 +9,39 @@ import PartyListItem from './PartyListItem/PartyListItem';
 // style
 import './Parties.styl';
 
+const NoPartiesLabel = ({ type }) => (
+  <p className="no-parties-text">
+    You have not {type} any parties yet.
+  </p>
+);
+NoPartiesLabel.propTypes = {
+  type: PropTypes.string,
+};
+
 const Parties = ({ type, parties, loading }) => {
   function generateList() {
-    if (parties.length === 0) {
-      return <p className="no-parties-text">You have not {type} any parties yet.</p>;
-    }
-
     let listSize = 0;
-    return parties.reverse().map((party) => {
-      if (party.active && listSize < 3) {
+
+    const partyList = parties.reverse()
+      .filter(party => party.active && listSize < 3)
+      .map((party) => {
         listSize += 1;
         return <PartyListItem key={`party-${party.id}`} party={party} />;
-      }
+      });
 
-      return null;
-    });
+    return partyList.length > 0
+      ? partyList
+      : <NoPartiesLabel type={type} />;
   }
 
+  const clsName = cx('party-list', { 'flex-center': loading });
+
   return (
-    <div className={`party-list ${loading ? 'flex-center' : ''}`}>
+    <div className={clsName}>
       {
         loading
-        ? <Loader active={loading} color="purple" inline />
-        : generateList()
+          ? <Loader active={loading} color="purple" inline />
+          : generateList()
       }
     </div>
   );

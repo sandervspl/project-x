@@ -13,9 +13,12 @@ import { updateUserValues } from 'ducks/modules/user/create';
 // style
 import './PhotoUpload.styl';
 
-// FIXME: disable until we can use FILE prop
-// eslint-disable-next-line
-const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange, updateUserValues }) => {
+const PhotoUpload = ({
+  loading,
+  imagePreviewUrl,
+  handleImageChange,
+  updateUserValues: updateStore,
+}) => {
   const renderPreviewImage = () => {
     if (isEmpty(imagePreviewUrl)) {
       if (loading) {
@@ -49,7 +52,7 @@ const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange, update
 
   const onChange = (e) => {
     handleImageChange(e);
-    updateUserValues('avatar', e.target.files[0]);
+    updateStore('avatar', e.target.files[0]);
   };
 
   return (
@@ -69,8 +72,8 @@ const PhotoUpload = ({ loading, file, imagePreviewUrl, handleImageChange, update
 };
 
 PhotoUpload.propTypes = {
+  updateUserValues: PropTypes.func,
   loading: PropTypes.bool,
-  file: PropTypes.shape({}),
   imagePreviewUrl: PropTypes.string,
   handleImageChange: PropTypes.func,
 };

@@ -12,6 +12,9 @@ import {
   updatePartyValue,
 } from 'ducks/modules/party/createParty';
 
+// utils
+import { isBeforeTime } from 'utils/date';
+
 // components
 import CalendarFullscreen from 'components/CalendarFullscreen/CalendarFullscreen';
 import PageSection from 'components/PageSection/PageSection';
@@ -111,22 +114,28 @@ class CreateParty extends PureComponent {
     });
   };
 
-  setDate = (date) => {
+  setDate = (pDate) => {
     const { dateSelectMode } = this.state;
     const { party } = this.props.createParty;
 
     // save current time when changing date or else it defaults to 12:00 AM
-    const tt = moment(party[dateSelectMode]).format('HH:mm:ss');
-    const dd = moment(date).format('YYYY-MM-DD');
+    const time = moment(party[dateSelectMode]).format('HH:mm:ss');
+    const date = moment(pDate).format('YYYY-MM-DD');
 
-    const newDate = moment(`${dd} ${tt}`, moment.ISO_8601).format();
+    const curDate = moment(new Date());
+    let newDate = moment(`${date} ${time}`, moment.ISO_8601);
+
+    // if time is set before current time, change to current date
+    if (isBeforeTime(newDate, curDate)) {
+      newDate = moment(this.createTodayDate());
+    }
 
     this.setState({
       calendarActive: false,
     });
 
     this.setPartyState({
-      [dateSelectMode]: new Date(newDate),
+      [dateSelectMode]: new Date(newDate.format()),
     });
   };
 

@@ -1,6 +1,7 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import dateFormat from 'dateformat';
+import cx from 'classnames';
 
 // components
 import ButtonSideIcon from 'components/ButtonSideIcon/ButtonSideIcon';
@@ -48,8 +49,7 @@ class DateButton extends Component {
     const { dates, type } = this.props;
     const { updated } = this.state;
 
-    let clsName = 'date-btn';
-    if (updated) clsName += ' date-updated';
+    const clsName = cx('date-btn', { 'date-updated': updated });
 
     return (
       <ButtonSideIcon
@@ -57,7 +57,7 @@ class DateButton extends Component {
         inverted
         textAlign="left"
         className={clsName}
-        onClick={e => this.onClick(e)}
+        onClick={this.onClick}
         iconLeft="calendar"
         iconColorLeft="purple"
         iconRight="chevron-right"

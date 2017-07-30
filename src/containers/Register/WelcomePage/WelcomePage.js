@@ -18,9 +18,6 @@ import routes from 'routes/routes';
 // style
 import './WelcomePage.styl';
 
-// generate context path
-// const pathToAvatars = require.context(process.env.REACT_APP_IMAGE_UPLOAD_PATH);
-
 const GetStartedButton = () => {
   const handleClick = () => {
     browserHistory.push(routes.user.profile);
@@ -45,9 +42,8 @@ const GetStartedButton = () => {
   );
 };
 
-// TODO: fix avatar img src
-const WelcomePage = ({ user }) => {
-  const img = !isEmpty(user.avatar) ? /* pathToAvatars(`./${user.avatar}`) */ '' : defaultImg;
+const WelcomePage = ({ avatarUrl, username }) => {
+  const img = !isEmpty(avatarUrl) ? avatarUrl : defaultImg;
 
   return (
     <PageFill className="welcome-page" inner={false}>
@@ -57,7 +53,7 @@ const WelcomePage = ({ user }) => {
           style={{ backgroundImage: `url(${img})` }}
         />
         <h1>Welcome</h1>
-        <h3>{user.username}</h3>
+        <h3>{username}</h3>
         <GetStartedButton />
       </div>
     </PageFill>
@@ -65,11 +61,13 @@ const WelcomePage = ({ user }) => {
 };
 
 WelcomePage.propTypes = {
-  user: PropTypes.shape({}),
+  avatarUrl: PropTypes.string,
+  username: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  user: state.app.user.getUser.user,
+  avatarUrl: state.app.user.getUser.user.avatarUrl,
+  username: state.app.user.getUser.user.username,
 });
 
 export default connect(mapStateToProps, null)(WelcomePage);

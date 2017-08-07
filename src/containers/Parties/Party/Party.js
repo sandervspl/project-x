@@ -1,6 +1,5 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // actions
@@ -17,13 +16,6 @@ import './Party.styl';
 function mapStateToProps(state) {
   return {
     activeParty: state.app.party.activeParty,
-  };
-}
-
-
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchPartyData: bindActionCreators(fetchPartyData, dispatch),
   };
 }
 
@@ -78,4 +70,4 @@ class Party extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Party);
+export default connect(mapStateToProps, { fetchPartyData })(Party);

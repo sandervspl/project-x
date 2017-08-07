@@ -36,7 +36,6 @@ export const initialState = {
       allowExplicitSongs: false,
       allowDuplicateSongs: true,
     },
-    banner: null,
     code: '0',
     hostId: 0,
     active: false,
@@ -45,6 +44,7 @@ export const initialState = {
     description: '',
     startDate: null,
     endDate: null,
+    banner: null,
     bannerUrl: null,
   },
 };
@@ -189,26 +189,20 @@ const createParty = newParty => async (dispatch) => {
   // get token
   const token = await Cookies.get(tokenKey);
 
+  const { party, banner } = newParty;
+
   // create request body
-  const newPartyBody = {
-    party: {
-      title: newParty.title,
-      description: newParty.description,
-      startDate: newParty.startDate,
-      endDate: newParty.endDate,
-      settings: newParty.settings,
-    },
-    banner: newParty.banner,
-  };
+  const form = new FormData();
+  form.append('party', JSON.stringify(party));
+  form.append('banner', banner);
 
   // set init for request
   const init = {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json',
       'jwt-authorization-token': `${token}`,
     },
-    body: JSON.stringify(newPartyBody),
+    body: form,
   };
 
   try {
@@ -232,12 +226,12 @@ const createParty = newParty => async (dispatch) => {
   return false;
 };
 
-export const createPartyProcess = (title, description) => async (dispatch) => {
+export const createPartyProcess = newParty => async (dispatch) => {
   // create request
-  const create = await dispatch(createParty(title, description));
+  const create = await dispatch(createParty(newParty));
 
   if (create) {
-    // redirect to user page
-    browserHistory.push(routes.user.profile);
+    const route = routes.party.party.home.replace(':id', newParty.id);
+    browserHistory.push(route);
   }
 };

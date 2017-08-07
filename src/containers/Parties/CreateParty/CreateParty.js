@@ -2,7 +2,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { range, isEmpty, debounce } from 'lodash';
+import _ from 'lodash';
 
 // actions
 import {
@@ -153,7 +153,7 @@ class CreateParty extends PureComponent {
     });
   };
 
-  updateStore = debounce((values) => {
+  updateStore = _.debounce((values) => {
     this.props.updatePartyValue(values);
   }, 250);
 
@@ -180,7 +180,7 @@ class CreateParty extends PureComponent {
     const curSeconds = moment(curDate).seconds();
 
     // get closest valid minute
-    let validMinute = range(curMinutes, 60).find(min => (min % 5 === 0 && min > curMinutes));
+    let validMinute = _.range(curMinutes, 60).find(min => (min % 5 === 0 && min > curMinutes));
 
     // we will assume our current hour is valid by default
     let validHour = curHour;
@@ -206,7 +206,15 @@ class CreateParty extends PureComponent {
 
   clickHandler = (e) => {
     e.preventDefault();
-    this.props.createPartyProcess(this.props.createParty.party);
+
+    const { party } = this.props.createParty;
+    const newParty = {
+      party: _.omit(party, ['active', 'banner', 'bannerUrl', 'code', 'hostId', 'id']),
+      id: party.id,
+      banner: party.banner,
+    };
+
+    this.props.createPartyProcess(newParty);
   };
 
   addAttendant = () => {};
@@ -216,7 +224,7 @@ class CreateParty extends PureComponent {
   isFormValid = () => {
     const { title, description } = this.props.createParty.party;
 
-    return !isEmpty(title) && !isEmpty(description);
+    return !_.isEmpty(title) && !_.isEmpty(description);
   };
 
   render() {

@@ -11,13 +11,14 @@ import './PartyBanner.styl';
 const PartyBanner = ({ image, title, code }) => (
   <div
     className="party-banner__container"
-    style={{ backgroundImg: `url(${image})` }}
+    style={{ backgroundImage: `url(${image})` }}
   >
     <PartyTitle title={title} />
     <TextWithIcon
       icon="ticket"
-      iconColor="white"
-      textClassName="party-banner__code"
+      iconColor="purple"
+      containerClassName="party-banner__code-container"
+      textClassName="party-banner__code-text"
     >
       { code }
     </TextWithIcon>

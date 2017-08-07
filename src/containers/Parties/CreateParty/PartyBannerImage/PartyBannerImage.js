@@ -1,6 +1,10 @@
 // dependencies
 import React, { PropTypes } from 'react';
 import { isEmpty } from 'lodash';
+import { connect } from 'react-redux';
+
+// actions
+import { updatePartyValue } from 'ducks/modules/party/createParty';
 
 // components
 import Loader from 'components/Loader/Loader';
@@ -12,12 +16,20 @@ import withFileUpload from 'hoc/withFileUpload';
 // style
 import './PartyBannerImage.styl';
 
-// FIXME: disable until we can use FILE prop
-// eslint-disable-next-line
-const PartyBannerImage = ({ loading, file, imagePreviewUrl, handleImageChange }) => {
+const PartyBannerImage = ({
+  loading,
+  imagePreviewUrl,
+  handleImageChange,
+  updatePartyValue: updateStore,
+}) => {
   const bgImg = !isEmpty(imagePreviewUrl)
     ? { backgroundImage: `url(${imagePreviewUrl})` }
     : {};
+
+  const onChange = (e) => {
+    handleImageChange(e);
+    updateStore({ banner: e.target.files[0] });
+  };
 
   return (
     <div className="party-banner-image-container" style={bgImg}>
@@ -43,7 +55,7 @@ const PartyBannerImage = ({ loading, file, imagePreviewUrl, handleImageChange })
       <input
         id="file-upload"
         type="file"
-        onChange={handleImageChange}
+        onChange={onChange}
         disabled={loading}
         name="partybanner"
       />
@@ -56,6 +68,7 @@ PartyBannerImage.propTypes = {
   file: PropTypes.shape({}),
   imagePreviewUrl: PropTypes.string,
   handleImageChange: PropTypes.func,
+  updatePartyValue: PropTypes.func,
 };
 
-export default withFileUpload(PartyBannerImage);
+export default connect(null, { updatePartyValue })(withFileUpload(PartyBannerImage));

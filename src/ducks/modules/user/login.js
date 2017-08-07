@@ -1,7 +1,6 @@
 // dependencies
 import { browserHistory } from 'react-router';
 import { API_HOST, cookies } from 'cfg';
-import jwtDecode from 'jwt-decode';
 import Cookies from 'js-cookie';
 
 // route paths
@@ -139,14 +138,13 @@ export const loginProcess = credentials => async (dispatch) => {
 
   // grab token from response
   const { data: token } = loginData;
-  const { id: userId } = jwtDecode(token);
 
   // save jwt token to cookie
   Cookies.set(tokenKey, token);
 
   // fetch user data with token
   try {
-    const fetchedUserData = await dispatch(fetchUserData(token, userId));
+    const fetchedUserData = await dispatch(fetchUserData(token));
 
     if (fetchedUserData) {
       // redirect to user page

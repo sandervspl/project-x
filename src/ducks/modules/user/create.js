@@ -2,7 +2,6 @@
 import { browserHistory } from 'react-router';
 import Cookies from 'js-cookie';
 import { API_HOST, cookies } from 'cfg';
-import jwtDecode from 'jwt-decode';
 
 // route paths
 import routes from 'routes/routes';
@@ -198,10 +197,9 @@ export const createUserProcess = newUser => async (dispatch) => {
   if (created) {
     // fetch user data with auth token
     const token = Cookies.get(tokenKey);
-    const { id: userId } = jwtDecode(token);
 
     // fetch user data and save to state
-    const fetchedUserData = await dispatch(fetchUserData(token, userId));
+    const fetchedUserData = await dispatch(fetchUserData(token));
 
     // redirect to user page
     if (fetchedUserData) browserHistory.push(routes.register.welcome);

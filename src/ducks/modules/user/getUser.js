@@ -2,7 +2,6 @@
 import Cookies from 'js-cookie';
 import { browserHistory } from 'react-router';
 import { API_HOST, cookies } from 'cfg';
-import jwtDecode from 'jwt-decode';
 
 // route paths
 import routes from 'routes/routes';
@@ -99,15 +98,14 @@ export const unauthorize = (fail = false) => async (dispatch) => {
 };
 
 // async actions
-export const fetchUserData = (pToken, pUserid) => async (dispatch) => {
+export const fetchUserData = pToken => async (dispatch) => {
   // set state to start
   dispatch(fetchStart());
 
   // get token
   const token = pToken || Cookies.get(tokenKey);
-  const userId = pUserid || token ? jwtDecode(token).id : null;
 
-  if (!token || !userId) {
+  if (!token) {
     dispatch(unauthorize());
     return false;
   }
@@ -130,7 +128,7 @@ export const fetchUserData = (pToken, pUserid) => async (dispatch) => {
 
   // fetch user data
   try {
-    const result = await fetch(`${API_HOST}/users/${userId}`, init);
+    const result = await fetch(`${API_HOST}/users/me`, init);
 
     if (result.ok) {
       const data = await result.json();

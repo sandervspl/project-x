@@ -23,6 +23,7 @@ const Parties = ({ type, parties, loading }) => {
     let listSize = 0;
 
     const partyList = parties.reverse()
+    // FIXME: listSize should update here, not in map
       .filter(party => party.active && listSize < 3)
       .map((party) => {
         listSize += 1;

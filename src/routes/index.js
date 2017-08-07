@@ -18,6 +18,10 @@ import Profile from 'containers/User/Profile/Profile';
 import App from 'containers/App/App';
 import CreateParty from 'containers/Parties/CreateParty/CreateParty';
 import Party from 'containers/Parties/Party/Party';
+import PartyFeed from 'containers/Parties/Party/Feed/Feed';
+import PartyPlaylist from 'containers/Parties/Party/Playlist/Playlist';
+import PartyAttendees from 'containers/Parties/Party/Attendees/Attendees';
+import PartySettings from 'containers/Parties/Party/Settings/Settings';
 
 // redux store
 import store from 'store';
@@ -61,7 +65,12 @@ export default () => (
           <IndexRoute components={Profile} />
           <Route path={routes.party.create} components={CreateParty} onEnter={hasAccess} />
           {/*TODO: onEnter={check if invited etc. (see notes)}*/}
-          <Route path={routes.party.party} components={Party} />
+          <Route path={routes.party.party.home} components={Party}>
+            <IndexRoute components={PartyFeed} />
+            <Route path={routes.party.party.playlist} components={PartyPlaylist} />
+            <Route path={routes.party.party.attendees} components={PartyAttendees} />
+            <Route path={routes.party.party.settings} components={PartySettings} />
+          </Route>
         </Route>
       </Route>
       <Route path="*" components={Error404} />

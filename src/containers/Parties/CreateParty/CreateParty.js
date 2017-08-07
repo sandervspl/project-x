@@ -20,6 +20,7 @@ import CalendarFullscreen from 'components/CalendarFullscreen/CalendarFullscreen
 import PageSection from 'components/PageSection/PageSection';
 import Button from 'components/Button/Button';
 import InputError from 'components/InputError/InputError';
+import PageInner from 'components/PageInner/PageInner';
 import PartyBannerImage from './PartyBannerImage/PartyBannerImage';
 import PartyInformation from './PartyInformation/PartyInformation';
 import PartyRules from './PartyRules/PartyRules';
@@ -229,7 +230,7 @@ class CreateParty extends PureComponent {
     const minDate = dateSelectMode === 'startDate' ? today : startDate;
 
     return (
-      <div>
+      <PageInner>
         {
           calendarActive &&
             <CalendarFullscreen
@@ -277,7 +278,7 @@ class CreateParty extends PureComponent {
             CREATE PARTY
           </Button>
         </PageSection>
-      </div>
+      </PageInner>
     );
   }
 }

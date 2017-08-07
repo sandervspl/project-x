@@ -9,7 +9,7 @@ import PageFill from 'components/PageFill/PageFill';
 // style
 import './FullscreenLoader.styl';
 
-const Fullscreenloader = ({ loaded }) => {
+const Fullscreenloader = ({ loaded, text }) => {
   const clsName = cx(
     'full-page-loader',
     { loaded },
@@ -24,13 +24,19 @@ const Fullscreenloader = ({ loaded }) => {
         inline
         active
       />
-      <h3>Setting up the party...</h3>
+      <h3>{ text }</h3>
     </PageFill>
   );
 };
 
 Fullscreenloader.propTypes = {
   loaded: PropTypes.bool.isRequired,
+  text: PropTypes.string,
+};
+
+Fullscreenloader.defaultProps = {
+  loaded: false,
+  text: 'Setting up the party...',
 };
 
 export default Fullscreenloader;

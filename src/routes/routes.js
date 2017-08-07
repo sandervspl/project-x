@@ -13,7 +13,12 @@ const routes = {
   },
   party: {
     create: '/party/create',
-    party: '/party/:id',
+    party: {
+      home: '/party/:id',
+      playlist: '/party/:id/playlist',
+      attendees: '/party/:id/attendees',
+      settings: '/party/:id/settings',
+    },
   },
 };
 

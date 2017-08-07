@@ -15,7 +15,7 @@ import './PartyListItem.styl';
 
 const PartyListItem = ({ party }) => {
   // create url
-  const route = routes.party.party;
+  const route = routes.party.party.home;
   const url = route.slice(0, route.indexOf(':')) + party.id;
   const title = party.title || '';
   const date = party.startDate || '';

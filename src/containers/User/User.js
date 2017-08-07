@@ -8,7 +8,7 @@ import PageFill from 'components/PageFill/PageFill';
 // import './User.styl';
 
 const User = ({ children }) => (
-  <PageFill flow>
+  <PageFill inner={false} flow>
     { children }
   </PageFill>
 );

@@ -15,7 +15,6 @@ class LoginButton extends Component {
     formValues: PropTypes.shape({}),
     userLogin: PropTypes.shape({
       loading: PropTypes.bool,
-      loaded: PropTypes.bool,
     }),
     onClick: PropTypes.func,
   };
@@ -27,7 +26,7 @@ class LoginButton extends Component {
 
   render() {
     const { formValid } = this.props;
-    const { loading, loaded } = this.props.userLogin;
+    const { loading } = this.props.userLogin;
 
     return (
       <PageSection>
@@ -36,8 +35,8 @@ class LoginButton extends Component {
           onClick={this.handleClick}
           fontSize="normal"
           className="login-modal__btn"
-          disabled={!formValid || loading || loaded}
-          loading={loading || loaded}
+          disabled={!formValid || loading}
+          loading={loading}
         >
           Sign in
         </Button>

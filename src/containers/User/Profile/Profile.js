@@ -8,6 +8,7 @@ import { fetchHostedParties } from 'ducks/modules/party/userParties';
 
 // components
 import Loader from 'components/Loader/Loader';
+import PageInner from 'components/PageInner/PageInner';
 import UserProfile from './UserProfile/UserProfile';
 import PartyButtonGroup from './PartyButtonGroup/PartyButtonGroup';
 import PartyListGroup from './PartyListGroup/PartyListGroup';
@@ -50,11 +51,13 @@ class Profile extends Component {
     }
 
     return (
-      <section id="user-page">
-        <UserProfile />
-        <PartyButtonGroup />
-        <PartyListGroup />
-      </section>
+      <PageInner>
+        <section id="user-page">
+          <UserProfile />
+          <PartyButtonGroup />
+          <PartyListGroup />
+        </section>
+      </PageInner>
     );
   }
 }

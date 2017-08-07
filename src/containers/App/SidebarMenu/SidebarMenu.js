@@ -23,7 +23,9 @@ import './SidebarMenu.styl';
 const ItemTop = ({ toggleOpen }) => (
   <Menu.Item name="home" className="item-top">
     <div className="item-left">
-      <Link to="#" className="item-text-language">ENGLISH</Link>
+      <Link to="#" className="item-text-language">
+        ENGLISH
+      </Link>
     </div>
     <div className="item-right" onClick={toggleOpen}>
       <TextWithIcon
@@ -31,7 +33,9 @@ const ItemTop = ({ toggleOpen }) => (
         iconColor="black"
         iconPosition="right"
       >
-        <span className="close">CLOSE</span>
+        <span className="close">
+          CLOSE
+        </span>
       </TextWithIcon>
     </div>
   </Menu.Item>
@@ -39,6 +43,7 @@ const ItemTop = ({ toggleOpen }) => (
 ItemTop.propTypes = {
   toggleOpen: PropTypes.func,
 };
+
 
 const ItemLogOut = ({ logout }) => {
   function handleClick() {
@@ -48,7 +53,9 @@ const ItemLogOut = ({ logout }) => {
 
   return (
     <Menu.Item name="logout" onClick={handleClick}>
-      <TextWithIcon icon="sign-out" iconColor="purple">Logout</TextWithIcon>
+      <TextWithIcon icon="sign-out" iconColor="purple">
+        Logout
+      </TextWithIcon>
     </Menu.Item>
   );
 };
@@ -56,16 +63,20 @@ ItemLogOut.propTypes = {
   logout: PropTypes.func,
 };
 
+
 const ItemProfile = ({ onClick }) => (
   <Link to={routes.user.profile} onClick={onClick}>
     <Menu.Item name="home">
-      <TextWithIcon icon="home" iconColor="purple">Profile</TextWithIcon>
+      <TextWithIcon icon="home" iconColor="purple">
+        Profile
+      </TextWithIcon>
     </Menu.Item>
   </Link>
 );
 ItemProfile.propTypes = {
   onClick: PropTypes.func,
 };
+
 
 // sidebar
 class SidebarMenu extends Component {

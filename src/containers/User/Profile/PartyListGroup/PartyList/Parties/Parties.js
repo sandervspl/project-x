@@ -21,14 +21,16 @@ NoPartiesLabel.propTypes = {
 const Parties = ({ type, parties, loading }) => {
   function generateList() {
     let listSize = 0;
-
     const partyList = parties.reverse()
-    // FIXME: listSize should update here, not in map
-      .filter(party => party.active && listSize < 3)
-      .map((party) => {
-        listSize += 1;
-        return <PartyListItem key={`party-${party.id}`} party={party} />;
-      });
+      .filter((party) => {
+        if (party.active && listSize < 3) {
+          listSize += 1;
+          return party;
+        }
+
+        return null;
+      })
+      .map(party => <PartyListItem key={`party-${party.id}`} party={party} />);
 
     return partyList.length > 0
       ? partyList

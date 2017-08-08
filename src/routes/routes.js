@@ -20,6 +20,7 @@ const routes = {
       settings: '/party/:id/settings',
     },
   },
+  notFound: '/404',
 };
 
 export default routes;

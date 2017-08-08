@@ -2,6 +2,9 @@
 import { API_HOST, cookies } from 'cfg';
 import Cookies from 'js-cookie';
 
+// helpers
+import { handleFetchFail } from 'ducks/helpers/fetch';
+
 // cookies
 const authToken = cookies.auth.token;
 
@@ -9,6 +12,10 @@ const authToken = cookies.auth.token;
 export const START = 'px/activeParty/START';
 export const SUCCESS = 'px/activeParty/SUCCESS';
 export const FAIL = 'px/activeParty/FAIL';
+
+// status codes
+export const STATUS_NO_INVITE = 'no_invite';
+export const STATUS_NO_EXISTS = 'no_exists';
 
 // state
 export const initialState = {
@@ -113,6 +120,17 @@ export const fetchPartyData = partyId => async (dispatch) => {
 
       // set state to result
       dispatch(fetchSuccess(data.data));
+    } else if (result.status >= 300) {
+      dispatch(handleFetchFail(result.status, fetchFail, [
+        {
+          status: [401, 403],
+          cb: () => fetchFail(STATUS_NO_INVITE),
+        },
+        {
+          status: 500,
+          cb: () => fetchFail(STATUS_NO_EXISTS),
+        },
+      ]));
     }
   } catch (err) {
     // console.error(`activeParty ERROR: ${err}`);

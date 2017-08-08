@@ -16,7 +16,7 @@ const PartyBanner = ({ image, title, code }) => (
     <PartyTitle title={title} />
     <TextWithIcon
       icon="ticket"
-      iconColor="purple"
+      iconColor="purple-medium"
       containerClassName="party-banner__code-container"
       textClassName="party-banner__code-text"
     >

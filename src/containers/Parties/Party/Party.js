@@ -1,14 +1,17 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 // actions
-import { fetchPartyData } from 'ducks/modules/party/activeParty';
+import { fetchPartyData, STATUS_NO_EXISTS, STATUS_NO_INVITE } from 'ducks/modules/party/activeParty';
 
 // components
 import FullscreenLoader from 'components/FullscreenLoader/FullscreenLoader';
 import PartyBanner from './PartyBanner/PartyBanner';
 import PartyNav from './PartyNav/PartyNav';
+import PartyNotInvited from './PartyNotInvited/PartyNotInvited';
+import PartyNotExists from './PartyNotExists/PartyNotExists';
 
 // style
 import './Party.styl';
@@ -29,6 +32,7 @@ class Party extends Component {
     activeParty: PropTypes.shape({
       loading: PropTypes.bool,
       loaded: PropTypes.bool,
+      errorMessage: PropTypes.string,
       party: PropTypes.shape({
         bannerUrl: PropTypes.string,
         title: PropTypes.string,
@@ -47,11 +51,21 @@ class Party extends Component {
 
   render() {
     const { children } = this.props;
-    const { loading, loaded } = this.props.activeParty;
+    const { loading, loaded, errorMessage } = this.props.activeParty;
     const { bannerUrl, title, code: partyCode, id: partyId } = this.props.activeParty.party;
 
     if (loading) {
       return <FullscreenLoader loaded={loaded} text="Joining the party..." />;
+    }
+
+    // if user is not invited, show a not invited page
+    if (errorMessage === STATUS_NO_INVITE) {
+      return <PartyNotInvited />;
+    }
+
+    // if party does not exist, redirect to (404?)
+    if (errorMessage === STATUS_NO_EXISTS) {
+      return <PartyNotExists />;
     }
 
     return (
@@ -70,4 +84,4 @@ class Party extends Component {
   }
 }
 
-export default connect(mapStateToProps, { fetchPartyData })(Party);
+export default connect(mapStateToProps, { fetchPartyData })(withRouter(Party));

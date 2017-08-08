@@ -33,7 +33,7 @@ import { isLoggedIn } from 'helpers/auth';
 import { fetchUserData } from 'ducks/modules/user/getUser';
 
 // middleware
-import { isAuth, hasAccess } from './middleware/auth';
+import { onlyIfNotAuth, onlyIfAuth } from './middleware/auth';
 
 // route paths
 import routes from './routes';
@@ -55,15 +55,15 @@ if (isLoggedIn()) {
 export default () => (
   <Provider store={store} key="provider">
     <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
-      <Route exact path={routes.home} components={Frontpage} onEnter={isAuth} />
-      <Route exact path={routes.login.login} components={Login} onEnter={isAuth} />
-      <Route exact path={routes.register.register} components={Register} onEnter={isAuth} />
-      <Route path={routes.register.create} components={RegisterCreate} onEnter={isAuth} />
-      <Route exact path={routes.register.welcome} components={RegisterWelcomePage} onEnter={hasAccess} />
+      <Route exact path={routes.home} components={Frontpage} onEnter={onlyIfNotAuth} />
+      <Route exact path={routes.login.login} components={Login} onEnter={onlyIfNotAuth} />
+      <Route exact path={routes.register.register} components={Register} onEnter={onlyIfNotAuth} />
+      <Route path={routes.register.create} components={RegisterCreate} onEnter={onlyIfNotAuth} />
+      <Route exact path={routes.register.welcome} components={RegisterWelcomePage} onEnter={onlyIfAuth} />
       <Route components={App}>
-        <Route path={routes.user.profile} components={User} onEnter={hasAccess}>
+        <Route path={routes.user.profile} components={User} onEnter={onlyIfAuth}>
           <IndexRoute components={Profile} />
-          <Route path={routes.party.create} components={CreateParty} onEnter={hasAccess} />
+          <Route path={routes.party.create} components={CreateParty} onEnter={onlyIfAuth} />
           {/*TODO: onEnter={check if invited etc. (see notes)}*/}
           <Route path={routes.party.party.home} components={Party}>
             <IndexRoute components={PartyFeed} />
@@ -73,6 +73,7 @@ export default () => (
           </Route>
         </Route>
       </Route>
+      <Route path="404" components={Error404} />
       <Route path="*" components={Error404} />
     </Router>
   </Provider>

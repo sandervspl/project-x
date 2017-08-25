@@ -9,15 +9,6 @@ import PartyListItem from './PartyListItem/PartyListItem';
 // style
 import './Parties.styl';
 
-const NoPartiesLabel = ({ type }) => (
-  <p className="no-parties-text">
-    You have not {type} any parties yet.
-  </p>
-);
-NoPartiesLabel.propTypes = {
-  type: PropTypes.string,
-};
-
 const Parties = ({ type, parties, loading }) => {
   function generateList() {
     let listSize = 0;
@@ -34,7 +25,7 @@ const Parties = ({ type, parties, loading }) => {
 
     return partyList.length > 0
       ? partyList
-      : <NoPartiesLabel type={type} />;
+      : <p className="no-parties-text">You have not {type} any parties yet.</p>;
   }
 
   const clsName = cx('party-list', { 'flex-center': loading });

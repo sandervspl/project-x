@@ -1,9 +1,10 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { user as userProps } from 'helpers/customProps';
 
 // actions
-import { createUserProcess, toRegisterPage, updateUserValues } from 'ducks/modules/user/create';
+import { createUserProcess, toRegisterPage } from 'ducks/modules/user/create';
 import { resetExists } from 'ducks/modules/user/exists';
 
 // components
@@ -22,7 +23,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatch = { createUserProcess, toRegisterPage, resetExists, updateUserValues };
+const mapDispatch = { createUserProcess, toRegisterPage, resetExists };
 
 class RegisterCreate extends Component {
   static propTypes = {
@@ -30,19 +31,11 @@ class RegisterCreate extends Component {
       loginFormValid: PropTypes.bool,
       personalFormValid: PropTypes.bool,
       page: PropTypes.number,
-      user: PropTypes.shape({
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-        username: PropTypes.string,
-        password: PropTypes.string,
-        email: PropTypes.string,
-        avatar: PropTypes.shape({}),
-      }),
+      user: userProps.propTypes,
     }),
     createUserProcess: PropTypes.func,
     toRegisterPage: PropTypes.func,
     resetExists: PropTypes.func,
-    updateUserValues: PropTypes.func,
   };
 
   componentWillUnmount() {
@@ -89,8 +82,8 @@ class RegisterCreate extends Component {
       <PageInner noNav>
         <div className="register-forms-container">
           <form className="ui form" onSubmit={this.handleSubmit}>
-            <LoginForm onChange={this.props.updateUserValues} />
-            <PersonalForm onChange={this.props.updateUserValues} />
+            <LoginForm />
+            <PersonalForm />
           </form>
           <FooterAuth type="signin" />
         </div>

@@ -2,6 +2,7 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
+import { user as userProps } from 'helpers/customProps';
 
 const Authorized = ({ children, getUser }) => {
   const { loaded, user } = getUser;
@@ -18,7 +19,7 @@ Authorized.propTypes = {
   children: PropTypes.element,
   getUser: PropTypes.shape({
     loaded: PropTypes.bool,
-    user: PropTypes.shape({}),
+    user: userProps.propTypes,
   }),
 };
 

@@ -1,55 +1,45 @@
 // dependencies
 import React, { Component } from 'react';
 
-function withFileUpload(WrappedComponent) {
-  return class FileUpload extends Component {
-    static propTypes = {};
+export default WrappedComponent => class FileUpload extends Component {
+  state = {
+    loading: false,
+    file: {},
+    imagePreviewUrl: '',
+  };
 
-    constructor(props) {
-      super(props);
+  handleImageChange = (e) => {
+    e.preventDefault();
 
-      this.state = {
-        loading: false,
+    const reader = new FileReader();
+    const file = e.target.files[0];
+
+    reader.onloadstart = () => {
+      this.setState({
+        loading: true,
         file: {},
         imagePreviewUrl: '',
-      };
-    }
-
-    handleImageChange = (e) => {
-      e.preventDefault();
-
-      const reader = new FileReader();
-      const file = e.target.files[0];
-
-      reader.onloadstart = () => {
-        this.setState({
-          loading: true,
-          file: {},
-          imagePreviewUrl: '',
-        });
-      };
-
-      reader.onloadend = () => {
-        this.setState({
-          loading: false,
-          file,
-          imagePreviewUrl: reader.result,
-        });
-      };
-
-      reader.readAsDataURL(file);
+      });
     };
 
-    render() {
-      return (
-        <WrappedComponent
-          {...this.props}
-          {...this.state}
-          handleImageChange={this.handleImageChange}
-        />
-      );
-    }
-  };
-}
+    reader.onloadend = () => {
+      this.setState({
+        loading: false,
+        file,
+        imagePreviewUrl: reader.result,
+      });
+    };
 
-export default withFileUpload;
+    reader.readAsDataURL(file);
+  };
+
+  render() {
+    return (
+      <WrappedComponent
+        {...this.props}
+        {...this.state}
+        handleImageChange={this.handleImageChange}
+      />
+    );
+  }
+};

@@ -1,6 +1,7 @@
 // dependencies
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { user as userProps } from 'helpers/customProps';
 
 // components
 import Avatar from './Avatar/Avatar';
@@ -29,7 +30,7 @@ const UserProfile = ({ user }) => (
 );
 
 UserProfile.propTypes = {
-  user: PropTypes.shape({}),
+  user: userProps.propTypes,
 };
 
 export default connect(mapStateToProps)(UserProfile);

@@ -14,6 +14,7 @@ import FormInput from 'components/FormInput/FormInput';
 
 // actions
 import { checkExists, invalidId } from 'ducks/modules/user/exists';
+import { updateUserValues } from 'ducks/modules/user/create';
 
 class EmailInput extends Component {
   static propTypes = {
@@ -26,7 +27,7 @@ class EmailInput extends Component {
     }),
     checkExists: PropTypes.func,
     invalidId: PropTypes.func,
-    onChange: PropTypes.func,
+    updateUserValues: PropTypes.func,
   };
 
   validateEmail = debounce((value) => {
@@ -44,13 +45,11 @@ class EmailInput extends Component {
   }, 750);
 
   handleChange = (name, value) => {
-    const { onChange } = this.props;
-
     // validate username
     this.validateEmail(value);
 
     // update store
-    onChange(name, value);
+    this.props.updateUserValues({ [name]: value });
   };
 
   handleBlur = async (e) => {
@@ -118,4 +117,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { checkExists, invalidId })(EmailInput);
+export default connect(mapStateToProps, { checkExists, invalidId, updateUserValues })(EmailInput);

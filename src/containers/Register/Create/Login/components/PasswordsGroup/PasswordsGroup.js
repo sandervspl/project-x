@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { isNull, isEmpty } from 'lodash';
+import { user as userProps } from 'helpers/customProps';
 
 // utils
 import { validateInputMinChars } from 'utils/form';
@@ -16,13 +17,8 @@ const passwordMinLength = 8;
 class PasswordsGroup extends Component {
   static propTypes = {
     validatePasswords: PropTypes.func.isRequired,
-    // passwordsValid: PropTypes.bool,
-    onChange: PropTypes.func,
     create: PropTypes.shape({
-      user: PropTypes.shape({
-        password: PropTypes.string,
-        passwordRepeat: PropTypes.string,
-      }),
+      user: userProps.propTypes,
     }),
   };
 
@@ -62,7 +58,6 @@ class PasswordsGroup extends Component {
 
   render() {
     const { passwordValid, passwordRepeatValid } = this.state;
-    const { onChange } = this.props;
 
     // errors
     const pwShort = !isNull(passwordValid) && !passwordValid;
@@ -72,7 +67,6 @@ class PasswordsGroup extends Component {
       <div>
         <Form.Field>
           <PasswordInput
-            onChange={onChange}
             isValid={passwordValid}
             placeholder="Password"
             name="password"
@@ -82,7 +76,6 @@ class PasswordsGroup extends Component {
 
         <Form.Field>
           <PasswordInput
-            onChange={onChange}
             isValid={passwordRepeatValid}
             placeholder="repeat password"
             name="passwordRepeat"
@@ -99,6 +92,5 @@ function mapStateToProps(state) {
     create: state.app.user.userCreate,
   };
 }
-
 
 export default connect(mapStateToProps)(PasswordsGroup);

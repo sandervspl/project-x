@@ -3,7 +3,7 @@ import { PropTypes } from 'react';
 // eslint-disable-next-line import/prefer-default-export
 export const user = {
   propTypes: PropTypes.shape({
-    avatar: PropTypes.shape({}),
+    avatar: PropTypes.string,
     avatarUrl: PropTypes.string,
     email: PropTypes.string,
     firstName: PropTypes.string,

@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { Form, Icon, Loader } from 'semantic-ui-react';
 import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
+import cx from 'classnames';
 
 // hoc
 import withFileUpload from 'hoc/withFileUpload';
@@ -13,15 +14,10 @@ import { updateUserValues } from 'ducks/modules/user/create';
 // style
 import './PhotoUpload.styl';
 
-const PhotoUpload = ({
-  loading,
-  imagePreviewUrl,
-  handleImageChange,
-  updateUserValues: updateStore,
-}) => {
+const PhotoUpload = (props) => {
   const renderPreviewImage = () => {
-    if (isEmpty(imagePreviewUrl)) {
-      if (loading) {
+    if (isEmpty(props.imagePreviewUrl)) {
+      if (props.loading) {
         return (
           <div className="upload-photo-container">
             <Loader
@@ -38,33 +34,38 @@ const PhotoUpload = ({
           <div className="upload up-icon">
             <Icon name="plus" />
           </div>
-          <div className="upload up-text">Photo</div>
+          <div className="upload up-text">
+            Photo
+          </div>
         </div>
       );
     }
 
     const style = {
-      backgroundImage: `url(${imagePreviewUrl})`,
+      backgroundImage: `url(${props.imagePreviewUrl})`,
     };
 
     return <div className="upload-photo-container" style={style} />;
   };
 
   const onChange = (e) => {
-    handleImageChange(e);
-    updateStore('avatar', e.target.files[0]);
+    props.handleImageChange(e);
+    props.updateUserValues({ avatar: e.target.files[0] });
   };
 
   return (
     <Form.Field className="photo-upload">
-      <label htmlFor="file-upload" className={`custom-file-upload ${loading ? 'loading' : ''}`}>
+      <label
+        htmlFor="file-upload"
+        className={cx('custom-file-upload', { loading: props.loading })}
+      >
         { renderPreviewImage() }
       </label>
       <input
         id="file-upload"
         type="file"
         onChange={onChange}
-        disabled={loading}
+        disabled={props.loading}
         name="avatar"
       />
     </Form.Field>

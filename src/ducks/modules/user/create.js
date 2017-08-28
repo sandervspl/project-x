@@ -108,7 +108,7 @@ export default (state = initialState, action = {}) => {
         ...state,
         user: {
           ...state.user,
-          [action.key]: action.value,
+          ...action.values,
         },
       };
 
@@ -146,10 +146,9 @@ export const toRegisterPage = pageNum => ({
   page: pageNum,
 });
 
-export const updateUserValues = (key, value) => ({
+export const updateUserValues = values => ({
   type: UPDATE_USER_VALUES,
-  key,
-  value,
+  values,
 });
 
 // async actions

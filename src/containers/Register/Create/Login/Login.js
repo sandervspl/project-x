@@ -13,6 +13,12 @@ import EmailInput from './components/EmailInput/EmailInput';
 import PasswordsGroup from './components/PasswordsGroup/PasswordsGroup';
 import NextButton from './components/NextButton';
 
+function mapStateToProps(state) {
+  return {
+    create: state.app.user.userCreate,
+  };
+}
+
 class Login extends Component {
   static propTypes = {
     setLoginFormValidation: PropTypes.func,
@@ -20,7 +26,6 @@ class Login extends Component {
       loginFormValid: PropTypes.bool,
       page: PropTypes.number,
     }),
-    onChange: PropTypes.func,
   };
 
   constructor(props) {
@@ -54,7 +59,6 @@ class Login extends Component {
 
   render() {
     const { emailValid, passwordsValid } = this.state;
-    const { onChange } = this.props;
     const { page } = this.props.create;
     const isPageTwo = page === 2;
 
@@ -70,12 +74,10 @@ class Login extends Component {
         <EmailInput
           mailValid={emailValid}
           validateEmail={this.validateEmail}
-          onChange={onChange}
         />
         <PasswordsGroup
           passwordsValid={passwordsValid}
           validatePasswords={this.validatePasswords}
-          onChange={onChange}
         />
 
         <NextButton />
@@ -84,12 +86,6 @@ class Login extends Component {
       </section>
     );
   }
-}
-
-function mapStateToProps(state) {
-  return {
-    create: state.app.user.userCreate,
-  };
 }
 
 export default connect(mapStateToProps, { setLoginFormValidation })(Login);

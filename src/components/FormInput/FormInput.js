@@ -18,10 +18,14 @@ const FormInput = ({
   icon,
   disabled,
   value,
+  fluid,
 }) => {
   const clsName = cx(
     'px-form-input',
-    { 'px-textarea': type === 'textarea' },
+    {
+      'px-textarea': type === 'textarea',
+      'px-form-input--fluid': fluid,
+    },
     className,
   );
 
@@ -48,15 +52,16 @@ const FormInput = ({
 };
 
 FormInput.propTypes = {
+  type: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   className: PropTypes.string,
-  type: PropTypes.string.isRequired,
   name: PropTypes.string,
   placeholder: PropTypes.string,
   icon: PropTypes.string,
   disabled: PropTypes.bool,
   value: PropTypes.string,
+  fluid: PropTypes.bool,
 };
 
 FormInput.defaultProps = {
@@ -67,6 +72,7 @@ FormInput.defaultProps = {
   className: '',
   type: null,
   icon: null,
+  fluid: false,
 };
 
 export default FormInput;

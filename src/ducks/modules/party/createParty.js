@@ -46,6 +46,7 @@ export const initialState = {
     endDate: null,
     banner: null,
     bannerUrl: null,
+    attendants: [],
   },
 };
 

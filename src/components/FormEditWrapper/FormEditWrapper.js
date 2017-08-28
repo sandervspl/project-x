@@ -1,6 +1,7 @@
 // dependencies
 import React, { Component, PropTypes } from 'react';
 import { noop, debounce } from 'lodash';
+import sanitizeHtml from 'sanitize-html';
 
 // utils
 import { getValueFromEvent, getNameFromEvent } from 'utils/form';
@@ -41,7 +42,7 @@ class FormEditWrapper extends Component {
   };
 
   dispatchValues = debounce((name, change) => {
-    this.props.onChange(name, change);
+    this.props.onChange(name, sanitizeHtml(change));
   }, 250);
 
   render() {
